@@ -8,10 +8,8 @@ from src.db.repositories.data import DataRepository
 
 class DynamicCORSMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next): 
-        if request.url.path in ("/docs", "/redoc", "/openapi.json"): 
-            return await call_next(request) 
-        
         origin = request.headers.get("origin") 
+        
         allowed_origins = set(settings.STATIC_ALLOWED_DOMAINS) 
         async with AsyncSessionLocal() as db: 
             repo = DataRepository(db) 
