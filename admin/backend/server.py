@@ -4,9 +4,11 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from src.routes import api_router
 from src.config import settings
+from src.middlewares import DynamicCORSMiddleware
 
 app = FastAPI(title=settings.PROJECT_NAME)
 app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY)
+app.add_middleware(DynamicCORSMiddleware)
 app.include_router(api_router)
 
 @app.get("/health")

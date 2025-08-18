@@ -3,6 +3,7 @@ from sqlalchemy import select
 
 from src.db.models import Data
 
+
 class DataRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
@@ -11,6 +12,11 @@ class DataRepository:
         stmt = select(Data).where(Data.domain == domain)
         result = await self.db.execute(stmt)
         return result.scalar_one_or_none()
+
+    async def get_all_domains(self) -> list[str]:
+        stmt = select(Data.domain)
+        result = await self.db.execute(stmt)
+        return result.scalars().all()
 
     async def add_new_data(self, data: Data) -> Data:
         try:

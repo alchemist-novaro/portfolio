@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "<secret-key>"
     DATABASE_URL: str = "postgresql+asyncpg://user:password@host:port/dbname"
     SERVER_PORT: int = 5002
+    STATIC_ALLOWED_DOMAINS: list[str] = []
     
     class Config:
         env_file = ".env"
