@@ -1,5 +1,7 @@
 from .base import Base
+from .data import Data
 
 __all__ = [
-    "Base"
+    "Base",
+    "Data"
 ]
