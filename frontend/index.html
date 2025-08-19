@@ -2,9 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title id="title"></title>
+    <link rel="icon" href="/default-icon.svg" id="dynamic-favicon" />
+    <script>
+      (function() {
+        const favicon = document.getElementById('dynamic-favicon') || 
+          document.createElement('link');
+        const title = document.getElementById('title') ||
+          document.createElement('title');
+        
+        if (!favicon.id) {
+          favicon.id = 'dynamic-favicon';
+          favicon.rel = 'icon';
+          document.head.appendChild(favicon);
+        }
+        if (!title.id) {
+          title.id = 'title';
+          document.head.appendChild(title);
+        }
+
+        const domain = window.location.host.split(':')[0];
+        console.log(domain);
+        fetch(`https://admin.api.portfolio-app.online/data?domain=${domain}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data) {
+              favicon.href = data.icon;
+              title.textContent = data.title;
+            }
+          })
+          .catch(error => {
+            console.error('Failed to load custom favicon:', error);
+          });
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

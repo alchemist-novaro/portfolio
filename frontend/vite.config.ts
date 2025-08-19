@@ -11,4 +11,8 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
     ],
   },
+  server: {
+    host: true,
+    allowedHosts: true
+  }
 })
