@@ -28,12 +28,14 @@
           .then(response => response.json())
           .then(data => {
             if (data) {
-              favicon.href = data.icon;
-              title.textContent = data.title;
+              favicon.href = data.icon || "https://pic.onlinewebfonts.com/thumbnails/icons_340575.svg";
+              title.textContent = `${data.first_name || "John"} ${data.last_name || "Doe"} - AI Specialist`;
             }
           })
           .catch(error => {
             console.error('Failed to load custom favicon:', error);
+            favicon.href = "https://pic.onlinewebfonts.com/thumbnails/icons_340575.svg";
+            title.textContent = "John Doe - AI Specialist";
           });
       })();
     </script>
