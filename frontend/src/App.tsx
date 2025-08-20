@@ -1,25 +1,54 @@
-import { useState } from 'react'
-import './App.css'
+import { Switch, Route } from "wouter";
+import { queryClient } from "@/lib/query-client";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+// import { useAuth } from "@/hooks/use-auth";
+import { routes } from "@/routes"
+import Layout from "@/components/layout";
 
-function App() {
-  const [count, setCount] = useState(0)
+function Router() {
+  // const { isAuthenticated, isLoading } = useAuth();
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Layout>
+      <Switch>
+        {/* {isLoading || !isAuthenticated ? (
+          <>
+            {routes.unauthorized.map(route => (
+              <Route path={route.path} key={route.name} component={route.component} />
+            ))}
+          </>
+        ) : (
+          <>
+            {routes.authorized.map(route => (
+              <Route path={route.path} key={route.name} component={route.component} />
+            ))}
+          </>
+        )}
+        <>
+          {routes.default.map(route => (
+            <Route path={route.path} key={route.name} component={route.component} />
+          ))}
+        </> */}
+        <Route component={routes.none[0].component!} />
+      </Switch>
+    </Layout>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="system" storageKey="theme">
+        <TooltipProvider>
+          <Router />
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
