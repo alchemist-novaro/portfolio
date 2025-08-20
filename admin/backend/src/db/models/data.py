@@ -12,6 +12,7 @@ class Data(Base):
     last_name: Mapped[str] = mapped_column(String, nullable=False)
     email: Mapped[str] = mapped_column(String, nullable=False)
     location: Mapped[str] = mapped_column(String, nullable=False)
+    avatar: Mapped[str] = mapped_column(String, nullable=False)
     phone: Mapped[str | None] = mapped_column(String, nullable=True)
     github: Mapped[str | None] = mapped_column(String, nullable=True)
     linkedin: Mapped[str | None] = mapped_column(String, nullable=True)

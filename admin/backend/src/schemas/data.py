@@ -6,6 +6,7 @@ class DataBase(BaseModel):
     last_name: str
     email: EmailStr
     location: str
+    avatar: str
     phone: str | None
     github: str | None
     linkedin: str | None
