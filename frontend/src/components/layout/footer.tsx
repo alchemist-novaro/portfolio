@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Code, Linkedin, Github, Twitter, Instagram, Phone, Facebook } from "lucide-react";
+import { Code, Linkedin, Github, Twitter, Instagram, Facebook } from "lucide-react";
 import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes";
@@ -32,12 +32,6 @@ export default function Footer() {
     const { isAuthenticated } = useAuth();
 
     const socialLinks: SocialLinks = [
-        portfolioData?.phone && {
-            name: "Phone",
-            icon: Phone,
-            href: portfolioData.phone,
-            color: "hover:text-blue-500",
-        },
         portfolioData?.github && {
             name: "GitHub",
             icon: Github,
@@ -105,7 +99,7 @@ export default function Footer() {
                             <div className="flex items-center space-x-2">
                                 <Code className="h-6 w-6 text-primary" />
                                 <span className="text-xl font-bold text-primary">
-                                    Boryk Rostyslav
+                                    {portfolioData?.first_name} {portfolioData?.last_name}
                                 </span>
                             </div>
                             <p className="text-secondary-foreground/80 text-sm leading-relaxed">
@@ -208,7 +202,7 @@ export default function Footer() {
                         className="border-t border-secondary-foreground/20 mt-12 pt-8 text-center"
                     >
                         <p className="text-secondary-foreground/60 text-sm">
-                            &copy; 2025 Boryk Rostyslav. All rights reserved.
+                            &copy; 2025 {portfolioData?.first_name} {portfolioData?.last_name}. All rights reserved.
                         </p>
                     </motion.div>
                 </div>

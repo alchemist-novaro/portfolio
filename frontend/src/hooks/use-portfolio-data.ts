@@ -5,14 +5,31 @@ import { apiRequest } from "@/lib/query-client";
 const PORTFOLIO_DATA_KEY = 'portfolio-data';
 
 async function fetchPortfolioData() {
-  const domain = window.location.host.split(":")[0]
-  const response = await apiRequest("GET", `https://admin.api.portfolio-app.online/data?domain=${domain}`, {
-    useToken: false
-  });
-  if (response.status === 200) {
-    return await response.json();
+  try {
+    const domain = window.location.host.split(":")[0]
+    const response = await apiRequest("GET", `https://admin.api.portfolio-app.online/data?domain=${domain}`, {
+      useToken: false
+    });
+    if (response.status === 200) {
+      return await response.json();
+    }
   }
-  else return null;
+  catch {
+    return {
+      domain: "john-doe.portfolio-app.online",
+      icon: "https://pic.onlinewebfonts.com/thumbnails/icons_340575.svg",
+      first_name: "John",
+      last_name: "Doe",
+      email: "john-doe@example.com",
+      location: "California, US",
+      phone: "+1 201 123 1234",
+      github: "https://www.github.com/john-doe",
+      linkedin: "https://www.linkedin.com/in/john-doe-123a45b6c7",
+      twitter: "https://x.com/JohnDoe",
+      instagram: "https://www.instagram.com/john-doe",
+      facebook: "https://www.facebook.com/john-doe"
+    };
+  }
 }
 
 export const usePortfolioData = () => {

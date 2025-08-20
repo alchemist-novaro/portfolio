@@ -1,13 +1,14 @@
 import type { LucideProps } from "lucide-react";
 import type { JSX } from "react";
 
-export type RouteType = "h-logo" | "f-resources" | "h-navbar" | "h-icon" | "f-legal" | "not-found";
+export type RouteType = "f-resources" | "h-navbar" | "f-legal";
 
 export interface Route {
     type: RouteType[],
     name: string,
     path: string,
-    component: (() => JSX.Element) | null
+    component: (() => JSX.Element) | null,
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
 }
 
 export interface Routes {

@@ -25,7 +25,8 @@ export async function apiRequest(
     ...options.headers
   };
 
-  const res = await fetch(url, {
+  const domain = window.location.host.split(":")[0];
+  const res = await fetch(url.startsWith("https://") ? url : `https://api.${domain}${url}`, {
     method,
     headers,
     body: options.data ? JSON.stringify(options.data) : undefined,

@@ -5,8 +5,7 @@ import { apiRequest } from "@/lib/query-client";
 const AUTH_KEY = 'user';
 
 async function fetchUser() {
-  const domain = window.location.host.split(":")[0]
-  const response = await apiRequest("GET", `https://api.${domain}/users/`, {
+  const response = await apiRequest("GET", "/users/", {
     useToken: true
   });
   if (response.status === 200) {

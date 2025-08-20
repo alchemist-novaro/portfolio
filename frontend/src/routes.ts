@@ -12,41 +12,58 @@ import NotFound from "@/pages/not-found";
 // import GDPRCompliance from "@/pages/gdpr-compliance";
 // import CookiePolicy from "@/pages/cookie-policy";
 // import Alerts from "@/pages/alerts";
+import {
+    Home,
+    FolderOpen,
+    Play,
+    CreditCard,
+    Bell,
+    ShieldCheck,
+    NotebookPen,
+    Mails,
+    Shield,
+    CircleX
+} from "lucide-react";
 import type { Routes } from "@/types/constants";
 
 export const routes: Routes = {
     unauthorized: [
         {
-            type: ["h-logo", "f-resources"],
+            type: ["f-resources"],
             name: "Home",
             path: "/",
-            component: null // Landing
+            component: null, // Landing
+            icon: Home
         },
     ],
     authorized: [
         {
-            type: ["h-logo", "f-resources"],
+            type: ["f-resources"],
             name: "Home",
             path: "/",
-            component: null // Home
+            component: null, // Home
+            icon: Home
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Projects",
             path: "/projects",
-            component: null // Projects
+            component: null, // Projects
+            icon: NotebookPen
         },
         {
             type: ["h-navbar"],
             name: "Subscription",
             path: "subscription",
-            component: null // Subscription
+            component: null, // Subscription
+            icon: CreditCard
         },
         {
-            type: ["h-icon"],
+            type: [],
             name: "Alerts",
             path: "alerts",
-            component: null // Alerts
+            component: null, // Alerts
+            icon: Bell
         }
     ],
     admin: [
@@ -54,7 +71,8 @@ export const routes: Routes = {
             type: ["h-navbar"],
             name: "Admin",
             path: "/admin",
-            component: null // Admin
+            component: null, // Admin
+            icon: ShieldCheck
         }
     ],
     default: [
@@ -62,51 +80,59 @@ export const routes: Routes = {
             type: ["h-navbar", "f-resources"],
             name: "Portfolio",
             path: "/portfolio",
-            component: null // Portfolio
+            component: null, // Portfolio
+            icon: FolderOpen
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Demos",
             path: "/demos",
-            component: null // Demos
+            component: null, // Demos
+            icon: Play
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Contact",
             path: "/contact",
-            component: null // Contact
+            component: null, // Contact
+            icon: Mails
         },
         {
             type: ["f-legal"],
             name: "Privacy Policy",
             path: "/privacy-policy",
-            component: null // PrivacyPolicy
+            component: null, // PrivacyPolicy
+            icon: Shield
         },
         {
             type: ["f-legal"],
             name: "Terms of Service",
             path: "/terms-of-service",
-            component: null // TermsOfService
+            component: null, // TermsOfService
+            icon: Shield
         },
         {
             type: ["f-legal"],
             name: "GDPR Compliance",
             path: "/gdpr-compliance",
-            component: null // GDPRCompliance
+            component: null, // GDPRCompliance
+            icon: Shield
         },
         {
             type: ["f-legal"],
             name: "Cookie Policy",
             path: "/cookie-policy",
-            component: null // CookiePolicy
+            component: null, // CookiePolicy
+            icon: Shield
         }
     ],
     none: [
         {
-            type: ["not-found"],
+            type: [],
             name: "Not Found",
             path: "/404",
-            component: NotFound
+            component: NotFound,
+            icon: CircleX
         }
     ]
 }
