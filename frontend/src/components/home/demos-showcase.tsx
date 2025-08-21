@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { Play } from "lucide-react";
+import type { DemoItem } from "@/types/constants";
 import type { CircularShowcaseItem } from "@/types/constants";
-import type { PortfolioItem } from "@/types/packets";
-import { usePortfolio } from "@/hooks/use-portfolio";
+import { useDemos } from "@/hooks/use-demos";
 import CircularShowcase from "./circular-showcase";
 
-function PortfolioCard({ item }: { item: PortfolioItem }) {
+function DemoCard({ item }: { item: DemoItem }) {
     return (
-        <Card className="overflow-hidden w-100 shadow-lg hover:shadow-2xl transition-shadow duration-300 backdrop-blur-md">
+        <Card className="overflow-hidden w-100 shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <div className="relative overflow-hidden">
                 <motion.img
                     src={item.image}
@@ -19,29 +19,30 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                 />
+
+                {/* Tier Badge */}
+                <motion.div
+                    className="absolute top-4 right-4"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    <Badge className={`${item.config.color} text-white font-bold px-3 py-1`}>
+                        {item.config.label}
+                    </Badge>
+                </motion.div>
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
 
             <CardHeader className="pb-3">
-                <div className="flex flex-wrap gap-2 mb-3">
-                    {item.skills?.map((skill, index) => (
-                        <Badge
-                            key={index}
-                            variant="secondary"
-                            className="text-xs"
-                            data-testid={`skill-badge-${skill.toLowerCase().replace(' ', '-')}`}
-                        >
-                            {skill}
-                        </Badge>
-                    ))}
-                </div>
                 <CardTitle className="text-xl group-hover:text-primary transition-colors duration-200">
                     {item.title}
                 </CardTitle>
             </CardHeader>
 
             <CardContent className="pt-0">
-                <CardDescription className="mb-4 line-clamp-3">
+                <CardDescription className="mb-4 line-clamp-2">
                     {item.description}
                 </CardDescription>
             </CardContent>
@@ -49,23 +50,26 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
     );
 }
 
-export default function PortfolioShowcase() {
-    const { portfolios } = usePortfolio();
-    const cardItems: CircularShowcaseItem[] = portfolios?.map((item) => ({
+export default function DemosShowcase() {
+    const { demos } = useDemos();
+    const cardItems: CircularShowcaseItem[] = demos?.map((item) => ({
         id: item.id,
         title: item.title,
-        card: <PortfolioCard key={item.id} item={item} />,
+        card: <DemoCard key={item.id} item={item} />,
         description: item.description,
-        url: item.redirect_url,
-        url_label: "View Project"
+        url: item.url,
+        url_icon: item.config.icon,
+        url_variant: item.config.button_variant,
+        url_disabled: item.config.disabled,
+        url_label: item.config.button_text
     })) || [];
 
     return (
-        <section className="py-20 bg-muted/30">
+        <section className="py-20 bg-background">
             <div className="container mx-auto px-6">
                 <CircularShowcase
                     items={cardItems}
-                    title="Portfolio"
+                    title="Live Demos"
                     autoRotate={true}
                 />
                 <motion.div
@@ -75,10 +79,10 @@ export default function PortfolioShowcase() {
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="text-center"
                 >
-                    <Button size="lg" variant="outline" data-testid="view-all-portfolio">
-                        <a href="/portfolio" className="flex items-center">
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            View All Projects
+                    <Button size="lg" variant="outline" data-testid="view-all-demos">
+                        <a className="flex items-center" href="/demos">
+                            <Play className="mr-2 h-4 w-4" />
+                            View All Demos
                         </a>
                     </Button>
                 </motion.div>

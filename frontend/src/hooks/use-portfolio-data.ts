@@ -6,7 +6,7 @@ const PORTFOLIO_DATA_KEY = 'portfolio-data';
 
 async function fetchPortfolioData() {
   try {
-    const domain = window.location.host.split(":")[0]
+    const domain = window.location.host.split(":")[0];
     const response = await apiRequest("GET", `/data?domain=${domain}`, {
       useToken: false
     });

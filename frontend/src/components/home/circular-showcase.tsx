@@ -2,7 +2,59 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { CircularShowcaseItem } from "@/types/constants";
 import type { CircularShowcaseProps } from "@/types/props";
+
+function DetailView({ item }: { item: CircularShowcaseItem }) {
+    const Icon = item?.url_icon;
+
+    return (
+        <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center mt-8"
+        >
+            <>
+                <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                    {item.description}
+                </p>
+
+                {item.url && (
+                    <Button
+                        asChild={!item.url_disabled}
+                        variant={item.url_variant}
+                        className="mt-4"
+                        disabled={item.url_disabled}
+                    >
+                        {item.url_disabled ? (
+                            <span
+                                className="flex items-center cursor-not-allowed"
+                                data-testid="view-item-button"
+                            >
+                                {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                {item.url_label || "View Details"}
+                            </span>
+                        ) : (
+                            <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                                data-testid="view-item-button"
+                            >
+                                {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                {item.url_label || "View Details"}
+                            </a>
+                        )}
+                    </Button>
+                )}
+            </>
+        </motion.div>
+    );
+}
 
 export default function CircularShowcase({
     items,
@@ -128,7 +180,7 @@ export default function CircularShowcase({
                                             zIndex: isActive ? 1000 : Math.floor(position.z + 100),
                                         }}
                                     >
-                                        <div 
+                                        <div
                                             className="max-w-sm w-full"
                                             onClick={() => {
                                                 setCurrentIndex(index);
@@ -184,30 +236,7 @@ export default function CircularShowcase({
                 </div>
 
                 {/* Active Item Details */}
-                <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-center mt-8"
-                >
-                    <h3 className="text-2xl font-bold mb-2">{items[currentIndex]?.title}</h3>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        {items[currentIndex]?.description}
-                    </p>
-                    {items[currentIndex]?.url && (
-                        <Button asChild className="mt-4">
-                            <a
-                                href={items[currentIndex].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-testid="view-item-button"
-                            >
-                                {items[currentIndex]?.url_label || "View Details"}
-                            </a>
-                        </Button>
-                    )}
-                </motion.div>
+                {items[currentIndex] && <DetailView item={items[currentIndex]} />}
             </div>
         </motion.section>
     );
