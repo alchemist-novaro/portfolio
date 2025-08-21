@@ -29,6 +29,13 @@ export default {
           600: "hsl(222, 47%, 51%)",
           700: "hsl(222, 47%, 41%)",
         },
+        "bright-primary": {
+          DEFAULT: "var(--bright-primary)",
+          foreground: "var(--bright-primary-foreground)",
+          500: "hsl(222, 47%, 61%)",
+          600: "hsl(222, 47%, 51%)",
+          700: "hsl(222, 47%, 41%)",
+        },
         secondary: {
           DEFAULT: "var(--secondary)",
           foreground: "var(--secondary-foreground)",

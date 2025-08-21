@@ -4,9 +4,8 @@ import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import type { LoadingProviderProps } from "@/types/props";
-import type { LoadingContextType } from "@/types/constants";
 
-const LoadingContext = createContext<LoadingContextType | null>(null);
+const LoadingContext = createContext<null>(null);
 
 export default function LoadingProvider({ children }: LoadingProviderProps) {
   const { isLoading: authLoading } = useAuth();
@@ -15,7 +14,7 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
   const shouldShowLoading = authLoading || portfolioLoading;
 
   return (
-    <LoadingContext.Provider value={{}}>
+    <LoadingContext.Provider value={null}>
       {shouldShowLoading && <LoadingScreen />}
       <div style={{ display: shouldShowLoading ? 'none' : 'block' }}>
         {children}
@@ -44,7 +43,7 @@ function LoadingScreen() {
           }}
           className="flex justify-center"
         >
-          <Loader2 className="h-12 w-12 text-primary" />
+          <Loader2 className="h-12 w-12 text-bright-primary" />
         </motion.div>
         
         <motion.div
@@ -61,7 +60,7 @@ function LoadingScreen() {
           initial={{ width: 0 }}
           animate={{ width: "200px" }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="h-1 bg-primary mx-auto rounded-full"
+          className="h-1 bg-bright-primary mx-auto rounded-full"
         />
       </div>
     </motion.div>

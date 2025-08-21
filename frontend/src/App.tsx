@@ -32,7 +32,7 @@ function Router() {
             <Route path={route.path} key={route.name} component={route.component} />
           ))}
         </>
-        <Route component={routes.none[0].component!} />
+        <Route component={routes.none[0].component} />
       </Switch>
     </Layout>
   );

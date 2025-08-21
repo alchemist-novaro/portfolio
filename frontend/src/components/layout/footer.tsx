@@ -97,8 +97,8 @@ export default function Footer() {
                         {/* Brand Section */}
                         <motion.div variants={itemVariants} className="space-y-4">
                             <div className="flex items-center space-x-2">
-                                <Code className="h-6 w-6 text-primary" />
-                                <span className="text-xl font-bold text-primary">
+                                <Code className="h-6 w-6" />
+                                <span className="text-xl font-bold">
                                     {portfolioData?.first_name} {portfolioData?.last_name}
                                 </span>
                             </div>

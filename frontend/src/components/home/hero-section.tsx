@@ -110,7 +110,7 @@ export default function HeroSection() {
           variants={itemVariants}
           className="text-5xl md:text-7xl font-bold mb-4"
         >
-          <span className="text-primary">
+          <span>
             {portfolioData?.first_name} {portfolioData?.last_name}
           </span>
         </motion.h1>

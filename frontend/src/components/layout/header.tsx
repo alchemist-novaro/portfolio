@@ -61,7 +61,7 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2 cursor-pointer"
             >
-              <span className="text-xl font-bold text-primary">{portfolioData?.first_name} {(`${portfolioData?.last_name} `)[0].toUpperCase()}.</span>
+              <span className="text-xl font-bold">{portfolioData?.first_name} {(`${portfolioData?.last_name} `)[0].toUpperCase()}.</span>
             </motion.div>
           </Link>
 
@@ -80,8 +80,8 @@ export default function Header() {
                     whileTap={{ scale: 0.95 }}
                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                       isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                        ? "text-bright-primary bg-primary/10"
+                        : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
                     }`}
                     data-testid={`nav-link-${item.name.toLowerCase().replace(" ", "-")}`}
                   >
@@ -251,8 +251,8 @@ export default function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors cursor-pointer ${
                           isActive
-                            ? "text-primary bg-primary/10"
-                            : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            ? "text-bright-primary bg-primary/10"
+                            : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
                         }`}
                         data-testid={`mobile-nav-link-${item.name.toLowerCase().replace(" ", "-")}`}
                       >

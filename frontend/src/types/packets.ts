@@ -15,13 +15,13 @@ export interface PortfolioData {
   email: string,
   location: string,
   avatar: string,
-  phone: string | undefined | null,
-  github: string | undefined | null,
-  linkedin: string | undefined | null,
-  twitter: string | undefined | null,
-  instagram: string | undefined | null,
-  facebook: string | undefined | null,
-  whatsapp: string | undefined | null,
-  discord: string | undefined | null,
-  telegram: string | undefined | null
+  phone?: string,
+  github?: string,
+  linkedin?: string,
+  twitter?: string,
+  instagram?: string,
+  facebook?: string,
+  whatsapp?: string,
+  discord?: string,
+  telegram?: string
 }

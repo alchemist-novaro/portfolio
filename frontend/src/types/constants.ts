@@ -1,5 +1,5 @@
 import type { LucideProps } from "lucide-react";
-import type { JSX } from "react";
+import type { JSX, ReactNode } from "react";
 
 export type RouteType = "f-resources" | "h-navbar" | "f-legal";
 export type Theme = "dark" | "light" | "system";
@@ -40,9 +40,39 @@ export interface FooterLinks {
 }
 
 export interface ThemeProviderState {
-  theme: Theme,
-  setTheme: (theme: Theme) => void
+    theme: Theme,
+    setTheme: (theme: Theme) => void
 }
 
-export interface LoadingContextType {
+export interface CircularShowcaseItem {
+    id: number,
+    title: string,
+    card: ReactNode,
+    description: string,
+    category?: string,
+    url?: string,
+    url_label?: string
+}
+
+export interface PortfolioItem {
+    id: number,
+    title: string,
+    description: string,
+    image: string,
+    redirect_url: string,
+    skills: string[],
+    featured?: boolean,
+    created_at: Date,
+    updated_at: Date
+}
+
+export interface ExperienceData {
+    title: string,
+    company: string,
+    location: string,
+    period: string,
+    type: string,
+    description: string,
+    achievements: string[],
+    technologies: string[]
 }
