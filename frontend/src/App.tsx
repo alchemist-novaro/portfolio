@@ -2,10 +2,10 @@ import { Switch, Route } from "wouter";
 import { queryClient } from "@/lib/query-client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 import { useAuth } from "@/hooks/use-auth";
-import { routes } from "@/routes"
+import { routes } from "@/routes";
+import ThemeProvider from "@/components/providers/theme";
+import LoadingProvider from "@/components/providers/loading";
 import Layout from "@/components/layout";
 
 function Router() {
@@ -42,10 +42,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="theme">
-        <TooltipProvider>
+        <LoadingProvider>
           <Router />
           <Toaster />
-        </TooltipProvider>
+        </LoadingProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

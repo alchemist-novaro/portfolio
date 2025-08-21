@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/ui/theme-provider";
+import { useTheme } from "@/components/providers/theme";
 import { useAuth } from "@/hooks/use-auth";
 import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

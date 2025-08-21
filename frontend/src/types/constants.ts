@@ -2,6 +2,7 @@ import type { LucideProps } from "lucide-react";
 import type { JSX } from "react";
 
 export type RouteType = "f-resources" | "h-navbar" | "f-legal";
+export type Theme = "dark" | "light" | "system";
 
 export interface Route {
     type: RouteType[],
@@ -36,4 +37,12 @@ export interface FooterLinks {
     services: FooterLabel[],
     resources: Route[],
     legal: Route[]
+}
+
+export interface ThemeProviderState {
+  theme: Theme,
+  setTheme: (theme: Theme) => void
+}
+
+export interface LoadingContextType {
 }
