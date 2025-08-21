@@ -5,11 +5,18 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.routes import api_router
 from src.config import settings
-from src.middlewares import DynamicCORSMiddleware
 
 app = FastAPI(title=settings.PROJECT_NAME)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY)
-app.add_middleware(DynamicCORSMiddleware)
+
 app.include_router(api_router)
 
 @app.get("/health")

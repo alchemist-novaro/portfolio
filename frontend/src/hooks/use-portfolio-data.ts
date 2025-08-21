@@ -7,7 +7,7 @@ const PORTFOLIO_DATA_KEY = 'portfolio-data';
 async function fetchPortfolioData() {
   try {
     const domain = window.location.host.split(":")[0]
-    const response = await apiRequest("GET", `https://admin.api.portfolio-app.online/data?domain=${domain}`, {
+    const response = await apiRequest("GET", `/data?domain=${domain}`, {
       useToken: false
     });
     if (response.status === 200) {

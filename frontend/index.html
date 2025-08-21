@@ -23,7 +23,7 @@
         }
 
         const domain = window.location.host.split(':')[0];
-        fetch(`https://admin.api.portfolio-app.online/data?domain=${domain}`)
+        fetch(`https://api.${domain}/data?domain=${domain}`)
           .then(response => response.json())
           .then(data => {
             if (data) {

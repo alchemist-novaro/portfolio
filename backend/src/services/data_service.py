@@ -19,14 +19,18 @@ class DataService:
         new_data = await self.repository.add_new_data(Data(**data.model_dump()))
         return DataResponse.model_validate(new_data)
 
-    async def update_data(self, domain: str, data: DataUpdate) -> DataResponse:
+    async def create_or_update_data(self, domain: str, data: DataUpdate | DataCreate) -> DataResponse:
         existing_data = await self.repository.get_data_by_domain(domain)
-        if not existing_data:
-            raise HTTPException(status_code=404, detail="Data not found")
 
-        update_data = data.model_dump(exclude_unset=True)
-        for field, value in update_data.items():
-            setattr(existing_data, field, value)
+        if existing_data:
+            update_data = data.model_dump(exclude_unset=True)
+            for field, value in update_data.items():
+                setattr(existing_data, field, value)
 
-        updated_data = await self.repository.update_data(existing_data)
-        return DataResponse.model_validate(updated_data)
+            updated_data = await self.repository.update_data(existing_data)
+            return DataResponse.model_validate(updated_data)
+        else:
+            new_data_dict = data.model_dump()
+            new_data_dict["domain"] = domain
+            new_data = await self.repository.add_new_data(Data(**new_data_dict))
+            return DataResponse.model_validate(new_data)

@@ -29,14 +29,14 @@ async def create_data(
     except Exception:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-@data_router.put("", description="Update existing data", response_model=DataResponse)
-async def update_data(
+@data_router.put("", description="Create or update data", response_model=DataResponse)
+async def create_or_update_data(
     domain: str = Query(..., description="Domain to update data for"),
     data: DataUpdate = Body(..., description="Data to update"),
     data_service: DataService = Depends(get_data_service)
 ):
     try:
-        return await data_service.update_data(domain, data)
+        return await data_service.create_or_update_data(domain, data)
     except HTTPException as e:
         raise e
     except Exception:
