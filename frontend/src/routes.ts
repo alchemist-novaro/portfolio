@@ -1,5 +1,5 @@
 import NotFound from "@/pages/not-found";
-// import Landing from "@/pages/landing";
+import Landing from "@/pages/landing";
 // import Home from "@/pages/home";
 // import Portfolio from "@/pages/portfolio";
 // import Demos from "@/pages/demos";
@@ -32,7 +32,7 @@ export const routes: Routes = {
             type: ["f-resources"],
             name: "Home",
             path: "/",
-            component: null, // Landing
+            component: Landing,
             icon: Home
         },
     ],
@@ -41,28 +41,28 @@ export const routes: Routes = {
             type: ["f-resources"],
             name: "Home",
             path: "/",
-            component: null, // Home
+            component: NotFound, // Home
             icon: Home
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Projects",
             path: "/projects",
-            component: null, // Projects
+            component: NotFound, // Projects
             icon: NotebookPen
         },
         {
             type: ["h-navbar"],
             name: "Subscription",
             path: "subscription",
-            component: null, // Subscription
+            component: NotFound, // Subscription
             icon: CreditCard
         },
         {
             type: [],
             name: "Alerts",
             path: "alerts",
-            component: null, // Alerts
+            component: NotFound, // Alerts
             icon: Bell
         }
     ],
@@ -71,7 +71,7 @@ export const routes: Routes = {
             type: ["h-navbar"],
             name: "Admin",
             path: "/admin",
-            component: null, // Admin
+            component: NotFound, // Admin
             icon: ShieldCheck
         }
     ],
@@ -80,49 +80,49 @@ export const routes: Routes = {
             type: ["h-navbar", "f-resources"],
             name: "Portfolio",
             path: "/portfolio",
-            component: null, // Portfolio
+            component: NotFound, // Portfolio
             icon: FolderOpen
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Demos",
             path: "/demos",
-            component: null, // Demos
+            component: NotFound, // Demos
             icon: Play
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Contact",
             path: "/contact",
-            component: null, // Contact
+            component: NotFound, // Contact
             icon: Mails
         },
         {
             type: ["f-legal"],
             name: "Privacy Policy",
             path: "/privacy-policy",
-            component: null, // PrivacyPolicy
+            component: NotFound, // PrivacyPolicy
             icon: Shield
         },
         {
             type: ["f-legal"],
             name: "Terms of Service",
             path: "/terms-of-service",
-            component: null, // TermsOfService
+            component: NotFound, // TermsOfService
             icon: Shield
         },
         {
             type: ["f-legal"],
             name: "GDPR Compliance",
             path: "/gdpr-compliance",
-            component: null, // GDPRCompliance
+            component: NotFound, // GDPRCompliance
             icon: Shield
         },
         {
             type: ["f-legal"],
             name: "Cookie Policy",
             path: "/cookie-policy",
-            component: null, // CookiePolicy
+            component: NotFound, // CookiePolicy
             icon: Shield
         }
     ],

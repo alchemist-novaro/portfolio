@@ -4,17 +4,17 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-// import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes"
 import Layout from "@/components/layout";
 
 function Router() {
-  // const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <Layout>
       <Switch>
-        {/* {isLoading || !isAuthenticated ? (
+        {isLoading || !isAuthenticated ? (
           <>
             {routes.unauthorized.map(route => (
               <Route path={route.path} key={route.name} component={route.component} />
@@ -31,7 +31,7 @@ function Router() {
           {routes.default.map(route => (
             <Route path={route.path} key={route.name} component={route.component} />
           ))}
-        </> */}
+        </>
         <Route component={routes.none[0].component!} />
       </Switch>
     </Layout>

@@ -7,7 +7,7 @@ export interface Route {
     type: RouteType[],
     name: string,
     path: string,
-    component: (() => JSX.Element) | null,
+    component: () => JSX.Element,
     icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
 }
 

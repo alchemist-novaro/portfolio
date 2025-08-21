@@ -22,6 +22,7 @@ async function fetchPortfolioData() {
       last_name: "Doe",
       email: "john-doe@example.com",
       location: "California, US",
+      avatar: "https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg",
       phone: "+1 201 123 1234",
       github: "https://www.github.com/john-doe",
       linkedin: "https://www.linkedin.com/in/john-doe-123a45b6c7",

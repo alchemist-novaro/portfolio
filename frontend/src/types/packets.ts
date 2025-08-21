@@ -1,6 +1,7 @@
 export interface User {
   id: number,
   email: string,
+  avatar: string,
   first_name: string,
   last_name: string,
   role: "admin" | "client"
@@ -13,6 +14,7 @@ export interface PortfolioData {
   last_name: string,
   email: string,
   location: string,
+  avatar: string,
   phone: string | undefined | null,
   github: string | undefined | null,
   linkedin: string | undefined | null,

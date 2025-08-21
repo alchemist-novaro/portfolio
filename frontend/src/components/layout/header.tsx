@@ -169,11 +169,11 @@ export default function Header() {
                     >
                       <Avatar className="border-2 border-primary">
                         <AvatarImage
-                          src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg"
-                          alt={`${portfolioData?.first_name} ${portfolioData?.last_name}`}
+                          src={user?.avatar}
+                          alt={`${user?.first_name} ${user?.last_name}`}
                           className="object-cover"
                         />
-                        <AvatarFallback>{(`${portfolioData?.first_name }`)[0].toUpperCase()}{(`${portfolioData?.last_name }`)[0].toUpperCase()}</AvatarFallback>
+                        <AvatarFallback>{(`${user?.first_name }`)[0].toUpperCase()}{(`${user?.last_name }`)[0].toUpperCase()}</AvatarFallback>
                       </Avatar>
                       <ChevronDown className="h-4 w-4 text-muted-foreground" />
                     </motion.button>
