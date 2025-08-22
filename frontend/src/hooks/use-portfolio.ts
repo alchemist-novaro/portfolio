@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { type PortfolioItem } from "@/types/packets";
+import type { PortfolioItem } from "@/types/packets";
 import { apiRequest } from "@/lib/query-client";
 
 const PORTFOLIO_KEY = 'portfolios';
@@ -42,7 +42,7 @@ const mockPortfolioItems: PortfolioItem[] = [
 
 async function fetchPortfolios() {
   try {
-    const response = await apiRequest("GET", "/portfolio?featured=true", {
+    const response = await apiRequest("GET", "/portfolio", {
       useToken: false
     });
     if (response.status === 200) {

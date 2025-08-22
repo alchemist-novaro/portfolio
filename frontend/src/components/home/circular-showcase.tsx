@@ -132,9 +132,11 @@ export default function CircularShowcase({
     }
 
     return (
-        <motion.section
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="pb-16 relative overflow-hidden"
         >
             <div className="container mx-auto px-6">
@@ -238,6 +240,6 @@ export default function CircularShowcase({
                 {/* Active Item Details */}
                 {items[currentIndex] && <DetailView item={items[currentIndex]} />}
             </div>
-        </motion.section>
+        </motion.div>
     );
 }

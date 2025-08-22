@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, FolderOpen } from "lucide-react";
 import type { CircularShowcaseItem } from "@/types/constants";
 import type { PortfolioItem } from "@/types/packets";
 import { usePortfolio } from "@/hooks/use-portfolio";
@@ -51,18 +51,25 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
 export default function PortfolioShowcase() {
     const { portfolios } = usePortfolio();
-    const cardItems: CircularShowcaseItem[] = portfolios?.map((item) => ({
+    const cardItems: CircularShowcaseItem[] = portfolios?.filter((item) => item.featured)?.map((item) => ({
         id: item.id,
         title: item.title,
         card: <PortfolioCard key={item.id} item={item} />,
         description: item.description,
         url: item.redirect_url,
-        url_label: "View Project"
+        url_label: "View Project",
+        url_icon: ExternalLink
     })) || [];
 
     return (
         <section className="py-20 bg-muted/30">
-            <div className="container mx-auto px-6">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="container mx-auto px-6"
+            >
                 <CircularShowcase
                     items={cardItems}
                     title="Portfolio"
@@ -77,12 +84,12 @@ export default function PortfolioShowcase() {
                 >
                     <Button size="lg" variant="outline" data-testid="view-all-portfolio">
                         <a href="/portfolio" className="flex items-center">
-                            <ExternalLink className="mr-2 h-4 w-4" />
+                            <FolderOpen className="mr-2 h-4 w-4" />
                             View All Projects
                         </a>
                     </Button>
                 </motion.div>
-            </div>
+            </motion.div>
         </section>
     );
 }

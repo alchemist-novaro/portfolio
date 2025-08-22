@@ -3,6 +3,7 @@ import SkillsShowcase from "@/components/home/skills-showcase";
 import ExperienceSection from "@/components/home/experience-section";
 import PortfolioShowcase from "@/components/home/portfolio-showcase";
 import DemosShowcase from "@/components/home/demos-showcase";
+import TestimonialsShowcase from "@/components/home/testimonials-showcase";
 
 export default function Landing() {
   return (
@@ -12,7 +13,7 @@ export default function Landing() {
       <ExperienceSection />
       <PortfolioShowcase />
       <DemosShowcase />
-      {/* <Testimonials /> */}
+      <TestimonialsShowcase />
     </>
   );
 }

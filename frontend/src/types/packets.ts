@@ -52,3 +52,15 @@ export interface DemoPacket {
   created_at: Date,
   updated_at: Date
 }
+
+export interface TestimonialItem {
+  id: number,
+  name: string,
+  role: string,
+  company: string,
+  content: string,
+  rating: number,
+  avatar: string,
+  featured?: boolean,
+  created_at: Date
+}
