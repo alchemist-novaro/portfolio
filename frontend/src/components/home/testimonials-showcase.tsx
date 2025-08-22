@@ -83,6 +83,7 @@ export default function TestimonialsShowcase() {
                     items={cardItems}
                     title="Testimonials"
                     autoRotate={true}
+                    height={200}
                 />
             </div>
         </section>

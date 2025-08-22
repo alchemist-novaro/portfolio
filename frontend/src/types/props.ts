@@ -19,5 +19,6 @@ export interface CircularShowcaseProps {
   items: CircularShowcaseItem[],
   title: string,
   autoRotate?: boolean,
-  autoRotateInterval?: number
+  autoRotateInterval?: number,
+  height?: number
 }

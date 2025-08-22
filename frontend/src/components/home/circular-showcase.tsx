@@ -60,7 +60,8 @@ export default function CircularShowcase({
     items,
     title,
     autoRotate = false,
-    autoRotateInterval = 5000
+    autoRotateInterval = 5000,
+    height
 }: CircularShowcaseProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isManualControl, setIsManualControl] = useState(false);
@@ -152,7 +153,7 @@ export default function CircularShowcase({
                 <div className="relative mb-20 flex items-center justify-center">
                     <div
                         className="relative w-full flex items-center justify-center"
-                        style={{ perspective: "1000px", height: "400px" }}
+                        style={{ perspective: "1000px", height: height ? `${height}px` : "400px" }}
                     >
                         <AnimatePresence mode="sync">
                             {items.map((item, index) => {

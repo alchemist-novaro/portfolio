@@ -71,6 +71,7 @@ export default function DemosShowcase() {
                     items={cardItems}
                     title="Live Demos"
                     autoRotate={true}
+                    height={330}
                 />
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

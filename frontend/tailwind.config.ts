@@ -31,7 +31,7 @@ export default {
         },
         "bright-primary": {
           DEFAULT: "var(--bright-primary)",
-          foreground: "var(--bright-primary-foreground)",
+          foreground: "var(--primary-foreground)",
           500: "hsl(222, 47%, 61%)",
           600: "hsl(222, 47%, 51%)",
           700: "hsl(222, 47%, 41%)",

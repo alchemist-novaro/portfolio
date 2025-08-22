@@ -1,7 +1,7 @@
 import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 // import Home from "@/pages/home";
-// import Portfolio from "@/pages/portfolio";
+import Portfolio from "@/pages/portfolio";
 // import Demos from "@/pages/demos";
 // import Projects from "@/pages/projects";
 // import Admin from "@/pages/admin";
@@ -80,7 +80,7 @@ export const routes: Routes = {
             type: ["h-navbar", "f-resources"],
             name: "Portfolio",
             path: "/portfolio",
-            component: NotFound, // Portfolio
+            component: Portfolio,
             icon: FolderOpen
         },
         {
