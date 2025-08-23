@@ -2,11 +2,11 @@ import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 // import Home from "@/pages/home";
 import Portfolio from "@/pages/portfolio";
-// import Demos from "@/pages/demos";
+import Demos from "@/pages/demos";
 // import Projects from "@/pages/projects";
 // import Admin from "@/pages/admin";
 // import Subscription from "@/pages/subscription";
-// import Contact from "@/pages/contact";
+import Contact from "@/pages/contact";
 // import TermsOfService from "@/pages/terms-of-service";
 // import PrivacyPolicy from "@/pages/privacy-policy";
 // import GDPRCompliance from "@/pages/gdpr-compliance";
@@ -87,14 +87,14 @@ export const routes: Routes = {
             type: ["h-navbar", "f-resources"],
             name: "Demos",
             path: "/demos",
-            component: NotFound, // Demos
+            component: Demos,
             icon: Play
         },
         {
             type: ["h-navbar", "f-resources"],
             name: "Contact",
             path: "/contact",
-            component: NotFound, // Contact
+            component: Contact,
             icon: Mails
         },
         {

@@ -6,6 +6,7 @@ export type Theme = "dark" | "light" | "system";
 export type Tier = "free" | "pro" | "pro+";
 export type DemoLabel = "FREE" | "PRO" | "PRO+";
 export type ButtonVariant = "default" | "secondary" | "outline";
+export type ProjectType = "Computer Vision" | "Chatbot" | "Agent" | "Generative AI" | "Full Stack" | "Blockchain" | "Other";
 
 export interface Route {
     type: RouteType[],
@@ -29,8 +30,6 @@ export interface SocialLink {
     href: string,
     color: string
 }
-
-export type SocialLinks = SocialLink[];
 
 export interface FooterLabel {
     name: string

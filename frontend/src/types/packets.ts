@@ -1,4 +1,4 @@
-import type { Tier } from "./constants";
+import type { Tier, ProjectType } from "./constants";
 
 export interface User {
   id: number,
@@ -63,4 +63,11 @@ export interface TestimonialItem {
   avatar: string,
   featured?: boolean,
   created_at: Date
+}
+
+export interface ContactPacket {
+  name: string,
+  email: string,
+  project_type: ProjectType,
+  message: string
 }

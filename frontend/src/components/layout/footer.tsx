@@ -4,7 +4,7 @@ import { Code, Linkedin, Github, Twitter, Instagram, Facebook } from "lucide-rea
 import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes";
-import type { SocialLinks, SocialLink, FooterLinks } from "@/types/constants";
+import type { SocialLink, FooterLinks } from "@/types/constants";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -31,7 +31,7 @@ export default function Footer() {
     const { portfolioData } = usePortfolioData();
     const { isAuthenticated } = useAuth();
 
-    const socialLinks: SocialLinks = [
+    const socialLinks: SocialLink[] = [
         portfolioData?.github && {
             name: "GitHub",
             icon: Github,

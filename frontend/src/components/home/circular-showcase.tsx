@@ -24,14 +24,14 @@ function DetailView({ item }: { item: CircularShowcaseItem }) {
 
                 {item.url && (
                     <Button
-                        asChild={!item.url_disabled}
+                        asChild
                         variant={item.url_variant}
-                        className="mt-4"
                         disabled={item.url_disabled}
+                        className={`mt-4 ${item.url_disabled && "cursor-not-allowed"}`}
                     >
                         {item.url_disabled ? (
                             <span
-                                className="flex items-center cursor-not-allowed"
+                                className="flex items-center"
                                 data-testid="view-item-button"
                             >
                                 {Icon && <Icon className="mr-2 h-4 w-4" />}
