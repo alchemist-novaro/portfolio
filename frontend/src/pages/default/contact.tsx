@@ -266,7 +266,7 @@ export function ContactForm() {
     );
 }
 
-export default function Contact() {
+export function Contact() {
     const { portfolioData } = usePortfolioData();
 
     const contactInfo = [
@@ -462,3 +462,5 @@ export default function Contact() {
         </section>
     );
 }
+
+export default Contact;

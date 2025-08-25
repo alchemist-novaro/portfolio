@@ -5,7 +5,7 @@ import PortfolioShowcase from "@/components/home/portfolio-showcase";
 import DemosShowcase from "@/components/home/demos-showcase";
 import TestimonialsShowcase from "@/components/home/testimonials-showcase";
 
-export default function Landing() {
+export function Home() {
   return (
     <>
       <HeroSection />
@@ -17,3 +17,5 @@ export default function Landing() {
     </>
   );
 }
+
+export default Home;

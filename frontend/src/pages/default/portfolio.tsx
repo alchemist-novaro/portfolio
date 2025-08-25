@@ -131,7 +131,7 @@ function PortfolioSkeleton() {
   );
 }
 
-export default function Portfolio() {
+export function Portfolio() {
   const { portfolios, isLoading, error } = usePortfolio();
 
   return (
@@ -185,3 +185,5 @@ export default function Portfolio() {
     </section>
   );
 }
+
+export default Portfolio;

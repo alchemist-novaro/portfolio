@@ -143,7 +143,7 @@ function DemoSkeleton() {
     );
 }
 
-export default function Demos() {
+export function Demos() {
     const { demos, isLoading, error } = useDemos();
 
     return (
@@ -197,3 +197,5 @@ export default function Demos() {
         </section>
     );
 }
+
+export default Demos;

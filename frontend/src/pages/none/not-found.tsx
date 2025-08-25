@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 
-export default function NotFound() {
+export function NotFound() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md mx-4 bg-white dark:bg-gray-800 shadow-lg">
@@ -21,3 +21,5 @@ export default function NotFound() {
     </div>
   );
 }
+
+export default NotFound;

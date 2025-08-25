@@ -14,20 +14,20 @@ async function fetchUser() {
     }
   }
   catch {
-    return {
-      id: 0,
-      email: "monate.team@gmail.com",
-      profile: {
-        avatar: "https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg",
-        first_name: "John",
-        last_name: "Doe",
-        position: "CEO",
-        company: "MONATE",
-        country: "US"
-      },
-      role: "admin",
-      tier: "pro+"
-    };
+  //   return {
+  //     id: 0,
+  //     email: "monate.team@gmail.com",
+  //     profile: {
+  //       avatar: "https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg",
+  //       first_name: "John",
+  //       last_name: "Doe",
+  //       position: "CEO",
+  //       company: "MONATE",
+  //       country: "US"
+  //     },
+  //     role: "admin",
+  //     tier: "pro+"
+  //   };
   }
 }
 

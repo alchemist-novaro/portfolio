@@ -255,8 +255,17 @@ export default function Header() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button asChild data-testid="login-button">
-                  <a href="/api/login">Login</a>
+                <Button 
+                  asChild 
+                  data-testid="login-button"
+                >
+                  <a 
+                    href="/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Login
+                  </a>
                 </Button>
               </motion.div>
             )}

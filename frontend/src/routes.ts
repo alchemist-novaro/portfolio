@@ -1,25 +1,11 @@
-import NotFound from "@/pages/not-found";
-import Landing from "@/pages/landing";
-// import Home from "@/pages/home";
-import Portfolio from "@/pages/portfolio";
-import Demos from "@/pages/demos";
-// import Projects from "@/pages/projects";
-// import Admin from "@/pages/admin";
-// import Subscription from "@/pages/subscription";
-import Contact from "@/pages/contact";
-// import TermsOfService from "@/pages/terms-of-service";
-// import PrivacyPolicy from "@/pages/privacy-policy";
-// import GDPRCompliance from "@/pages/gdpr-compliance";
-// import CookiePolicy from "@/pages/cookie-policy";
-// import Alerts from "@/pages/alerts";
 import {
-    Home,
+    Home as HomeIcon,
     FolderOpen,
     Play,
     CreditCard,
     Bell,
     ShieldCheck,
-    NotebookPen,
+    // NotebookPen,
     Mails,
     Shield,
     CircleX,
@@ -28,6 +14,26 @@ import {
     KeyRound,
     UserPen
 } from "lucide-react";
+import {
+    Login,
+    // Profile,
+    RePwd,
+    Register
+} from "@/pages/auth";
+import {
+    Home
+} from "@/pages/authorized";
+import {
+    Contact,
+    Demos,
+    Portfolio
+} from "@/pages/default";
+import {
+    NotFound
+} from "@/pages/none";
+import {
+    Landing
+} from "@/pages/unauthorized";
 import type { Routes } from "@/types/constants";
 
 export const routes: Routes = {
@@ -37,7 +43,7 @@ export const routes: Routes = {
             name: "Home",
             path: "/",
             component: Landing,
-            icon: Home
+            icon: HomeIcon
         },
     ],
     authorized: [
@@ -45,16 +51,16 @@ export const routes: Routes = {
             type: ["f-resources"],
             name: "Home",
             path: "/",
-            component: NotFound, // Home
-            icon: Home
+            component: Home,
+            icon: HomeIcon
         },
-        {
-            type: ["h-navbar", "f-resources"],
-            name: "Projects",
-            path: "/projects",
-            component: NotFound, // Projects
-            icon: NotebookPen
-        },
+        // {
+        //     type: ["h-navbar", "f-resources"],
+        //     name: "Projects",
+        //     path: "/projects",
+        //     component: NotFound, // Projects
+        //     icon: NotebookPen
+        // },
         {
             type: ["h-navbar"],
             name: "Subscription",
@@ -144,21 +150,21 @@ export const routes: Routes = {
             type: [],
             name: "Login",
             path: "/login",
-            component: NotFound, // Login
+            component: Login,
             icon: LogIn
         },
         {
             type: [],
             name: "Register",
             path: "/register",
-            component: NotFound, // Register
+            component: Register,
             icon: Plus
         },
         {
             type: [],
             name: "Reset Password",
             path: "/re-pwd",
-            component: NotFound, // RePwd,
+            component: RePwd,
             icon: KeyRound
         },
         {
