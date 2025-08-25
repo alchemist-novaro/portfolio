@@ -7,6 +7,9 @@ export type Tier = "free" | "pro" | "pro+";
 export type DemoLabel = "FREE" | "PRO" | "PRO+";
 export type ButtonVariant = "default" | "secondary" | "outline";
 export type ProjectType = "Computer Vision" | "Chatbot" | "Agent" | "Generative AI" | "Full Stack" | "Blockchain" | "Other";
+export type DemoInputType = "text" | "image" | "video" | "mesh" | "pdf" | "audio" | "other";
+export type DemoOutputType = "text" | "image" | "audio" | "video" | "mesh";
+export type DemoCategory = "Image Generation" | "Audio Generation" | "Video Generation" | "3D Generation" | "Large Language Model" | "Vision Language Model" | "Computer Vision";
 
 export interface Route {
     type: RouteType[],
@@ -21,7 +24,8 @@ export interface Routes {
     authorized: Route[],
     default: Route[],
     admin: Route[],
-    none: Route[]
+    none: Route[],
+    auth: Route[]
 }
 
 export interface SocialLink {
@@ -87,7 +91,23 @@ export interface DemoItem {
   url: string,
   tier: Tier,
   config: DemoConfig,
-  category: string,
+  category: DemoCategory,
+  inputs: DemoInput[],
+  outputs: DemoOutput[],
   created_at: Date,
   updated_at: Date
+}
+
+export interface DemoInput {
+  name: string,
+  type: DemoInputType,
+  default?: string,
+  placeholder?: string,
+  required?: boolean
+}
+
+export interface DemoOutput {
+  name: string,
+  type: DemoOutputType,
+  placeholder?: string
 }

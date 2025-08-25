@@ -13,9 +13,10 @@ const mockDemos: DemoPacket[] = [
         title: "AI Chatbot Assistant",
         description: "Interactive conversational AI with natural language understanding and context awareness.",
         image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-        url: "https://huggingface.co/spaces/demo/chatbot",
         tier: "free",
-        category: "text",
+        category: "Large Language Model",
+        inputs: [],
+        outputs: [],
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -24,9 +25,10 @@ const mockDemos: DemoPacket[] = [
         title: "Image Generation Studio",
         description: "Advanced AI-powered image creation with custom prompts, styles, and artistic controls.",
         image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-        url: "https://huggingface.co/spaces/demo/image-gen",
         tier: "pro",
-        category: "image",
+        category: "Image Generation",
+        inputs: [],
+        outputs: [],
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -35,9 +37,10 @@ const mockDemos: DemoPacket[] = [
         title: "ML Training Platform",
         description: "Enterprise-grade machine learning model training and deployment with real-time monitoring.",
         image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-        url: "https://huggingface.co/spaces/demo/ml-training",
         tier: "pro+",
-        category: "3d",
+        category: "3D Generation",
+        inputs: [],
+        outputs: [],
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -96,7 +99,8 @@ export const useDemos = () => {
 
     const demos: DemoItem[] | undefined = demoPackets?.map((demo) => ({
         ...demo,
-        config: tierConfig[demo.tier as keyof typeof tierConfig]
+        config: tierConfig[demo.tier as keyof typeof tierConfig],
+        url: `/demos/${demo.id}`
     }));
 
     return {

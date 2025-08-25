@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -23,29 +23,54 @@ import {
   X,
   LogOut,
   ChevronDown,
+  UserPen,
 } from "lucide-react";
 import { routes } from "@/routes";
 
 export default function Header() {
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
-  const { isAuthenticated, isAdmin, user } = useAuth();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { portfolioData } = usePortfolioData();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const getThemeIcon = () => {
     if (theme === "dark") return Moon;
     if (theme === "light") return Sun;
     return Monitor;
   };
+  
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    if (mobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
 
   const navigationItems = [
-    ...(isAuthenticated ? 
-        routes.authorized.filter(route => route.type.includes("h-navbar")) :
-        routes.unauthorized.filter(route => route.type.includes("h-navbar"))),
-    ...routes.default.filter(route => route.type.includes("h-navbar")),
-    ...(isAuthenticated && isAdmin ? routes.admin.filter(route => route.type.includes("h-navbar")) : [])
-  ]
+    ...routes.default.filter((route) => route.type.includes("h-navbar")),
+    ...(isAuthenticated
+      ? routes.authorized.filter((route) => route.type.includes("h-navbar"))
+      : routes.unauthorized.filter((route) => route.type.includes("h-navbar"))),
+    ...(isAuthenticated && isAdmin
+      ? routes.admin.filter((route) => route.type.includes("h-navbar"))
+      : []),
+  ];
 
   return (
     <motion.nav
@@ -61,7 +86,10 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2 cursor-pointer"
             >
-              <span className="text-xl font-bold">{portfolioData?.first_name} {(`${portfolioData?.last_name} `)[0].toUpperCase()}.</span>
+              <span className="text-xl font-bold">
+                {portfolioData?.first_name}{" "}
+                {(`${portfolioData?.last_name} `)[0].toUpperCase()}.
+              </span>
             </motion.div>
           </Link>
 
@@ -78,12 +106,13 @@ export default function Header() {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                      isActive
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors cursor-pointer ${isActive
                         ? "text-bright-primary bg-primary/10"
                         : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
-                    }`}
-                    data-testid={`nav-link-${item.name.toLowerCase().replace(" ", "-")}`}
+                      }`}
+                    data-testid={`nav-link-${item.name
+                      .toLowerCase()
+                      .replace(" ", "-")}`}
                   >
                     <Icon className="h-4 w-4" />
                     <span>{item.name}</span>
@@ -99,11 +128,7 @@ export default function Header() {
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    data-testid="theme-toggle"
-                  >
+                  <Button variant="ghost" size="icon" data-testid="theme-toggle">
                     {(() => {
                       const ThemeIcon = getThemeIcon();
                       return <ThemeIcon className="h-4 w-4" />;
@@ -159,45 +184,71 @@ export default function Header() {
                   </motion.div>
                 </Link>
 
-                {/* Profile Avatar with Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      className="flex items-center space-x-2 cursor-pointer rounded-lg p-1 hover:bg-primary/5 transition-colors"
-                      data-testid="profile-dropdown-trigger"
-                    >
-                      <Avatar className="border-2 border-primary">
-                        <AvatarImage
-                          src={user?.avatar}
-                          alt={`${user?.first_name} ${user?.last_name}`}
-                          className="object-cover"
-                        />
-                        <AvatarFallback>{(`${user?.first_name }`)[0].toUpperCase()}{(`${user?.last_name }`)[0].toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                    </motion.button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <div className="px-2 py-1.5 text-sm">
-                      <div className="font-medium">
-                        {user?.first_name} {user?.last_name}
-                      </div>
-                      <div className="text-muted-foreground">{user?.email}</div>
-                    </div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <a
-                        href="/api/logout"
-                        className="flex items-center cursor-pointer"
-                        data-testid="logout-button"
+                {/* Desktop: Avatar with Dropdown */}
+                <div className="hidden lg:block">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        className="flex items-center space-x-2 cursor-pointer rounded-lg p-1 hover:bg-primary/5 transition-colors"
+                        data-testid="profile-dropdown-trigger"
                       >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Log out</span>
-                      </a>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        <Avatar className="border-2 border-primary">
+                          <AvatarImage
+                            src={user?.profile?.avatar}
+                            alt={`${user?.profile?.first_name} ${user?.profile?.last_name}`}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>
+                            {(`${user?.profile?.first_name}`)[0].toUpperCase()}
+                            {(`${user?.profile?.last_name}`)[0].toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      </motion.button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <div className="px-2 py-1.5 text-sm">
+                        <div className="font-medium">
+                          {user?.profile?.first_name} {user?.profile?.last_name}
+                        </div>
+                        <div className="text-muted-foreground">{user?.email}</div>
+                      </div>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <a href="/profile" className="flex items-center cursor-pointer">
+                          <UserPen className="mr-2 h-4 w-4" />
+                          <span>My Profile</span>
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <div
+                          onClick={() => logout()}
+                          className="flex items-center cursor-pointer"
+                          data-testid="logout-button"
+                        >
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Log out</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* Mobile: Avatar only (no dropdown) */}
+                <div className="block lg:hidden">
+                  <Avatar className="border-2 border-primary">
+                    <AvatarImage
+                      src={user?.profile?.avatar}
+                      alt={`${user?.profile?.first_name} ${user?.profile?.last_name}`}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>
+                      {(`${user?.profile?.first_name}`)[0].toUpperCase()}
+                      {(`${user?.profile?.last_name}`)[0].toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
               </>
             ) : (
               <motion.div
@@ -232,12 +283,40 @@ export default function Header() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
+              ref={mobileMenuRef} 
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden mt-4 pb-4 border-t border-border"
+              className="lg:hidden mt-4 pb-4 border-t border-border flex flex-col h-[calc(100vh-4rem)]"
             >
-              <div className="flex flex-col space-y-2 pt-4">
+              {/* Top section: Profile Info (if authenticated) */}
+              {isAuthenticated && (
+                <div className="px-4 pt-4 pb-2 border-b border-border">
+                  <div>
+                    <div className="font-medium">
+                      {user?.profile?.first_name} {user?.profile?.last_name}
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      {user?.email}
+                    </div>
+                  </div>
+
+                  <motion.div whileTap={{ scale: 0.95 }} className="mt-3">
+                    <Link href="/profile">
+                      <div
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center space-x-3 py-2 rounded-lg transition-colors cursor-pointer hover:text-bright-primary hover:bg-primary/5"
+                      >
+                        <UserPen className="h-5 w-5" />
+                        <span>My Profile</span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Middle: Nav Items */}
+              <div className="flex-1 overflow-y-auto px-2 pt-4 space-y-2">
                 {navigationItems.map((item) => {
                   const Icon = item.icon;
                   const isActive =
@@ -249,12 +328,13 @@ export default function Header() {
                       <motion.div
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors cursor-pointer ${
-                          isActive
+                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors cursor-pointer ${isActive
                             ? "text-bright-primary bg-primary/10"
                             : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
-                        }`}
-                        data-testid={`mobile-nav-link-${item.name.toLowerCase().replace(" ", "-")}`}
+                          }`}
+                        data-testid={`mobile-nav-link-${item.name
+                          .toLowerCase()
+                          .replace(" ", "-")}`}
                       >
                         <Icon className="h-5 w-5" />
                         <span>{item.name}</span>
@@ -262,19 +342,25 @@ export default function Header() {
                     </Link>
                   );
                 })}
-
-                {!isAuthenticated && (
-                  <motion.div whileTap={{ scale: 0.95 }} className="pt-2">
-                    <Button
-                      asChild
-                      className="w-full"
-                      data-testid="mobile-login-button"
-                    >
-                      <a href="/api/login">Login</a>
-                    </Button>
-                  </motion.div>
-                )}
               </div>
+
+              {/* Bottom: Logout button (only if authenticated) */}
+              {isAuthenticated && (
+                <div className="border-t border-border px-2 py-3">
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <div
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-3 py-3 rounded-lg transition-colors cursor-pointer hover:text-bright-primary hover:bg-primary/5"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Log out</span>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

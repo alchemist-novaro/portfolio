@@ -14,24 +14,17 @@ function Router() {
   return (
     <Layout>
       <Switch>
-        {isLoading || !isAuthenticated ? (
-          <>
-            {routes.unauthorized.map(route => (
-              <Route path={route.path} key={route.name} component={route.component} />
-            ))}
-          </>
-        ) : (
-          <>
-            {routes.authorized.map(route => (
-              <Route path={route.path} key={route.name} component={route.component} />
-            ))}
-          </>
-        )}
-        <>
-          {routes.default.map(route => (
-            <Route path={route.path} key={route.name} component={route.component} />
-          ))}
-        </>
+        {isLoading || !isAuthenticated ? routes.unauthorized.map(route => (
+          <Route path={route.path} key={route.name} component={route.component} />
+        )) : routes.authorized.map(route => (
+          <Route path={route.path} key={route.name} component={route.component} />
+        ))}
+        {routes.default.map(route => (
+          <Route path={route.path} key={route.name} component={route.component} />
+        ))}
+        {routes.auth.map(route => (
+          <Route path={route.path} key={route.name} component={route.component} />
+        ))}
         <Route component={routes.none[0].component} />
       </Switch>
     </Layout>

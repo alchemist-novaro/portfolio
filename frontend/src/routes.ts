@@ -22,7 +22,11 @@ import {
     NotebookPen,
     Mails,
     Shield,
-    CircleX
+    CircleX,
+    LogIn,
+    Plus,
+    KeyRound,
+    UserPen
 } from "lucide-react";
 import type { Routes } from "@/types/constants";
 
@@ -133,6 +137,43 @@ export const routes: Routes = {
             path: "/404",
             component: NotFound,
             icon: CircleX
+        }
+    ],
+    auth: [
+        {
+            type: [],
+            name: "Login",
+            path: "/login",
+            component: NotFound, // Login
+            icon: LogIn
+        },
+        {
+            type: [],
+            name: "Register",
+            path: "/register",
+            component: NotFound, // Register
+            icon: Plus
+        },
+        {
+            type: [],
+            name: "Reset Password",
+            path: "/re-pwd",
+            component: NotFound, // RePwd,
+            icon: KeyRound
+        },
+        {
+            type: [],
+            name: "Verify Email",
+            path: "/verify",
+            component: NotFound, // Verify,
+            icon: ShieldCheck
+        },
+        {
+            type: [],
+            name: "Profile Setup",
+            path: "/profile",
+            component: NotFound, // Profile
+            icon: UserPen
         }
     ]
 }

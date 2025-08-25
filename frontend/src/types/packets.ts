@@ -1,11 +1,18 @@
-import type { Tier, ProjectType } from "./constants";
+import type { Tier, ProjectType, DemoCategory, DemoInput, DemoOutput } from "./constants";
+
+export interface UserProfile {
+  avatar?: string,
+  first_name: string,
+  last_name: string,
+  position: string,
+  company: string,
+  country: string
+}
 
 export interface User {
   id: number,
   email: string,
-  avatar: string,
-  first_name: string,
-  last_name: string,
+  profile?: UserProfile,
   role: "admin" | "client",
   tier: Tier
 };
@@ -46,9 +53,10 @@ export interface DemoPacket {
   title: string,
   description: string,
   image: string,
-  url: string,
   tier: Tier,
-  category: string,
+  category: DemoCategory,
+  inputs: DemoInput[],
+  outputs: DemoOutput[],
   created_at: Date,
   updated_at: Date
 }
