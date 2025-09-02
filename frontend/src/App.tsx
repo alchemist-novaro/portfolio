@@ -9,14 +9,14 @@ import LoadingProvider from "@/components/providers/loading";
 import Layout from "@/components/layout";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Layout>
       <Switch>
-        {isLoading || !isAuthenticated ? routes.unauthorized.map(route => (
+        {isAuthenticated ? routes.authorized.map(route => (
           <Route path={route.path} key={route.name} component={route.component} />
-        )) : routes.authorized.map(route => (
+        )) : routes.unauthorized.map(route => (
           <Route path={route.path} key={route.name} component={route.component} />
         ))}
         {routes.default.map(route => (

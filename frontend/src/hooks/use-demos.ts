@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { Lock, Zap } from "lucide-react";
+import { Lock, Network, CloudLightning } from "lucide-react";
 import type { DemoPacket } from "@/types/packets";
-import type { DemoItem, DemoConfig } from "@/types/constants";
+import type { DemoItem, TierConfig } from "@/types/constants";
 import { apiRequest } from "@/lib/query-client";
 import { useAuth } from "./use-auth";
 
@@ -9,7 +9,7 @@ const DEMOS_KEY = 'demos';
 
 const mockDemos: DemoPacket[] = [
     {
-        id: 1,
+        id: "550e8400-e29b-41d4-a716-116655440000",
         title: "AI Chatbot Assistant",
         description: "Interactive conversational AI with natural language understanding and context awareness.",
         image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
@@ -17,11 +17,16 @@ const mockDemos: DemoPacket[] = [
         category: "Large Language Model",
         inputs: [],
         outputs: [],
+        machine_type: "CPU",
+        price: {
+            centralized: "$0.02",
+            decentralized: "$0.01"
+        },
         created_at: new Date(),
         updated_at: new Date(),
     },
     {
-        id: 2,
+        id: "550e8400-e29b-41d4-a716-226655440000",
         title: "Image Generation Studio",
         description: "Advanced AI-powered image creation with custom prompts, styles, and artistic controls.",
         image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
@@ -29,11 +34,17 @@ const mockDemos: DemoPacket[] = [
         category: "Image Generation",
         inputs: [],
         outputs: [],
+        machine_type: "GPU",
+        vram_usage: "10G",
+        price: {
+            centralized: "$0.04",
+            decentralized: "$0.02"
+        },
         created_at: new Date(),
         updated_at: new Date(),
     },
     {
-        id: 3,
+        id: "550e8400-e29b-41d4-a716-336655440000",
         title: "ML Training Platform",
         description: "Enterprise-grade machine learning model training and deployment with real-time monitoring.",
         image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
@@ -41,6 +52,12 @@ const mockDemos: DemoPacket[] = [
         category: "3D Generation",
         inputs: [],
         outputs: [],
+        machine_type: "GPU",
+        vram_usage: "15G",
+        price: {
+            centralized: "$0.06",
+            decentralized: "$0.03"
+        },
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -74,27 +91,78 @@ export const useDemos = () => {
         free: {
             label: "FREE",
             color: "bg-green-500",
-            icon: user ? Zap : Lock,
-            button_text: user ? "Try Now" : "Login to Access",
-            button_variant: user ? "default" : "secondary",
-            disabled: !user
-        } as DemoConfig,
+            buttons: user ? [
+                {
+                    icon: CloudLightning,
+                    label: "Try on Cloud",
+                    variant: "default",
+                    type: "centralized"
+                },
+                {
+                    icon: Network,
+                    label: "Try on Node",
+                    variant: "outline",
+                    type: "decentralized"
+                }
+            ] : [
+                {
+                    icon: Lock,
+                    label: "Login to Access",
+                    variant: "secondary",
+                    disabled: true
+                }
+            ]
+        } as TierConfig,
         pro: {
             label: "PRO",
             color: "bg-yellow-500",
-            icon: user?.tier === "pro" || user?.tier === "pro+" ? Zap : Lock,
-            button_text: user?.tier === "pro" || user?.tier === "pro+" ? "Try Now" : user ? "Upgrade to Access" : "Login to Access",
-            button_variant: user?.tier === "pro" || user?.tier === "pro+" ? "default" : "secondary",
-            disabled: user?.tier !== "pro" && user?.tier !== "pro+"
-        } as DemoConfig,
+            buttons: user?.tier === "pro" || user?.tier === "pro+" ? [
+                {
+                    icon: CloudLightning,
+                    label: "Try on Cloud",
+                    variant: "default",
+                    type: "centralized"
+                },
+                {
+                    icon: Network,
+                    label: "Try on Node",
+                    variant: "outline",
+                    type: "decentralized"
+                }
+            ] : [
+                {
+                    icon: Lock,
+                    label: user ? "Upgrade to Access" : "Login to Access",
+                    variant: "secondary",
+                    disabled: true
+                }
+            ]
+        } as TierConfig,
         "pro+": {
             label: "PRO+",
             color: "bg-purple-500",
-            icon: user?.tier === "pro+" ? Zap : Lock,
-            button_text: user?.tier === "pro+" ? "Try Now" : user ? "Upgrade to Access" : "Login to Access",
-            button_variant: user?.tier === "pro+" ? "default" : "secondary",
-            disabled: user?.tier !== "pro+"
-        } as DemoConfig,
+            buttons: user?.tier === "pro+" ? [
+                {
+                    icon: CloudLightning,
+                    label: "Try on Cloud",
+                    variant: "default",
+                    type: "centralized"
+                },
+                {
+                    icon: Network,
+                    label: "Try on Node",
+                    variant: "outline",
+                    type: "decentralized"
+                }
+            ] : [
+                {
+                    icon: Lock,
+                    label: user ? "Upgrade to Access" : "Login to Access",
+                    variant: "secondary",
+                    disabled: true
+                }
+            ]
+        } as TierConfig,
     };
 
     const demos: DemoItem[] | undefined = demoPackets?.map((demo) => ({

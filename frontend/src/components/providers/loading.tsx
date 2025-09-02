@@ -2,7 +2,6 @@ import { createContext } from "react";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { usePortfolio } from "@/hooks/use-portfolio";
 import { useDemos } from "@/hooks/use-demos";
 import { useTestimonials } from "@/hooks/use-testimonials";
@@ -12,12 +11,11 @@ const LoadingContext = createContext<null>(null);
 
 export default function LoadingProvider({ children }: LoadingProviderProps) {
   const { isLoading: authLoading } = useAuth();
-  const { isLoading: portfolioDataLoading } = usePortfolioData();
   const { isLoading: portfolioLoading } = usePortfolio();
   const { isLoading: demoLoading } = useDemos();
   const { isLoading: testimonialLoading } = useTestimonials();
 
-  const isLoading = authLoading || portfolioDataLoading ||
+  const isLoading = authLoading ||
     portfolioLoading || demoLoading || testimonialLoading;
 
   return (

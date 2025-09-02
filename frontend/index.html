@@ -3,41 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="title"></title>
-    <link rel="icon" href="/default-icon.svg" id="dynamic-favicon" />
-    <script>
-      (function() {
-        const favicon = document.getElementById('dynamic-favicon') || 
-          document.createElement('link');
-        const title = document.getElementById('title') ||
-          document.createElement('title');
-        
-        if (!favicon.id) {
-          favicon.id = 'dynamic-favicon';
-          favicon.rel = 'icon';
-          document.head.appendChild(favicon);
-        }
-        if (!title.id) {
-          title.id = 'title';
-          document.head.appendChild(title);
-        }
-
-        const domain = window.location.host.split(':')[0];
-        fetch(`https://api.${domain}/data?domain=${domain}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data) {
-              favicon.href = data.icon || "https://pic.onlinewebfonts.com/thumbnails/icons_340575.svg";
-              title.textContent = `${data.first_name || "John"} ${data.last_name || "Doe"} - AI Specialist`;
-            }
-          })
-          .catch(error => {
-            console.error('Failed to load custom favicon:', error);
-            favicon.href = "https://pic.onlinewebfonts.com/thumbnails/icons_340575.svg";
-            title.textContent = "John Doe - AI Specialist";
-          });
-      })();
-    </script>
+    <title id="title">Alchemist Novaro - AI Specialist</title>
+    <link rel="icon" href="https://www.svgrepo.com/show/454271/alchemist-arcanum-magic.svg" id="dynamic-favicon" />
   </head>
   <body>
     <div id="root"></div>

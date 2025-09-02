@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Clock, MessageCircle, Linkedin, Github, Send, CheckCircle, Loader2, Twitter, Instagram, Facebook } from "lucide-react";
+import { MapPin, Mail, Clock, MessageCircle, Linkedin, Github, Send, CheckCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { ContactPacket } from "@/types/packets";
 import type { ProjectType, SocialLink } from "@/types/constants";
 import { apiRequest } from "@/lib/query-client";
-import { usePortfolioData } from "@/hooks/use-portfolio-data";
 
 const projectTypes: ProjectType[] = [
     "Computer Vision",
@@ -267,25 +266,17 @@ export function ContactForm() {
 }
 
 export function Contact() {
-    const { portfolioData } = usePortfolioData();
-
     const contactInfo = [
         {
             icon: Mail,
             title: "Email",
-            details: portfolioData?.email || "john-doe@example.com",
+            details: "alchemist@portfolio-app.online",
             description: "Send me an email anytime",
-        },
-        {
-            icon: Phone,
-            title: "Phone",
-            details: portfolioData?.phone || "+1 (201) 123 1234",
-            description: "Mon-Fri from 9am to 6pm",
         },
         {
             icon: MapPin,
             title: "Location",
-            details: portfolioData?.location || "California, US",
+            details: "California, US",
             description: "Available for remote work worldwide",
         },
         {
@@ -297,36 +288,16 @@ export function Contact() {
     ];
 
     const socialLinks: SocialLink[] = [
-        portfolioData?.github && {
+        {
             name: "GitHub",
             icon: Github,
-            href: portfolioData.github,
-            color: "hover:text-blue-500",
+            href: ""
         },
-        portfolioData?.linkedin && {
+        {
             name: "LinkedIn",
             icon: Linkedin,
-            href: portfolioData.linkedin,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.twitter && {
-            name: "Twitter",
-            icon: Twitter,
-            href: portfolioData.twitter,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.instagram && {
-            name: "Instagram",
-            icon: Instagram,
-            href: portfolioData.instagram,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.facebook && {
-            name: "Facebook",
-            icon: Facebook,
-            href: portfolioData.facebook,
-            color: "hover:text-blue-500",
-        },
+            href: ""
+        }
     ].filter((link): link is SocialLink => Boolean(link));
 
     return (
@@ -406,7 +377,7 @@ export function Contact() {
                                             rel="noopener noreferrer"
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 0.95 }}
-                                            className={`w-12 h-12 rounded-lg bg-background border border-border hover:border-primary/50 flex items-center justify-center transition-colors duration-300 ${social.color}`}
+                                            className="w-12 h-12 rounded-lg bg-background border border-border hover:border-primary/50 flex items-center justify-center transition-colors duration-300 hover:text-bright-primary"
                                             data-testid={`social-link-${social.name.toLowerCase()}`}
                                         >
                                             <Icon className="h-6 w-6" />

@@ -41,7 +41,6 @@ const cardVariants = {
 
 function DemoCard({ item }: { item: DemoItem }) {
     const tierInfo = item.config;
-    const TierIcon = tierInfo.icon;
 
     return (
         <motion.div
@@ -86,37 +85,40 @@ function DemoCard({ item }: { item: DemoItem }) {
                         {item.description}
                     </CardDescription>
 
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        <Button
-                            asChild
-                            disabled={tierInfo.disabled}
-                            className={`w-full font-medium transition-all duration-300 ${tierInfo.disabled ? "cursor-not-allowed" : "group-hover:bg-primary group-hover:text-primary-foreground"}`}
-                            variant="outline"
-                            data-testid={`demo-button-${item.id}`}
-                        >
-                            {tierInfo.disabled ? (
-                                <span
-                                    className="flex items-center"
-                                    data-testid="view-item-button"
+                    {tierInfo.buttons.map((btn, idx) => {
+                        const Icon = btn.icon;
+                        return (
+                            <motion.div
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <Button
+                                    key={idx}
+                                    asChild
+                                    variant={btn.variant}
+                                    disabled={btn.disabled}
+                                    className={`${btn.disabled && "cursor-not-allowed"}`}
                                 >
-                                    {TierIcon && <TierIcon className="mr-2 h-4 w-4" />}
-                                    {tierInfo.button_text}
-                                </span>
-                            ) : (
-                                <a
-                                    href={item.url}
-                                    className="flex items-center"
-                                    data-testid="view-item-button"
-                                >
-                                    {TierIcon && <TierIcon className="mr-2 h-4 w-4" />}
-                                    {tierInfo.button_text}
-                                </a>
-                            )}
-                        </Button>
-                    </motion.div>
+                                    {btn.disabled ? (
+                                        <span className="flex items-center">
+                                            {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                            {btn.label}
+                                        </span>
+                                    ) : (
+                                        <a
+                                            href={`${item.url}/${btn.type}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center"
+                                        >
+                                            {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                            {btn.label}
+                                        </a>
+                                    )}
+                                </Button>
+                            </motion.div>
+                        );
+                    })}
                 </CardContent>
             </Card>
         </motion.div>

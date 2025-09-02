@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Theme, CircularShowcaseItem } from "./constants";
+import type { Theme, ShowcaseItem } from "./constants";
 
 export interface LayoutProps {
   children: React.ReactNode
@@ -15,10 +15,14 @@ export interface LoadingProviderProps {
   children: ReactNode
 }
 
-export interface CircularShowcaseProps {
-  items: CircularShowcaseItem[],
+export interface ShowcaseProps {
+  items: ShowcaseItem[],
   title: string,
   autoRotate?: boolean,
   autoRotateInterval?: number,
   height?: number
+}
+
+export interface SliderShowcaseProps {
+
 }

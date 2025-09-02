@@ -3,9 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import type { TestimonialItem } from "@/types/packets";
-import type { CircularShowcaseItem } from "@/types/constants";
+import type { ShowcaseItem } from "@/types/constants";
 import { useTestimonials } from "@/hooks/use-testimonials";
-import CircularShowcase from "./circular-showcase";
+import SliderShowcase from "./slider-showcase";
 
 function StarRating({ rating }: { rating: number }) {
     return (
@@ -69,21 +69,21 @@ function TestimonialCard({ item }: { item: TestimonialItem }) {
 
 export default function TestimonialsShowcase() {
     const { testimonials } = useTestimonials();
-    const cardItems: CircularShowcaseItem[] = testimonials?.filter((item) => item.featured)?.map((item) => ({
+    const cardItems: ShowcaseItem[] = testimonials?.filter((item) => item.featured)?.map((item) => ({
         id: item.id,
         title: item.name,
         card: <TestimonialCard key={item.id} item={item} />,
-        description: item.content,
+        description: item.content
     })) || [];
 
     return (
         <section className="py-20 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
             <div className="container mx-auto px-6">
-                <CircularShowcase
+                <SliderShowcase
                     items={cardItems}
                     title="Testimonials"
                     autoRotate={true}
-                    height={200}
+                    height={300}
                 />
             </div>
         </section>

@@ -148,11 +148,11 @@ export function RePwd() {
             <p className="text-center text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link
-                href="/signup"
+                href="/register"
                 className="text-bright-primary hover:underline"
-                data-testid="signup-link"
+                data-testid="register-link"
               >
-                Sign up
+                Register
               </Link>
             </p>
           </CardFooter>

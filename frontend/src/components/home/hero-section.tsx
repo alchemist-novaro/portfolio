@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Particles } from "@/components/ui/particles";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Rocket, Play } from "lucide-react";
-import { usePortfolioData } from "@/hooks/use-portfolio-data";
+import { Rocket, Play, Download } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,8 +54,6 @@ const glowVariants = {
 };
 
 export default function HeroSection() {
-  const { portfolioData } = usePortfolioData();
-
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       <Particles />
@@ -65,7 +62,7 @@ export default function HeroSection() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto px-6 text-center relative z-10"
+        className="container mx-auto px-6 text-center relative z-10 flex flex-col items-center"
       >
         {/* Animated Profile Card */}
         <motion.div variants={itemVariants} className="relative mb-8 inline-block">
@@ -81,11 +78,11 @@ export default function HeroSection() {
             >
               <Avatar className="w-full h-full border-4 border-primary">
                 <AvatarImage 
-                  src={portfolioData?.avatar}
-                  alt={`${portfolioData?.first_name} ${portfolioData?.last_name}`}
+                  src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg"
+                  alt="Alchemist Novaro"
                   className="object-cover"
                 />
-                <AvatarFallback className="text-4xl">{(`${portfolioData?.first_name }`)[0].toUpperCase()}{(`${portfolioData?.last_name }`)[0].toUpperCase()}</AvatarFallback>
+                <AvatarFallback className="text-4xl">AN</AvatarFallback>
               </Avatar>
             </motion.div>
             
@@ -110,24 +107,37 @@ export default function HeroSection() {
           variants={itemVariants}
           className="text-5xl md:text-7xl font-bold mb-4"
         >
-          <span>
-            {portfolioData?.first_name} {portfolioData?.last_name}
-          </span>
+          Alchemist Novaro
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p 
           variants={itemVariants}
-          className="text-xl md:text-2xl text-muted-foreground mb-8"
+          className="text-lg md:text-xl text-muted-foreground mb-8 w-1/2"
         >
-          AI Solutions Architect
+          AI Solutions Architect specializing in traditional ML, computer vision, generative AI, chatbots, and AI agents — building centralized and decentralized AI systems that power scalable applications and business transformation
         </motion.p>
 
         {/* Call-to-Action Buttons */}
         <motion.div 
           variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col md:flex-row gap-4 justify-center"
         >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="px-8 py-4 text-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              data-testid="try-demos-button"
+            >
+              <Play className="mr-2 h-5 w-5" />
+              View Portfolio
+            </Button>
+          </motion.div>
+
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -138,7 +148,7 @@ export default function HeroSection() {
               data-testid="view-portfolio-button"
             >
               <Rocket className="mr-2 h-5 w-5" />
-              View Portfolio
+              Try Live Demos
             </Button>
           </motion.div>
           
@@ -152,8 +162,8 @@ export default function HeroSection() {
               className="px-8 py-4 text-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               data-testid="try-demos-button"
             >
-              <Play className="mr-2 h-5 w-5" />
-              Try Live Demos
+              <Download className="mr-2 h-5 w-5" />
+              For Supporters
             </Button>
           </motion.div>
         </motion.div>

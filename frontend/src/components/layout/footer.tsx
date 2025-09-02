@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Code, Linkedin, Github, Twitter, Instagram, Facebook } from "lucide-react";
-import { usePortfolioData } from "@/hooks/use-portfolio-data";
+import { Code, Linkedin, Github } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes";
 import type { SocialLink, FooterLinks } from "@/types/constants";
@@ -28,40 +27,19 @@ const itemVariants = {
 };
 
 export default function Footer() {
-    const { portfolioData } = usePortfolioData();
     const { isAuthenticated } = useAuth();
 
     const socialLinks: SocialLink[] = [
-        portfolioData?.github && {
+        {
             name: "GitHub",
             icon: Github,
-            href: portfolioData.github,
-            color: "hover:text-blue-500",
+            href: ""
         },
-        portfolioData?.linkedin && {
+        {
             name: "LinkedIn",
             icon: Linkedin,
-            href: portfolioData.linkedin,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.twitter && {
-            name: "Twitter",
-            icon: Twitter,
-            href: portfolioData.twitter,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.instagram && {
-            name: "Instagram",
-            icon: Instagram,
-            href: portfolioData.instagram,
-            color: "hover:text-blue-500",
-        },
-        portfolioData?.facebook && {
-            name: "Facebook",
-            icon: Facebook,
-            href: portfolioData.facebook,
-            color: "hover:text-blue-500",
-        },
+            href: ""
+        }
     ].filter((link): link is SocialLink => Boolean(link));
 
     const footerLinks: FooterLinks = {
@@ -99,13 +77,11 @@ export default function Footer() {
                             <div className="flex items-center space-x-2">
                                 <Code className="h-6 w-6" />
                                 <span className="text-xl font-bold">
-                                    {portfolioData?.first_name} {portfolioData?.last_name}
+                                    Alchemist Novaro
                                 </span>
                             </div>
                             <p className="text-secondary-foreground/80 text-sm leading-relaxed">
-                                AI Solutions Architect specializing in chatbot,
-                                computer vision, AI agents and enterprise AI applications that drive
-                                business transformation.
+                                AI Solutions Architect specializing in traditional ML, computer vision, generative AI, chatbots, and AI agents — building centralized and decentralized AI systems that power scalable applications and business transformation
                             </p>
                             <div className="flex space-x-4">
                                 {socialLinks.map((social) => {
@@ -118,7 +94,7 @@ export default function Footer() {
                                             rel="noopener noreferrer"
                                             whileHover={{ scale: 1.2 }}
                                             whileTap={{ scale: 0.9 }}
-                                            className={`text-secondary-foreground/60 ${social.color} transition-colors duration-200`}
+                                            className={`text-secondary-foreground/60 hover:text-bright-primary transition-colors duration-200`}
                                             data-testid={`social-link-${social.name.toLowerCase()}`}
                                         >
                                             <Icon className="h-5 w-5" />
@@ -202,7 +178,7 @@ export default function Footer() {
                         className="border-t border-secondary-foreground/20 mt-12 pt-8 text-center"
                     >
                         <p className="text-secondary-foreground/60 text-sm">
-                            &copy; 2025 {portfolioData?.first_name} {portfolioData?.last_name}. All rights reserved.
+                            &copy; 2025 Alchemist Novaro. All rights reserved.
                         </p>
                     </motion.div>
                 </div>

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers/theme";
 import { useAuth } from "@/hooks/use-auth";
-import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,6 +23,7 @@ import {
   LogOut,
   ChevronDown,
   UserPen,
+  FlaskRound
 } from "lucide-react";
 import { routes } from "@/routes";
 
@@ -32,7 +32,6 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { portfolioData } = usePortfolioData();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const getThemeIcon = () => {
@@ -86,9 +85,9 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2 cursor-pointer"
             >
+              <FlaskRound className="h-8 w-8" />
               <span className="text-xl font-bold">
-                {portfolioData?.first_name}{" "}
-                {(`${portfolioData?.last_name} `)[0].toUpperCase()}.
+                Alchemist N.
               </span>
             </motion.div>
           </Link>
@@ -255,17 +254,8 @@ export default function Header() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button 
-                  asChild 
-                  data-testid="login-button"
-                >
-                  <a 
-                    href="/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Login
-                  </a>
+                <Button asChild data-testid="login-button">
+                  <a href="/login">Login</a>
                 </Button>
               </motion.div>
             )}

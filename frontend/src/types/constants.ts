@@ -10,6 +10,8 @@ export type ProjectType = "Computer Vision" | "Chatbot" | "Agent" | "Generative 
 export type DemoInputType = "text" | "image" | "video" | "mesh" | "pdf" | "audio" | "other";
 export type DemoOutputType = "text" | "image" | "audio" | "video" | "mesh";
 export type DemoCategory = "Image Generation" | "Audio Generation" | "Video Generation" | "3D Generation" | "Large Language Model" | "Vision Language Model" | "Computer Vision";
+export type MachineType = "CPU" | "GPU";
+export type TierType = "centralized" | "decentralized";
 
 export interface Route {
     type: RouteType[],
@@ -50,17 +52,21 @@ export interface ThemeProviderState {
     setTheme: (theme: Theme) => void
 }
 
-export interface CircularShowcaseItem {
-    id: number,
+export interface ShowcaseURLButton {
+    url: string,
+    label: string,
+    variant: ButtonVariant,
+    icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
+    disabled?: boolean
+}
+
+export interface ShowcaseItem {
+    id: number | string,
     title: string,
     card: ReactNode,
     description: string,
     category?: string,
-    url?: string,
-    url_icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
-    url_label?: string,
-    url_variant?: ButtonVariant,
-    url_disabled?: boolean
+    buttons?: ShowcaseURLButton[]
 }
 
 export interface ExperienceData {
@@ -74,40 +80,53 @@ export interface ExperienceData {
     technologies: string[]
 }
 
-export interface DemoConfig {
+export interface TierConfigButton {
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
+    label: string,
+    variant: ButtonVariant,
+    disabled?: boolean,
+    type?: TierType
+}
+
+export interface TierConfig {
     label: DemoLabel,
     color: string,
-    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
-    button_text: string,
-    button_variant: ButtonVariant,
-    disabled?: boolean
+    buttons: TierConfigButton[]
+}
+
+export interface Price {
+    centralized: string,
+    decentralized: string
 }
 
 export interface DemoItem {
-  id: number,
-  title: string,
-  description: string,
-  image: string,
-  url: string,
-  tier: Tier,
-  config: DemoConfig,
-  category: DemoCategory,
-  inputs: DemoInput[],
-  outputs: DemoOutput[],
-  created_at: Date,
-  updated_at: Date
+    id: number | string,
+    title: string,
+    description: string,
+    image: string,
+    url: string,
+    tier: Tier,
+    config: TierConfig,
+    category: DemoCategory,
+    inputs: DemoInput[],
+    outputs: DemoOutput[],
+    machine_type: MachineType,
+    vram_usage?: string,
+    price: Price,
+    created_at: Date,
+    updated_at: Date
 }
 
 export interface DemoInput {
-  name: string,
-  type: DemoInputType,
-  default?: string,
-  placeholder?: string,
-  required?: boolean
+    name: string,
+    type: DemoInputType,
+    default?: string,
+    placeholder?: string,
+    required?: boolean
 }
 
 export interface DemoOutput {
-  name: string,
-  type: DemoOutputType,
-  placeholder?: string
+    name: string,
+    type: DemoOutputType,
+    placeholder?: string
 }

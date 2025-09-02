@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, FolderOpen } from "lucide-react";
-import type { CircularShowcaseItem } from "@/types/constants";
+import type { ShowcaseItem } from "@/types/constants";
 import type { PortfolioItem } from "@/types/packets";
 import { usePortfolio } from "@/hooks/use-portfolio";
 import CircularShowcase from "./circular-showcase";
@@ -51,14 +51,19 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
 export default function PortfolioShowcase() {
     const { portfolios } = usePortfolio();
-    const cardItems: CircularShowcaseItem[] = portfolios?.filter((item) => item.featured)?.map((item) => ({
+    const cardItems: ShowcaseItem[] = portfolios?.filter((item) => item.featured)?.map((item) => ({
         id: item.id,
         title: item.title,
         card: <PortfolioCard key={item.id} item={item} />,
         description: item.description,
-        url: item.redirect_url,
-        url_label: "View Project",
-        url_icon: ExternalLink
+        buttons: [
+            {
+                url: item.redirect_url,
+                label: "View Project",
+                icon: ExternalLink,
+                variant: "default"
+            }
+        ]
     })) || [];
 
     return (
