@@ -91,7 +91,7 @@ export const useDemos = () => {
         free: {
             label: "FREE",
             color: "bg-green-500",
-            buttons: user ? [
+            buttons: user || true ? [
                 {
                     icon: CloudLightning,
                     label: "Try on Cloud",

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Cpu, Server } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -85,40 +86,69 @@ function DemoCard({ item }: { item: DemoItem }) {
                         {item.description}
                     </CardDescription>
 
-                    {tierInfo.buttons.map((btn, idx) => {
-                        const Icon = btn.icon;
-                        return (
-                            <motion.div
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <Button
-                                    key={idx}
-                                    asChild
-                                    variant={btn.variant}
-                                    disabled={btn.disabled}
-                                    className={`${btn.disabled && "cursor-not-allowed"}`}
+                    {/* Machine + VRAM + Price Section */}
+                    <div className="flex flex-col gap-2 text-sm">
+                        <div className="flex items-center gap-2">
+                            {item.machine_type === "GPU" ? (
+                                <Server className="h-4 w-4 text-primary" />
+                            ) : (
+                                <Cpu className="h-4 w-4 text-primary" />
+                            )}
+                            <span className="capitalize">{item.machine_type}</span>
+                        </div>
+
+                        {item.vram_usage && <div className="flex items-center gap-2">
+                            <span className="font-medium">VRAM:</span>
+                            <span>{item.vram_usage}</span>
+                        </div>}
+
+                        <div className="flex flex-col">
+                            <span className="font-medium">Price:</span>
+                            <span className="text-muted-foreground">
+                                Centralized: {item.price.centralized}/trial
+                            </span>
+                            <span className="text-muted-foreground">
+                                Decentralized: {item.price.decentralized}/trial
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-4 mt-6">
+                        {tierInfo.buttons.map((btn, idx) => {
+                            const Icon = btn.icon;
+                            return (
+                                <motion.div
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                 >
-                                    {btn.disabled ? (
-                                        <span className="flex items-center">
-                                            {Icon && <Icon className="mr-2 h-4 w-4" />}
-                                            {btn.label}
-                                        </span>
-                                    ) : (
-                                        <a
-                                            href={`${item.url}/${btn.type}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center"
-                                        >
-                                            {Icon && <Icon className="mr-2 h-4 w-4" />}
-                                            {btn.label}
-                                        </a>
-                                    )}
-                                </Button>
-                            </motion.div>
-                        );
-                    })}
+                                    <Button
+                                        key={idx}
+                                        asChild
+                                        variant={btn.variant}
+                                        disabled={btn.disabled}
+                                        className={`${btn.disabled && "cursor-not-allowed"} w-full`}
+                                    >
+                                        {btn.disabled ? (
+                                            <span className="flex items-center">
+                                                {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                                {btn.label}
+                                            </span>
+                                        ) : (
+                                            <a
+                                                href={`${item.url}/${btn.type}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center"
+                                            >
+                                                {Icon && <Icon className="mr-2 h-4 w-4" />}
+                                                {btn.label}
+                                            </a>
+                                        )}
+                                    </Button>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
                 </CardContent>
             </Card>
         </motion.div>
