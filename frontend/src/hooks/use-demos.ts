@@ -19,8 +19,7 @@ const mockDemos: DemoPacket[] = [
         outputs: [],
         machine_type: "CPU",
         price: {
-            centralized: "$0.02",
-            decentralized: "$0.01"
+            centralized: "$0.00"
         },
         created_at: new Date(),
         updated_at: new Date(),
@@ -97,12 +96,6 @@ export const useDemos = () => {
                     label: "Try on Cloud",
                     variant: "default",
                     type: "centralized"
-                },
-                {
-                    icon: Network,
-                    label: "Try on Node",
-                    variant: "outline",
-                    type: "decentralized"
                 }
             ] : [
                 {
@@ -168,7 +161,7 @@ export const useDemos = () => {
     const demos: DemoItem[] | undefined = demoPackets?.map((demo) => ({
         ...demo,
         config: tierConfig[demo.tier as keyof typeof tierConfig],
-        url: `/demos/${demo.id}`
+        url: `/demo?id=${demo.id}`
     }));
 
     return {

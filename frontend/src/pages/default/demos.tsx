@@ -107,9 +107,9 @@ function DemoCard({ item }: { item: DemoItem }) {
                             <span className="text-muted-foreground">
                                 Centralized: {item.price.centralized}/trial
                             </span>
-                            <span className="text-muted-foreground">
+                            {item.price.decentralized && <span className="text-muted-foreground">
                                 Decentralized: {item.price.decentralized}/trial
-                            </span>
+                            </span>}
                         </div>
                     </div>
 
@@ -135,7 +135,7 @@ function DemoCard({ item }: { item: DemoItem }) {
                                             </span>
                                         ) : (
                                             <a
-                                                href={`${item.url}/${btn.type}`}
+                                                href={`${item.url}&type=${btn.type}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center"

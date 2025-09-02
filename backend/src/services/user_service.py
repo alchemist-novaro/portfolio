@@ -1,0 +1,122 @@
+from fastapi import HTTPException
+from fastapi.concurrency import run_in_threadpool
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.schemas import UserCreate, UserData, UserBase, UserLogin, Token
+from src.db.repositories import UserRepository
+from src.db.models import User
+from src.core import get_password_hash, verify_password
+from .jwt_service import create_access_token
+from .stripe_service import get_stripe_customer_id
+from .smtp_service import send_verification_email_for_create_account, send_verification_email_for_reset_password
+
+class UserService:
+    def __init__(self, db: AsyncSession):
+        self.repository = UserRepository(db)
+
+    async def create_user(self, user_data: UserCreate) -> UserData:
+        existing_user = await self.repository.get_by_email(user_data.email)
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+        hashed_password = get_password_hash(user_data.password)
+        stripe_customer_id = await get_stripe_customer_id(user_data.email)
+        new_user = User(email=user_data.email, hashed_password=hashed_password, stripe_customer_id=stripe_customer_id)
+        new_user = await self.repository.create_or_update_user(new_user)
+        
+        return UserData.model_validate(new_user)
+    
+    async def login_user(self, user_data: UserLogin) -> Token:
+        existing_user = await self.repository.get_by_email(user_data.email)
+        if not existing_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        logined = verify_password(user_data.password, existing_user.hashed_password)
+        if not logined:
+            raise HTTPException(status_code=401, detail="Password is not correct")
+        if existing_user.blocked:
+            raise HTTPException(status_code=403, detail="User is blocked")
+        if not existing_user.verified:
+            raise HTTPException(status_code=403, detail="Email is not verified")
+        else:
+            return create_access_token({
+                "id": existing_user.id,
+                "email": existing_user.email,
+                "role": existing_user.role.value,
+                "tier": existing_user.tier.value,
+                "verified": existing_user.verified,
+                "blocked": existing_user.blocked,
+                "stripe_customer_id": existing_user.stripe_customer_id
+            })
+
+    async def get_token_by_email(self, user_data: UserBase) -> Token:
+        existing_user = await self.repository.get_by_email(user_data.email)
+        if not existing_user:
+            user_create = UserCreate(email=user_data.email, password="")
+            existing_user = await self.create_user(user_create)
+
+        return create_access_token({
+            "id": existing_user.id,
+            "email": existing_user.email,
+            "role": existing_user.role.value,
+            "tier": existing_user.tier.value,
+            "verified": existing_user.verified,
+            "blocked": existing_user.blocked,
+            "stripe_customer_id": existing_user.stripe_customer_id
+        })
+
+    async def send_verification_link(self, user_data: UserBase, for_create=True):
+        if for_create:
+            existing_user = await self.repository.get_by_email(user_data.email)
+            if existing_user:
+                raise HTTPException(status_code=400, detail="Email already registered")
+        else:
+            existing_user = await self.repository.get_by_email(user_data.email)
+            if not existing_user:
+                raise HTTPException(status_code=404, detail="Email not found")
+
+        token = create_access_token({
+            "id": existing_user.id,
+            "email": existing_user.email,
+            "role": existing_user.role.value,
+            "tier": existing_user.tier.value,
+            "verified": existing_user.verified,
+            "blocked": existing_user.blocked,
+            "stripe_customer_id": existing_user.stripe_customer_id
+        })
+        try:
+            if for_create:
+                await run_in_threadpool(
+                    send_verification_email_for_create_account,
+                    user_data.email,
+                    f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&redirect='profile'"
+                )
+            else:
+                await run_in_threadpool(
+                    send_verification_email_for_reset_password,
+                    user_data.email,
+                    f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&redirect='re-pwd'"
+                )
+        except:
+            raise HTTPException(status_code=500, detail="Failed to send verification email")
+
+    async def verify_email(self, email: str):
+        existing_user = await self.repository.get_by_email(email)
+        if not existing_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        existing_user.verified = True
+        await self.repository.create_or_update_user(existing_user)
+        
+    async def reset_password(self, user_data: UserLogin):
+        existing_user = await self.repository.get_by_email(user_data.email)
+        if not existing_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if verify_password(user_data.password, existing_user.hashed_password):
+            raise HTTPException(status_code=400, detail="New password cannot be the same as the old password")
+
+        hashed_password = get_password_hash(user_data.password)
+        existing_user.hashed_password = hashed_password
+        await self.repository.create_or_update_user(existing_user)
+        
+        return

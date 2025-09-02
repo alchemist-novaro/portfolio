@@ -33,7 +33,7 @@ export default function Footer() {
         {
             name: "GitHub",
             icon: Github,
-            href: ""
+            href: "https://github.com/alchemist-novaro"
         },
         {
             name: "LinkedIn",

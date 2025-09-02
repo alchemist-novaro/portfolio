@@ -65,7 +65,6 @@ export interface ShowcaseItem {
     title: string,
     card: ReactNode,
     description: string,
-    category?: string,
     buttons?: ShowcaseURLButton[]
 }
 
@@ -96,7 +95,7 @@ export interface TierConfig {
 
 export interface Price {
     centralized: string,
-    decentralized: string
+    decentralized?: string
 }
 
 export interface DemoItem {

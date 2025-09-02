@@ -291,7 +291,7 @@ export function Contact() {
         {
             name: "GitHub",
             icon: Github,
-            href: ""
+            href: "https://github.com/alchemist-novaro"
         },
         {
             name: "LinkedIn",
