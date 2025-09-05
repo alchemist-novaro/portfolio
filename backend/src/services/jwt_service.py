@@ -1,5 +1,6 @@
 from datetime import timedelta, datetime
 from jose import jwt
+
 from src.config import settings
 from src.schemas import Token
 

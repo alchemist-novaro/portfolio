@@ -1,6 +1,7 @@
 from fastapi import Request, HTTPException
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from starlette.config import Config
+
 from src.config import settings
 
 config_data = {

@@ -4,7 +4,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "<project-name>"
     SECRET_KEY: str = "<secret-key>"
     DATABASE_URL: str = "postgresql+asyncpg://user:password@host:port/dbname"
-    SERVER_PORT: int = 5002
+    SERVER_PORT: int = 5001
     STATIC_ALLOWED_ORIGINS: list[str] = []
     VERIFY_JWT_SECRET: str = "<access-jwt-secret>"
     AUTH_JWT_SECRET: str = "<verify-jwt-secret>"

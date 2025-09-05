@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException
 from jose import JWTError, jwt
+
 from src.schemas import oauth2_scheme, UserData
 from src.config import settings
 from src.enums import UserRole, UserTier
