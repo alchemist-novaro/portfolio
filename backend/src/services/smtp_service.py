@@ -7,7 +7,7 @@ import os
 
 from src.config import settings
 
-def get_verify_email_for_create_account_html(url):
+def get_verify_email_for_create_account_html(url, name):
     return f"""<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   <head>
@@ -97,7 +97,7 @@ def get_verify_email_for_create_account_html(url):
                 
                 <div class="divider"></div>
                 
-                <p class="body" style="margin:0 0 20px 0;">Hello,</p>
+                <p class="body" style="margin:0 0 20px 0;">Hello, {name}.</p>
                 <p class="body" style="margin:0 0 20px 0;">Thank you for joining <strong>Alchemist Novaro's Portfolio</strong>. To activate your account and confirm your email address, please click the button below:</p>
                 
                 <a class="btn" href="{url}" target="_blank">Verify Email</a>
@@ -129,7 +129,7 @@ def get_verify_email_for_create_account_html(url):
   </body>
 </html>"""
 
-def get_verify_email_for_reset_password_html(url):
+def get_verify_email_for_reset_password_html(url, name):
     return f"""<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   <head>
@@ -219,7 +219,7 @@ def get_verify_email_for_reset_password_html(url):
                 
                 <div class="divider"></div>
                 
-                <p class="body" style="margin:0 0 20px 0;">Hello,</p>
+                <p class="body" style="margin:0 0 20px 0;">Hello, {name}.</p>
                 <p class="body" style="margin:0 0 20px 0;">I received a request to reset the password for your account at <strong>Alchemist Novaro's Portfolio</strong>. If this was you, please confirm the request by clicking the button below:</p>
                 
                 <a class="btn" href="{url}" target="_blank">Reset Password</a>
@@ -374,13 +374,15 @@ def send_email_with_attachment(recipient_email, subject, body, html_body=None, a
         server.login(settings.SMTP_EMAIL_ADDRESS, settings.SMTP_PASSWORD)
         server.send_message(message)
 
-def send_verification_email_for_create_account(recipient_email: str, verification_url: str):
+def send_verification_email_for_create_account(recipient_email: str, first_name: str, last_name: str, verification_url: str):
     subject = "Verify your email for Alchemist Novaro's Portfolio"
     
-    html_content = get_verify_email_for_create_account_html(verification_url)
+    html_content = get_verify_email_for_create_account_html(verification_url, f"{first_name} {last_name}")
     
     text_content = f"""
     Welcome to Alchemist Novaro's Portfolio
+
+    Hello, {first_name} {last_name}.
     
     To activate your account and confirm your email address, please visit:
     {verification_url}
@@ -397,13 +399,15 @@ def send_verification_email_for_create_account(recipient_email: str, verificatio
         html_body=html_content
     )
 
-def send_verification_email_for_reset_password(recipient_email: str, verification_url: str):
+def send_verification_email_for_reset_password(recipient_email: str, first_name: str, last_name: str, verification_url: str):
     subject = "Password Reset Verification for Alchemist Novaro's Portfolio"
     
-    html_content = get_verify_email_for_reset_password_html(verification_url)
+    html_content = get_verify_email_for_reset_password_html(verification_url, f"{first_name} {last_name}")
     
     text_content = f"""
     Password Reset Request
+
+    Hello, {first_name} {last_name}.
     
     To reset your password, please visit:
     {verification_url}
@@ -424,13 +428,13 @@ def send_verification_email_for_reset_password(recipient_email: str, verificatio
         html_body=html_content
     )
 
-def send_contact_confirmation_email(recipient_email: str, name: str):
+def send_contact_confirmation_email(recipient_email: str, first_name: str, last_name: str):
     subject = "Thanks for contacting Alchemist Novaro's Portfolio"
 
-    html_content = get_reply_contact_html(name)
+    html_content = get_reply_contact_html(f"{first_name} {last_name}")
 
     text_content = f"""
-    Hello, {name}.
+    Hello, {first_name} {last_name}.
 
     Thank you for contacting me through my portfolio site. I've received your message and will get back to you as soon as possible.
 
