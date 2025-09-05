@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql+asyncpg://user:password@host:port/dbname"
     SERVER_PORT: int = 5001
     STATIC_ALLOWED_ORIGINS: list[str] = []
+    STRIPE_SECRET_KEY: str = "<stripe-secret-key>"
     VERIFY_JWT_SECRET: str = "<access-jwt-secret>"
     AUTH_JWT_SECRET: str = "<verify-jwt-secret>"
     VERIFY_TOKEN_EXPIRE_TIMEOUT: int = 15
