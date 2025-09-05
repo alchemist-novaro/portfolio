@@ -16,9 +16,6 @@ def get_verify_email_for_create_account_html(url, name):
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="color-scheme" content="light dark">
-    <meta name="supported-color-schemes" content="light dark">
-
     <style>
       html, body {{ margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }}
       * {{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }}
@@ -28,63 +25,34 @@ def get_verify_email_for_create_account_html(url, name):
       a[x-apple-data-detectors] {{ color:inherit !important; text-decoration:none !important; }}
       u + #body a {{ color:inherit; text-decoration:none; }}
 
-      :root {{
-        --background: #ffffff;
-        --foreground: #0f172a;
-        --card: #ffffff;
-        --card-foreground: #0f172a;
-        --border: #e5e7eb;
-        --muted: #f4f6f8;
-        --muted-foreground: #6b7280;
-        --primary: #6d28d9;
-        --primary-contrast: #f8fafc;
-        --accent: #f4f6f8;
-      }}
-
-      @media (prefers-color-scheme: dark) {{
-        :root {{
-          --background: #0b1220;
-          --foreground: #f1f5f9;
-          --card: #0b1220;
-          --card-foreground: #f1f5f9;
-          --border: #1f2937;
-          --muted: #1f2937;
-          --muted-foreground: #9aa3b2;
-          --primary: #5b21b6;
-          --primary-contrast: #f1f5f9;
-          --accent: #1f2937;
-        }}
-      }}
-
-      .wrapper {{ width:100%; background: var(--background); }}
+      .wrapper {{ width:100%; background: #ffffff; }}
       .container {{ width:100%; max-width:600px; margin:0 auto; }}
 
-      .card {{ background: var(--card); border:1px solid var(--border); border-radius:16px; text-align:center; }}
+      .card {{ background: #fafafa; text-align:center; }}
 
       .px {{ padding-left:32px; padding-right:32px; }}
       .py {{ padding-top:32px; padding-bottom:32px; }}
 
-      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; line-height:1.25; color:var(--foreground); margin:0; }}
-      .name {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.5; color:var(--foreground); margin:4px 0 20px 0; }}
-      .body {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.7; color:var(--foreground); }}
-      .muted {{ color: var(--muted-foreground); }}
+      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; line-height:1.25; color: #080a0c; margin:0; }}
+      .name {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.5; color: #080a0c; margin:4px 0 20px 0; }}
+      .body {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.7; color: #080a0c; }}
+      .muted {{ color: #0b1230; }}
 
-      .btn {{ display:inline-block; background: var(--primary); color: var(--primary-contrast) !important; border-radius:12px; padding:14px 28px; font-weight:700; font-size:15px; font-family: 'Inter', system-ui, sans-serif; letter-spacing:0.3px; }}
+      .btn {{ display:inline-block; background: #6d28d9; color: #f8fafc !important; border-radius:12px; padding:14px 28px; font-weight:700; font-size:15px; font-family: 'Inter', system-ui, sans-serif; letter-spacing:0.3px; }}
       .btn:hover {{ filter: brightness(1.05); }}
-      .code {{ font-family: ui-monospace, SFMono-Regular, monospace; background: var(--muted); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:inline-block; font-weight:600; letter-spacing:2px; }}
 
-      .divider {{ height:1px; background: var(--border); margin:24px 0; }}
+      .divider {{ height:1px; background: #e0e0e0; margin:24px 0; }}
 
       .avatar {{ border-radius:50%; width:72px; height:72px; object-fit:cover; margin-bottom:12px; }}
 
-      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color:var(--muted-foreground); margin-top:16px; text-align:center; }}
-      .footer a {{ color:var(--primary); text-decoration:none; font-weight:600; }}
+      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color: #0b1230; margin-top:16px; text-align:center; }}
+      .footer a {{ color: #6d28d9; text-decoration:none; font-weight:600; }}
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
 
-  <body id="body" style="margin:0; padding:0; background: var(--background);">
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: var(--background);">
+  <body id="body" style="margin:0; padding:0; background: #ffffff;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #ffffff;">
       <tr>
         <td align="center" style="padding: 40px 16px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="container">
@@ -103,9 +71,6 @@ def get_verify_email_for_create_account_html(url, name):
                 <a class="btn" href="{url}" target="_blank">Verify Email</a>
                 
                 <div class="divider"></div>
-                
-                <p class="body" style="margin:0 0 8px 0;">Or use this one-time verification code:</p>
-                <div class="code">{url}</div>
                 
                 <p class="body muted" style="margin:20px 0 0 0;">This link and code will expire in <strong>15 minutes</strong>. If you didn't initiate this request, you may safely disregard this email.</p>
                 
@@ -138,9 +103,6 @@ def get_verify_email_for_reset_password_html(url, name):
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="color-scheme" content="light dark">
-    <meta name="supported-color-schemes" content="light dark">
-
     <style>
       html, body {{ margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }}
       * {{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }}
@@ -150,63 +112,34 @@ def get_verify_email_for_reset_password_html(url, name):
       a[x-apple-data-detectors] {{ color:inherit !important; text-decoration:none !important; }}
       u + #body a {{ color:inherit; text-decoration:none; }}
 
-      :root {{
-        --background: #ffffff;
-        --foreground: #0f172a;
-        --card: #ffffff;
-        --card-foreground: #0f172a;
-        --border: #e5e7eb;
-        --muted: #f4f6f8;
-        --muted-foreground: #6b7280;
-        --primary: #6d28d9;
-        --primary-contrast: #f8fafc;
-        --accent: #f4f6f8;
-      }}
-
-      @media (prefers-color-scheme: dark) {{
-        :root {{
-          --background: #0b1220;
-          --foreground: #f1f5f9;
-          --card: #0b1220;
-          --card-foreground: #f1f5f9;
-          --border: #1f2937;
-          --muted: #1f2937;
-          --muted-foreground: #9aa3b2;
-          --primary: #5b21b6;
-          --primary-contrast: #f1f5f9;
-          --accent: #1f2937;
-        }}
-      }}
-
-      .wrapper {{ width:100%; background: var(--background); }}
+      .wrapper {{ width:100%; background: #ffffff; }}
       .container {{ width:100%; max-width:600px; margin:0 auto; }}
 
-      .card {{ background: var(--card); border:1px solid var(--border); border-radius:16px; text-align:center; }}
+      .card {{ background: #fafafa; text-align:center; }}
 
       .px {{ padding-left:32px; padding-right:32px; }}
       .py {{ padding-top:32px; padding-bottom:32px; }}
 
-      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; line-height:1.25; color:var(--foreground); margin:0; }}
-      .name {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.5; color:var(--foreground); margin:4px 0 20px 0; }}
-      .body {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.7; color:var(--foreground); }}
-      .muted {{ color: var(--muted-foreground); }}
+      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; line-height:1.25; color: #080a0c; margin:0; }}
+      .name {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.5; color: #080a0c; margin:4px 0 20px 0; }}
+      .body {{ font-family: 'Inter', system-ui, sans-serif; font-weight:400; font-size:15px; line-height:1.7; color: #080a0c; }}
+      .muted {{ color: #0b1230; }}
 
-      .btn {{ display:inline-block; background: var(--primary); color: var(--primary-contrast) !important; border-radius:12px; padding:14px 28px; font-weight:700; font-size:15px; font-family: 'Inter', system-ui, sans-serif; letter-spacing:0.3px; }}
+      .btn {{ display:inline-block; background: #6d28d9; color: #f8fafc !important; border-radius:12px; padding:14px 28px; font-weight:700; font-size:15px; font-family: 'Inter', system-ui, sans-serif; letter-spacing:0.3px; }}
       .btn:hover {{ filter: brightness(1.05); }}
-      .code {{ font-family: ui-monospace, SFMono-Regular, monospace; background: var(--muted); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:inline-block; font-weight:600; letter-spacing:2px; }}
 
-      .divider {{ height:1px; background: var(--border); margin:24px 0; }}
+      .divider {{ height:1px; background: #e0e0e0; margin:24px 0; }}
 
       .avatar {{ border-radius:50%; width:72px; height:72px; object-fit:cover; margin-bottom:12px; }}
 
-      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color:var(--muted-foreground); margin-top:16px; text-align:center; }}
-      .footer a {{ color:var(--primary); text-decoration:none; font-weight:600; }}
+      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color: #0b1230; margin-top:16px; text-align:center; }}
+      .footer a {{ color: #6d28d9; text-decoration:none; font-weight:600; }}
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
 
-  <body id="body" style="margin:0; padding:0; background: var(--background);">
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: var(--background);">
+  <body id="body" style="margin:0; padding:0; background: #ffffff;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #ffffff;">
       <tr>
         <td align="center" style="padding: 40px 16px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="container">
@@ -225,9 +158,6 @@ def get_verify_email_for_reset_password_html(url, name):
                 <a class="btn" href="{url}" target="_blank">Reset Password</a>
                 
                 <div class="divider"></div>
-                
-                <p class="body" style="margin:0 0 8px 0;">Or use this one-time verification code:</p>
-                <div class="code">{url}</div>
                 
                 <p class="body muted" style="margin:20px 0 0 0;">For your security, this link and code will expire in <strong>15 minutes</strong>. If you did not request a password reset, please ignore this email—your account remains safe.</p>
                 
@@ -260,9 +190,6 @@ def get_reply_contact_html(name: str):
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="color-scheme" content="light dark">
-    <meta name="supported-color-schemes" content="light dark">
-
     <style>
       html, body {{ margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }}
       * {{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }}
@@ -272,50 +199,22 @@ def get_reply_contact_html(name: str):
       a[x-apple-data-detectors] {{ color:inherit !important; text-decoration:none !important; }}
       u + #body a {{ color:inherit; text-decoration:none; }}
 
-      :root {{
-        --background: #ffffff;
-        --foreground: #0f172a;
-        --card: #ffffff;
-        --card-foreground: #0f172a;
-        --border: #e5e7eb;
-        --muted: #f4f6f8;
-        --muted-foreground: #6b7280;
-        --primary: #6d28d9;
-        --primary-contrast: #f8fafc;
-        --accent: #f4f6f8;
-      }}
-
-      @media (prefers-color-scheme: dark) {{
-        :root {{
-          --background: #0b1220;
-          --foreground: #f1f5f9;
-          --card: #0b1220;
-          --card-foreground: #f1f5f9;
-          --border: #1f2937;
-          --muted: #1f2937;
-          --muted-foreground: #9aa3b2;
-          --primary: #5b21b6;
-          --primary-contrast: #f1f5f9;
-          --accent: #1f2937;
-        }}
-      }}
-
       .container {{ width:100%; max-width:600px; margin:0 auto; }}
-      .card {{ background: var(--card); border:1px solid var(--border); border-radius:16px; text-align:center; }}
+      .card {{ background: #fafafa; text-align:center; }}
       .px {{ padding-left:32px; padding-right:32px; }}
       .py {{ padding-top:32px; padding-bottom:32px; }}
-      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; color:var(--foreground); margin:0; }}
-      .body {{ font-family: 'Inter', system-ui, sans-serif; font-size:15px; line-height:1.7; color:var(--foreground); }}
-      .muted {{ color: var(--muted-foreground); }}
-      .divider {{ height:1px; background: var(--border); margin:24px 0; }}
+      .title {{ font-family: 'Inter', system-ui, sans-serif; font-weight:700; font-size:22px; color: #080a0c; margin:0; }}
+      .body {{ font-family: 'Inter', system-ui, sans-serif; font-size:15px; line-height:1.7; color: #080a0c; }}
+      .muted {{ color: #0b1230; }}
+      .divider {{ height:1px; background: #e0e0e0; margin:24px 0; }}
       .avatar {{ border-radius:50%; width:72px; height:72px; object-fit:cover; margin-bottom:12px; }}
-      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color:var(--muted-foreground); margin-top:16px; text-align:center; }}
+      .footer {{ font-family: 'Inter', system-ui, sans-serif; font-size:11px; color: #0b1230; margin-top:16px; text-align:center; }}
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
 
-  <body id="body" style="margin:0; padding:0; background: var(--background);">
-    <table role="presentation" width="100%" style="background: var(--background);">
+  <body id="body" style="margin:0; padding:0; background: #ffffff;">
+    <table role="presentation" width="100%" style="background: #ffffff;">
       <tr>
         <td align="center" style="padding: 40px 16px;">
           <table role="presentation" class="container">

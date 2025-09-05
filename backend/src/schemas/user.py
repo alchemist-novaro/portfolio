@@ -4,17 +4,16 @@ from src.enums import UserRole, UserTier
 
 class UserBase(BaseModel):
     email: EmailStr
-    
-class UserCreate(UserBase):
-    first_name: str
-    last_name: str
+
+class UserPassword(BaseModel):
     password: str
 
 class UserLogin(UserBase):
     password: str
-
-class UserPassword(BaseModel):
-    password: str
+    
+class UserCreate(UserLogin):
+    first_name: str
+    last_name: str
 
 class UserData(UserBase):
     id: int

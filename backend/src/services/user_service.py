@@ -17,20 +17,24 @@ class UserService:
     async def create_user(self, user_data: UserCreate) -> UserData:
         existing_user = await self.repository.get_by_email(user_data.email)
         if existing_user:
-            raise HTTPException(status_code=400, detail="Email already registered")
-
-        hashed_password = get_password_hash(user_data.password)
-        stripe_customer_id = await get_stripe_customer_id(user_data.email)
-        new_user = User(
-            email=user_data.email,
-            first_name=user_data.first_name,
-            last_name=user_data.last_name,
-            hashed_password=hashed_password, 
-            stripe_customer_id=stripe_customer_id
-        )
-        new_user = await self.repository.create_or_update_user(new_user)
-        
-        return UserData.model_validate(new_user)
+            if existing_user.verified:
+                raise HTTPException(status_code=400, detail="Email already registered")
+            else:
+                existing_user.first_name = user_data.first_name
+                existing_user.last_name = user_data.last_name
+                existing_user.hashed_password = get_password_hash(user_data.password)
+                return await self.repository.create_or_update_user(existing_user)
+        else:
+            hashed_password = get_password_hash(user_data.password)
+            stripe_customer_id = await get_stripe_customer_id(user_data.email)
+            new_user = User(
+                email=user_data.email,
+                first_name=user_data.first_name,
+                last_name=user_data.last_name,
+                hashed_password=hashed_password, 
+                stripe_customer_id=stripe_customer_id
+            )
+            return await self.repository.create_or_update_user(new_user)
     
     async def login_user(self, user_data: UserLogin) -> Token:
         existing_user = await self.repository.get_by_email(user_data.email)
@@ -53,8 +57,7 @@ class UserService:
                 "role": existing_user.role.value,
                 "tier": existing_user.tier.value,
                 "verified": existing_user.verified,
-                "blocked": existing_user.blocked,
-                "stripe_customer_id": existing_user.stripe_customer_id
+                "blocked": existing_user.blocked
             })
 
     async def get_token_by_email(self, user_data: UserBase) -> Token:
@@ -71,19 +74,37 @@ class UserService:
             "role": existing_user.role.value,
             "tier": existing_user.tier.value,
             "verified": existing_user.verified,
-            "blocked": existing_user.blocked,
-            "stripe_customer_id": existing_user.stripe_customer_id
+            "blocked": existing_user.blocked
         })
 
-    async def send_verification_link(self, user_data: UserBase, for_create=True):
-        if for_create:
-            existing_user = await self.repository.get_by_email(user_data.email)
-            if existing_user:
-                raise HTTPException(status_code=400, detail="Email already registered")
-        else:
-            existing_user = await self.repository.get_by_email(user_data.email)
-            if not existing_user:
-                raise HTTPException(status_code=404, detail="Email not found")
+    async def send_verification_link_for_create(self, user_data: UserCreate):
+        new_user = await self.create_user(user_data)
+            
+        token = create_verify_token({
+            "id": new_user.id,
+            "email": new_user.email,
+            "first_name": new_user.first_name,
+            "last_name": new_user.last_name,
+            "role": new_user.role.value,
+            "tier": new_user.tier.value,
+            "verified": new_user.verified,
+            "blocked": new_user.blocked
+        })
+        try:
+            await run_in_threadpool(
+                send_verification_email_for_create_account,
+                new_user.email,
+                new_user.first_name,
+                new_user.last_name,
+                f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&target=register"
+            )
+        except:
+            raise HTTPException(status_code=500, detail="Failed to send verification email")
+
+    async def send_verification_link_for_repwd(self, user_data: UserBase):
+        existing_user = await self.repository.get_by_email(user_data.email)
+        if not existing_user:
+            raise HTTPException(status_code=404, detail="Email not found")
 
         token = create_verify_token({
             "id": existing_user.id,
@@ -93,26 +114,16 @@ class UserService:
             "role": existing_user.role.value,
             "tier": existing_user.tier.value,
             "verified": existing_user.verified,
-            "blocked": existing_user.blocked,
-            "stripe_customer_id": existing_user.stripe_customer_id
+            "blocked": existing_user.blocked
         })
         try:
-            if for_create:
-                await run_in_threadpool(
-                    send_verification_email_for_create_account,
-                    existing_user.email,
-                    existing_user.first_name,
-                    existing_user.last_name,
-                    f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}"
-                )
-            else:
-                await run_in_threadpool(
-                    send_verification_email_for_reset_password,
-                    existing_user.email,
-                    existing_user.first_name,
-                    existing_user.last_name,
-                    f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&repwd=false"
-                )
+            await run_in_threadpool(
+                send_verification_email_for_reset_password,
+                existing_user.email,
+                existing_user.first_name,
+                existing_user.last_name,
+                f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&target=repwd"
+            )
         except:
             raise HTTPException(status_code=500, detail="Failed to send verification email")
 

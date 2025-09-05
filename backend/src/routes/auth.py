@@ -1,18 +1,18 @@
 from fastapi import Request, APIRouter, Depends, HTTPException
 
 from src.services import UserService, google_redirect, get_user_data_from_google_token
-from src.schemas import UserLogin, UserData, UserBase, Token, UserPassword
+from src.schemas import UserLogin, UserData, UserBase, Token, UserPassword, UserCreate
 from src.dependencies import get_user_service, get_current_user, get_verifying_user
 
 auth_router = APIRouter()
 
 @auth_router.post("/register")
 async def register(
-    user_data: UserBase,
+    user_data: UserCreate,
     user_service: UserService = Depends(get_user_service)
 ):
     try:
-        await user_service.send_verification_link(user_data)
+        await user_service.send_verification_link_for_create(user_data)
     except HTTPException:
         raise
     except Exception as e:
@@ -27,7 +27,7 @@ async def send_reset_password_email(
     user_service: UserService = Depends(get_user_service)
 ):
     try:
-        await user_service.send_verification_link(user_data, for_create=False)
+        await user_service.send_verification_link_for_repwd(user_data)
     except HTTPException:
         raise
     except Exception as e:

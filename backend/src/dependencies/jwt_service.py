@@ -14,7 +14,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, settings.AUTH_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
-        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked", "stripe_customer_id"]
+        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
             raise credentials_exception
         
@@ -37,8 +37,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             role=UserRole(payload["role"]),
             tier=UserTier(payload["tier"]),
             verified=payload["verified"],
-            blocked=payload["blocked"],
-            stripe_customer_id=payload["stripe_customer_id"]
+            blocked=payload["blocked"]
         )
     except (JWTError, ValueError) as e:
         raise credentials_exception
@@ -52,7 +51,7 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, settings.VERIFY_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
-        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked", "stripe_customer_id"]
+        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
             raise credentials_exception
 
@@ -70,8 +69,7 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
             role=UserRole(payload["role"]),
             tier=UserTier(payload["tier"]),
             verified=payload["verified"],
-            blocked=payload["blocked"],
-            stripe_customer_id=payload["stripe_customer_id"]
+            blocked=payload["blocked"]
         )
     except (JWTError, ValueError) as e:
         raise credentials_exception
