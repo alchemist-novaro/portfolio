@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Cpu, Server } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -120,9 +121,9 @@ function DemoCard({ item }: { item: DemoItem }) {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
+                                    key={idx}
                                 >
                                     <Button
-                                        key={idx}
                                         asChild
                                         variant={btn.variant}
                                         disabled={btn.disabled}
@@ -134,15 +135,15 @@ function DemoCard({ item }: { item: DemoItem }) {
                                                 {btn.label}
                                             </span>
                                         ) : (
-                                            <a
-                                                href={`${item.url}&type=${btn.type}`}
+                                            <Link
+                                                to={`${item.url}&type=${btn.type}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center"
                                             >
                                                 {Icon && <Icon className="mr-2 h-4 w-4" />}
                                                 {btn.label}
-                                            </a>
+                                            </Link>
                                         )}
                                     </Button>
                                 </motion.div>

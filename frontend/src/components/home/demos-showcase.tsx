@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Play, Cpu, Server } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Cpu, Server } from "lucide-react";
 import type { DemoItem } from "@/types/constants";
 import type { ShowcaseItem } from "@/types/constants";
 import { useDemos } from "@/hooks/use-demos";
@@ -107,10 +108,10 @@ export default function DemosShowcase() {
           className="text-center"
         >
           <Button size="lg" variant="outline" data-testid="view-all-demos">
-            <a className="flex items-center" href="/demos">
+            <Link className="flex items-center" target="_blank" rel="noopener noreferrer" to="/demos">
               <Play className="mr-2 h-4 w-4" />
               View All Demos
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

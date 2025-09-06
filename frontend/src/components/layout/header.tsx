@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers/theme";
@@ -23,12 +23,12 @@ import {
   LogOut,
   ChevronDown,
   UserPen,
-  FlaskRound
+  FlaskRound,
 } from "lucide-react";
 import { routes } from "@/routes";
 
 export default function Header() {
-  const [location] = useLocation();
+  const location = useLocation();
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function Header() {
     if (theme === "light") return Sun;
     return Monitor;
   };
-  
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -80,15 +80,13 @@ export default function Header() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/">
+          <Link to="/">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2 cursor-pointer"
             >
               <FlaskRound className="h-8 w-8" />
-              <span className="text-xl font-bold">
-                Alchemist N.
-              </span>
+              <span className="text-xl font-bold">Alchemist N.</span>
             </motion.div>
           </Link>
 
@@ -97,18 +95,19 @@ export default function Header() {
             {navigationItems.map((item) => {
               const Icon = item.icon;
               const isActive =
-                location === item.path ||
-                (item.path !== "/" && location.startsWith(item.path));
+                location.pathname === item.path ||
+                (item.path !== "/" && location.pathname.startsWith(item.path));
 
               return (
-                <Link key={item.path} href={item.path}>
+                <Link key={item.path} to={item.path}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors cursor-pointer ${isActive
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+                      isActive
                         ? "text-bright-primary bg-primary/10"
                         : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
-                      }`}
+                    }`}
                     data-testid={`nav-link-${item.name
                       .toLowerCase()
                       .replace(" ", "-")}`}
@@ -155,17 +154,13 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 {/* Notification Bell */}
-                <Link href="/alerts">
+                <Link to="/alerts">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     className="relative"
                   >
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      data-testid="notifications"
-                    >
+                    <Button variant="ghost" size="icon" data-testid="notifications">
                       <Bell className="h-4 w-4" />
                       <motion.div
                         initial={{ scale: 0 }}
@@ -215,10 +210,10 @@ export default function Header() {
                       </div>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <a href="/profile" className="flex items-center cursor-pointer">
+                        <Link to="/profile" className="flex items-center cursor-pointer">
                           <UserPen className="mr-2 h-4 w-4" />
                           <span>My Profile</span>
-                        </a>
+                        </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <div
@@ -234,7 +229,7 @@ export default function Header() {
                   </DropdownMenu>
                 </div>
 
-                {/* Mobile: Avatar only (no dropdown) */}
+                {/* Mobile: Avatar only */}
                 <div className="block lg:hidden">
                   <Avatar className="border-2 border-primary">
                     <AvatarImage
@@ -250,12 +245,9 @@ export default function Header() {
                 </div>
               </>
             ) : (
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button asChild data-testid="login-button">
-                  <a href="/login">Login</a>
+                  <Link to="/login">Login</Link>
                 </Button>
               </motion.div>
             )}
@@ -268,11 +260,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
               >
-                {mobileMenuOpen ? (
-                  <X className="h-4 w-4" />
-                ) : (
-                  <Menu className="h-4 w-4" />
-                )}
+                {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
               </Button>
             </div>
           </div>
@@ -282,13 +270,12 @@ export default function Header() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              ref={mobileMenuRef} 
+              ref={mobileMenuRef}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="lg:hidden mt-4 pb-4 border-t border-border flex flex-col h-[calc(100vh-4rem)]"
             >
-              {/* Top section: Profile Info (if authenticated) */}
               {isAuthenticated && (
                 <div className="px-4 pt-4 pb-2 border-b border-border">
                   <div>
@@ -301,7 +288,7 @@ export default function Header() {
                   </div>
 
                   <motion.div whileTap={{ scale: 0.95 }} className="mt-3">
-                    <Link href="/profile">
+                    <Link to="/profile">
                       <div
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center space-x-3 py-2 rounded-lg transition-colors cursor-pointer hover:text-bright-primary hover:bg-primary/5"
@@ -319,18 +306,19 @@ export default function Header() {
                 {navigationItems.map((item) => {
                   const Icon = item.icon;
                   const isActive =
-                    location === item.path ||
-                    (item.path !== "/" && location.startsWith(item.path));
+                    location.pathname === item.path ||
+                    (item.path !== "/" && location.pathname.startsWith(item.path));
 
                   return (
-                    <Link key={item.path} href={item.path}>
+                    <Link key={item.path} to={item.path}>
                       <motion.div
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors cursor-pointer ${isActive
+                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors cursor-pointer ${
+                          isActive
                             ? "text-bright-primary bg-primary/10"
                             : "text-muted-foreground hover:text-bright-primary hover:bg-primary/5"
-                          }`}
+                        }`}
                         data-testid={`mobile-nav-link-${item.name
                           .toLowerCase()
                           .replace(" ", "-")}`}
@@ -343,7 +331,7 @@ export default function Header() {
                 })}
               </div>
 
-              {/* Bottom: Logout button (only if authenticated) */}
+              {/* Bottom: Logout button */}
               {isAuthenticated && (
                 <div className="border-t border-border px-2 py-3">
                   <motion.div whileTap={{ scale: 0.95 }}>

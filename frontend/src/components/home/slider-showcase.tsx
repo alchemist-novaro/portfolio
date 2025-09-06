@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,15 +37,15 @@ function DetailView({ item }: { item: ShowcaseItem }) {
                                         {btn.label}
                                     </span>
                                 ) : (
-                                    <a
-                                        href={btn.url}
+                                    <Link
+                                        to={btn.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center"
                                     >
                                         {Icon && <Icon className="mr-2 h-4 w-4" />}
                                         {btn.label}
-                                    </a>
+                                    </Link>
                                 )}
                             </Button>
                         );

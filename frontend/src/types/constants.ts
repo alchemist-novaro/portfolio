@@ -12,6 +12,7 @@ export type DemoOutputType = "text" | "image" | "audio" | "video" | "mesh";
 export type DemoCategory = "Image Generation" | "Audio Generation" | "Video Generation" | "3D Generation" | "Large Language Model" | "Vision Language Model" | "Computer Vision";
 export type MachineType = "CPU" | "GPU";
 export type TierType = "centralized" | "decentralized";
+export type SocialType = "google" | "apple";
 
 export interface Route {
     type: RouteType[],
@@ -129,3 +130,12 @@ export interface DemoOutput {
     type: DemoOutputType,
     placeholder?: string
 }
+
+export interface RegisterFormValues {
+  first_name: string,
+  last_name: string,
+  email: string,
+  pwd: string,
+  con_pwd: string,
+  agree_to_terms: boolean
+};

@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ExternalLink } from "lucide-react";
 import type { PortfolioItem } from "@/types/packets";
 import { usePortfolio } from "@/hooks/use-portfolio";
 
@@ -93,8 +94,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
               variant="outline"
               data-testid={`view-project-${item.id}`}
             >
-              <a
-                href={item.redirect_url}
+              <Link
+                to={item.redirect_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center"
@@ -102,7 +103,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 View Project
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </CardContent>

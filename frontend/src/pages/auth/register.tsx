@@ -1,68 +1,80 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle, FaApple } from "react-icons/fa";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/query-client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage,} from "@/components/ui/form";
+import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
+import { registerSchema } from "@/types/schemas";
+import { useToast } from "@/hooks/use-toast";
+import type { SocialType, RegisterFormValues } from "@/types/constants";
 
 export function Register() {
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
+
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      pwd: "",
+      con_pwd: "",
+      agree_to_terms: false,
+    },
   });
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+  const registerMutation = useMutation({
+    mutationFn: async (data: RegisterFormValues) => {
+      await apiRequest("POST", "/auth/register", {
+        data: {
+          email: (data as any).email,
+          first_name: (data as any).first_name,
+          last_name: (data as any).last_name,
+          password: (data as any).pwd
+        }
+      });
+    },
+    onSuccess: () => {
+      navigate(`/verify?target=register`, { state: form.getValues() });
+      form.reset();
+    },
+    onError: (err) => {
+      if (err.message.split(':')[0] === "400")
+        toast({
+          title: "Error",
+          description: "User already exist. Please login.",
+          variant: "destructive",
+        });
+      else toast({
+          title: "Error",
+          description: "Failed to send verification email. Please try again.",
+          variant: "destructive",
+        });
+    },
+  });
+
+  const handleRegister = (data: RegisterFormValues) => {
+    registerMutation.mutate(data);
   };
 
-  const handleEmailRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match");
-      return;
+  const handleSocialRegister = (type: SocialType) => {
+    if (type === "google") {
+      const domain = window.location.host.split(":")[0];
+      window.location.href = `https://api.${domain}/auth/google/redirect`;
     }
-    
-    if (!formData.agreeToTerms) {
-      alert("Please agree to the terms and conditions");
-      return;
-    }
-    
-    setIsLoading(true);
-    
-    try {
-      navigate("/profile");
-    } catch (error) {
-      alert('Register failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSocialRegister = (provider: string) => {
-    // TODO: Implement social register
-    console.log(`${provider} register clicked`);
-    
-    // For now, redirect to the existing Replit auth
-    if (provider === "replit") {
-      window.location.href = "/api/login";
-    }
+    console.log("Social register:", type);
   };
 
   return (
@@ -82,7 +94,7 @@ export function Register() {
               Join us and start your AI journey
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             {/* Social Register Buttons */}
             <div className="grid grid-cols-2 gap-3">
@@ -97,9 +109,10 @@ export function Register() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleSocialRegister("github")}
+                disabled={true}
+                onClick={() => handleSocialRegister("apple")}
                 className="w-full"
-                data-testid="github-register-button"
+                data-testid="apple-register-button"
               >
                 <FaApple className="w-4 h-4 mr-2" />
                 Apple
@@ -118,175 +131,158 @@ export function Register() {
             </div>
 
             {/* Email Register Form */}
-            <form onSubmit={handleEmailRegister} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">
-                    First Name
-                  </Label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    placeholder="John"
-                    value={formData.firstName}
-                    onChange={(e) => handleInputChange("firstName", e.target.value)}
-                    required
-                    data-testid="first-name-input"
-                    className="bg-white dark:bg-black border-gray-300 dark:border-gray-700"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">
-                    Last Name
-                  </Label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={(e) => handleInputChange("lastName", e.target.value)}
-                    required
-                    data-testid="last-name-input"
-                    className="bg-white dark:bg-black border-gray-300 dark:border-gray-700"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="john.doe@example.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  required
-                  data-testid="email-input"
-                  className="bg-white dark:bg-black border-gray-300 dark:border-gray-700"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password">
-                  Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Create a strong password"
-                    value={formData.password}
-                    onChange={(e) => handleInputChange("password", e.target.value)}
-                    required
-                    data-testid="password-input"
-                    className="bg-white dark:bg-black border-gray-300 dark:border-gray-700 pr-10"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                    data-testid="toggle-password-visibility"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">
-                  Confirm Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                    required
-                    data-testid="confirm-password-input"
-                    className="bg-white dark:bg-black border-gray-300 dark:border-gray-700 pr-10"
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    data-testid="toggle-confirm-password-visibility"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </Button>
+                  />
                 </div>
-              </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked as boolean)}
-                  data-testid="terms-checkbox"
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="john.doe@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                <Label
-                  htmlFor="terms"
-                  className="text-sm text-gray-600 dark:text-gray-400 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I agree to the{" "}
-                  <Link
-                    href="/terms-of-service"
-                    className="text-bright-primary hover:underline"
-                    data-testid="terms-link"
-                  >
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    href="/privacy-policy"
-                    className="text-bright-primary hover:underline"
-                    data-testid="privacy-link"
-                  >
-                    Privacy Policy
-                  </Link>
-                </Label>
-              </div>
 
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isLoading}
-                  data-testid="register-submit-button"
-                >
-                  {isLoading ? "Creating account..." : "Create Account"}
-                </Button>
-              </motion.div>
-            </form>
+                <FormField
+                  control={form.control}
+                  name="pwd"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Create a strong password"
+                            {...field}
+                            className="pr-10"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="con_pwd"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirm your password"
+                            {...field}
+                            className="pr-10"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          >
+                            {showConfirmPassword ? (
+                              <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="agree_to_terms"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm text-gray-600 dark:text-gray-400 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        I agree to the{" "}
+                        <Link to="/terms-of-service" className="text-bright-primary hover:underline">
+                          Terms of Service
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy-policy" className="text-bright-primary hover:underline">
+                          Privacy Policy
+                        </Link>
+                      </FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
+                    {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                  </Button>
+                </motion.div>
+              </form>
+            </Form>
           </CardContent>
 
           <CardFooter>
             <p className="text-center text-sm text-gray-600 dark:text-gray-400 w-full">
               Already have an account?{" "}
-              <Link
-                href="/login"
-                className="text-bright-primary hover:underline"
-                data-testid="login-link"
-              >
+              <Link to="/login" className="text-bright-primary hover:underline">
                 Login
               </Link>
             </p>

@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle, FaApple } from "react-icons/fa";
 
 export function Login() {
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +28,9 @@ export function Login() {
     setIsLoading(true);
 
     try {
-      navigate("/");
+      navigate("/"); // redirect after login
     } catch (error) {
-      alert('Login failed. Please try again.');
+      alert("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -32,8 +39,7 @@ export function Login() {
   const handleSocialLogin = (provider: string) => {
     // TODO: Implement social login
     console.log(`${provider} login clicked`);
-    
-    // For now, redirect to the existing Replit auth
+
     if (provider === "replit") {
       window.location.href = "/api/login";
     }
@@ -56,7 +62,7 @@ export function Login() {
               Log in to your account to continue
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             {/* Social Login Buttons */}
             <div className="grid grid-cols-2 gap-3">
@@ -94,9 +100,7 @@ export function Login() {
             {/* Email Login Form */}
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">
-                  Email
-                </Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -108,11 +112,9 @@ export function Login() {
                   className="bg-white dark:bg-black border-gray-300 dark:border-gray-700"
                 />
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="password">
-                  Password
-                </Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -148,14 +150,11 @@ export function Login() {
                   className="px-0 text-bright-primary"
                   data-testid="forgot-password-link"
                 >
-                  <Link href="/re-pwd">Forgot password?</Link>
+                  <Link to="/re-pwd">Forgot password?</Link>
                 </Button>
               </div>
 
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   type="submit"
                   className="w-full"
@@ -172,7 +171,7 @@ export function Login() {
             <p className="text-center text-sm text-gray-600 dark:text-gray-400 w-full">
               Don't have an account?{" "}
               <Link
-                href="/register"
+                to="/register"
                 className="text-bright-primary hover:underline"
                 data-testid="register-link"
               >

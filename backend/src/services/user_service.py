@@ -49,7 +49,7 @@ class UserService:
         if not existing_user.verified:
             raise HTTPException(status_code=403, detail="Email is not verified")
         else:
-            return create_verify_token({
+            return create_auth_token({
                 "id": existing_user.id,
                 "email": existing_user.email,
                 "first_name": existing_user.first_name,
@@ -96,7 +96,7 @@ class UserService:
                 new_user.email,
                 new_user.first_name,
                 new_user.last_name,
-                f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&target=register"
+                f"https://alchemist-novaro.portfolio-app.online/verify?token={token.token}&target=register"
             )
         except:
             raise HTTPException(status_code=500, detail="Failed to send verification email")
@@ -122,7 +122,7 @@ class UserService:
                 existing_user.email,
                 existing_user.first_name,
                 existing_user.last_name,
-                f"https://alchemist-novaro.portfolio-app.online/auth/verify?token={token.token}&target=repwd"
+                f"https://alchemist-novaro.portfolio-app.online/verify?token={token.token}&target=repwd"
             )
         except:
             raise HTTPException(status_code=500, detail="Failed to send verification email")
@@ -133,7 +133,18 @@ class UserService:
             raise HTTPException(status_code=404, detail="User not found")
 
         existing_user.verified = True
-        await self.repository.create_or_update_user(existing_user)
+        updated_user = await self.repository.create_or_update_user(existing_user)
+        
+        return create_auth_token({
+            "id": updated_user.id,
+            "email": updated_user.email,
+            "first_name": updated_user.first_name,
+            "last_name": updated_user.last_name,
+            "role": updated_user.role.value,
+            "tier": updated_user.tier.value,
+            "verified": updated_user.verified,
+            "blocked": updated_user.blocked
+        })
         
     async def reset_password(self, user_data: UserLogin):
         existing_user = await self.repository.get_by_email(user_data.email)

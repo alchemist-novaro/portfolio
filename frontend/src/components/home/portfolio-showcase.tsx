@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ExternalLink, FolderOpen } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, FolderOpen } from "lucide-react";
 import type { ShowcaseItem } from "@/types/constants";
 import type { PortfolioItem } from "@/types/packets";
 import { usePortfolio } from "@/hooks/use-portfolio";
@@ -88,10 +89,10 @@ export default function PortfolioShowcase() {
                     className="text-center"
                 >
                     <Button size="lg" variant="outline" data-testid="view-all-portfolio">
-                        <a href="/portfolio" className="flex items-center">
+                        <Link to="/portfolio" target="_blank" rel="noopener noreferrer" className="flex items-center">
                             <FolderOpen className="mr-2 h-4 w-4" />
                             View All Projects
-                        </a>
+                        </Link>
                     </Button>
                 </motion.div>
             </motion.div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,7 +68,7 @@ export function RePwd() {
                 className="w-full"
                 data-testid="back-to-login-button"
               >
-                <Link href="/login">
+                <Link to="/login">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Login
                 </Link>
@@ -139,7 +139,7 @@ export function RePwd() {
               className="w-full"
               data-testid="back-to-login-link"
             >
-              <Link href="/login">
+              <Link to="/login">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Login
               </Link>
@@ -148,7 +148,7 @@ export function RePwd() {
             <p className="text-center text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link
-                href="/register"
+                to="/register"
                 className="text-bright-primary hover:underline"
                 data-testid="register-link"
               >

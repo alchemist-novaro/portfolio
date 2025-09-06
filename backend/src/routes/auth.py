@@ -88,8 +88,8 @@ async def login(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
-@auth_router.get("/google")
-async def google_redirect(
+@auth_router.get("/google/redirect")
+async def get_google_redirect(
     request: Request
 ):
     try:

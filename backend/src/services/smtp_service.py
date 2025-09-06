@@ -268,7 +268,7 @@ def send_email_with_attachment(recipient_email, subject, body, html_body=None, a
         )
         message.attach(part)
     
-    with smtplib.SMTP('smtpout.secureserver.net', 587) as server:
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
         server.starttls()
         server.login(settings.SMTP_EMAIL_ADDRESS, settings.SMTP_PASSWORD)
         server.send_message(message)

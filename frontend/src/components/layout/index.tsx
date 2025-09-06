@@ -1,20 +1,25 @@
 import { motion } from "framer-motion";
-import { useLocation } from "wouter";
-import Header from './header';
-import Footer from './footer';
+import { useLocation } from "react-router-dom";
+import Header from "./header";
+import Footer from "./footer";
 import { routes } from "@/routes";
 import type { LayoutProps } from "@/types/props";
 
 export default function Layout({ children }: LayoutProps) {
-  const [location] = useLocation();
-  
+  const location = useLocation();
+
   const layoutPaths = [
     ...routes.unauthorized.map((r) => r.path),
     ...routes.authorized.map((r) => r.path),
     ...routes.admin.map((r) => r.path),
-    ...routes.default.map((r) => r.path)
+    ...routes.default.map((r) => r.path),
   ];
-  const layout = layoutPaths.some((path) => path === "/" ? location === "/" : location.startsWith(path));
+
+  const layout = layoutPaths.some((path) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path)
+  );
 
   return (
     <motion.div

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,9 +27,9 @@ function DetailView({ item }: { item: ShowcaseItem }) {
                             <motion.div
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
+                                key={idx}
                             >
                                 <Button
-                                    key={idx}
                                     asChild
                                     variant={btn.variant}
                                     disabled={btn.disabled}
@@ -40,15 +41,15 @@ function DetailView({ item }: { item: ShowcaseItem }) {
                                             {btn.label}
                                         </span>
                                     ) : (
-                                        <a
-                                            href={btn.url}
+                                        <Link
+                                            to={btn.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex items-center"
                                         >
                                             {Icon && <Icon className="mr-2 h-4 w-4" />}
                                             {btn.label}
-                                        </a>
+                                        </Link>
                                     )}
                                 </Button>
                             </motion.div>

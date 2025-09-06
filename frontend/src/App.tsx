@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { queryClient } from "@/lib/query-client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,20 +13,47 @@ function Router() {
 
   return (
     <Layout>
-      <Switch>
-        {isAuthenticated ? routes.authorized.map(route => (
-          <Route path={route.path} key={route.name} component={route.component} />
-        )) : routes.unauthorized.map(route => (
-          <Route path={route.path} key={route.name} component={route.component} />
+      <Routes>
+        {isAuthenticated
+          ? routes.authorized.map((route) => (
+              <Route
+                path={route.path}
+                key={route.name}
+                element={<route.component />}
+              />
+            ))
+          : routes.unauthorized.map((route) => (
+              <Route
+                path={route.path}
+                key={route.name}
+                element={<route.component />}
+              />
+            ))}
+
+        {routes.default.map((route) => (
+          <Route
+            path={route.path}
+            key={route.name}
+            element={<route.component />}
+          />
         ))}
-        {routes.default.map(route => (
-          <Route path={route.path} key={route.name} component={route.component} />
+
+        {routes.auth.map((route) => (
+          <Route
+            path={route.path}
+            key={route.name}
+            element={<route.component />}
+          />
         ))}
-        {routes.auth.map(route => (
-          <Route path={route.path} key={route.name} component={route.component} />
+
+        {routes.none.map((route) => (
+          <Route
+            path="*"
+            key={route.name}
+            element={<route.component />}
+          />
         ))}
-        <Route component={routes.none[0].component} />
-      </Switch>
+      </Routes>
     </Layout>
   );
 }
@@ -36,8 +63,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="theme">
         <LoadingProvider>
-          <Router />
-          <Toaster />
+          <BrowserRouter>
+            <Router />
+            <Toaster />
+          </BrowserRouter>
         </LoadingProvider>
       </ThemeProvider>
     </QueryClientProvider>
