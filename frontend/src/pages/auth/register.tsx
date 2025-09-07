@@ -51,17 +51,28 @@ export function Register() {
       form.reset();
     },
     onError: (err) => {
-      if (err.message.split(':')[0] === "400")
+      const error = err.message.split(':')[0];
+      if (error === "400") {
         toast({
           title: "Error",
           description: "User already exist. Please login.",
           variant: "destructive",
         });
-      else toast({
+      }
+      else if (error === "402") {
+          toast({
+              title: "Error",
+              description: "Your email is blocked. Please contact me.",
+              variant: "destructive"
+          });
+      }
+      else {
+        toast({
           title: "Error",
           description: "Failed to send verification email. Please try again.",
           variant: "destructive",
         });
+      }
     },
   });
 

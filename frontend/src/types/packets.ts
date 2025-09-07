@@ -1,9 +1,7 @@
-import type { Tier, ProjectType, DemoCategory, DemoInput, DemoOutput, MachineType, Price } from "./constants";
+import type { Tier, ProjectType, DemoCategory, DemoInput, DemoOutput, UserRole, MachineType, Price } from "./constants";
 
 export interface UserProfile {
   avatar?: string,
-  first_name: string,
-  last_name: string,
   position: string,
   company: string,
   country: string
@@ -12,8 +10,9 @@ export interface UserProfile {
 export interface User {
   id: number,
   email: string,
-  profile?: UserProfile,
-  role: "admin" | "client",
+  first_name: string,
+  last_name: string,
+  role: UserRole,
   tier: Tier
 };
 

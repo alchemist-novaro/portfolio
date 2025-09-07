@@ -14,16 +14,18 @@ class UserService:
     def __init__(self, db: AsyncSession):
         self.repository = UserRepository(db)
 
-    async def create_user(self, user_data: UserCreate) -> UserData:
+    async def create_user(self, user_data: UserCreate, verified: bool = False) -> UserData:
         existing_user = await self.repository.get_by_email(user_data.email)
         if existing_user:
             if existing_user.verified:
                 raise HTTPException(status_code=400, detail="Email already registered")
-            else:
-                existing_user.first_name = user_data.first_name
-                existing_user.last_name = user_data.last_name
-                existing_user.hashed_password = get_password_hash(user_data.password)
-                return await self.repository.create_or_update_user(existing_user)
+            if existing_user.blocked:
+                raise HTTPException(status_code=402, detail="Email is blocked")
+            existing_user.verified = verified
+            existing_user.first_name = user_data.first_name
+            existing_user.last_name = user_data.last_name
+            existing_user.hashed_password = get_password_hash(user_data.password)
+            return await self.repository.create_or_update_user(existing_user)
         else:
             hashed_password = get_password_hash(user_data.password)
             stripe_customer_id = await get_stripe_customer_id(user_data.email)
@@ -32,7 +34,8 @@ class UserService:
                 first_name=user_data.first_name,
                 last_name=user_data.last_name,
                 hashed_password=hashed_password, 
-                stripe_customer_id=stripe_customer_id
+                stripe_customer_id=stripe_customer_id,
+                verified=verified
             )
             return await self.repository.create_or_update_user(new_user)
     
@@ -40,31 +43,33 @@ class UserService:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
             raise HTTPException(status_code=404, detail="User not found")
+        if existing_user.blocked:
+            raise HTTPException(status_code=402, detail="User is blocked")
+        if not existing_user.verified:
+            raise HTTPException(status_code=403, detail="Email is not verified")
 
         logined = verify_password(user_data.password, existing_user.hashed_password)
         if not logined:
             raise HTTPException(status_code=401, detail="Password is not correct")
-        if existing_user.blocked:
-            raise HTTPException(status_code=403, detail="User is blocked")
-        if not existing_user.verified:
-            raise HTTPException(status_code=403, detail="Email is not verified")
-        else:
-            return create_auth_token({
-                "id": existing_user.id,
-                "email": existing_user.email,
-                "first_name": existing_user.first_name,
-                "last_name": existing_user.last_name,
-                "role": existing_user.role.value,
-                "tier": existing_user.tier.value,
-                "verified": existing_user.verified,
-                "blocked": existing_user.blocked
-            })
+        
+        return create_auth_token({
+            "id": existing_user.id,
+            "email": existing_user.email,
+            "first_name": existing_user.first_name,
+            "last_name": existing_user.last_name,
+            "role": existing_user.role.value,
+            "tier": existing_user.tier.value,
+            "verified": existing_user.verified,
+            "blocked": existing_user.blocked
+        })
 
-    async def get_token_by_email(self, user_data: UserBase) -> Token:
+    async def get_token_by_email(self, user_data: UserCreate) -> Token:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
-            user_create = UserCreate(email=user_data.email, password="")
-            existing_user = await self.create_user(user_create)
+            existing_user = await self.create_user(user_data, verified=True)
+
+        if existing_user.blocked:
+            raise HTTPException(status_code=402, detail="Email is blocked")
 
         return create_auth_token({
             "id": existing_user.id,
@@ -79,6 +84,9 @@ class UserService:
 
     async def send_verification_link_for_create(self, user_data: UserCreate):
         new_user = await self.create_user(user_data)
+
+        if new_user.blocked:
+            raise HTTPException(status_code=402, detail="Email is blocked")
             
         token = create_verify_token({
             "id": new_user.id,
@@ -105,6 +113,8 @@ class UserService:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
             raise HTTPException(status_code=404, detail="Email not found")
+        if existing_user.blocked:
+            raise HTTPException(status_code=402, detail="Email is blocked")
 
         token = create_verify_token({
             "id": existing_user.id,
@@ -131,6 +141,8 @@ class UserService:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
             raise HTTPException(status_code=404, detail="User not found")
+        if existing_user.blocked:
+            raise HTTPException(status_code=402, detail="Email is blocked")
 
         existing_user.verified = True
         updated_user = await self.repository.create_or_update_user(existing_user)
@@ -150,9 +162,8 @@ class UserService:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
             raise HTTPException(status_code=404, detail="User not found")
-
-        if verify_password(user_data.password, existing_user.hashed_password):
-            raise HTTPException(status_code=400, detail="New password cannot be the same as the old password")
+        if existing_user.blocked:
+            raise HTTPException(status_code=402, detail="Email is blocked")
 
         hashed_password = get_password_hash(user_data.password)
         existing_user.hashed_password = hashed_password

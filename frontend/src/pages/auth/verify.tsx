@@ -12,8 +12,10 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
 
 export function Verify() {
+    const { isAuthenticated } = useAuth();
     const [searchParams] = useSearchParams();
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,13 +27,19 @@ export function Verify() {
     const token = searchParams.get("token");
     const target = searchParams.get("target");
 
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/profile");
+        }
+    }, [isAuthenticated]);
+
     const processTokenMutation = useMutation({
         mutationFn: async () => {
             localStorage.setItem("jwtToken", token!);
             const response = await apiRequest("POST", "/auth/verify", {
                 useToken: true,
             });
-            return response.json();
+            return await response.json();
         },
         onSuccess: (data) => {
             switch (target) {
@@ -44,14 +52,38 @@ export function Verify() {
                     break;
             }
         },
-        onError: () => {
-            setExpired(true);
+        onError: (err) => {
+            const error = err.message.split(':')[0];
+            if (error === "401") {
+                toast({
+                    title: "Error",
+                    description: "Session expired.",
+                    variant: "destructive"
+                });
+                setExpired(true);
+            }
+            else if (error === "402") {
+                toast({
+                    title: "Error",
+                    description: "Your email is blocked. Please contact me.",
+                    variant: "destructive"
+                });
+                navigate("/");
+            }
+            else {
+                toast({
+                    title: "Error",
+                    description: "An error occurred. Please try again.",
+                    variant: "destructive"
+                });
+                navigate(target === "register" ? "/register" : "/re-pwd")
+            }
         },
     });
 
     useEffect(() => {
         if (!target) navigate("/404");
-        if (target === "register" && !token && (!formData?.email || !formData?.first_name || !formData?.last_name || !formData?.password)) navigate("/register");
+        if (target === "register" && !token && (!formData?.email || !formData?.first_name || !formData?.last_name || !formData?.pwd)) navigate("/register");
         if (target === "repwd" && !token && !formData?.email) navigate("/repwd");
         if (token) processTokenMutation.mutate();
     }, [token, target]);
@@ -99,7 +131,7 @@ export function Verify() {
                             email: formData?.email,
                             first_name: formData?.first_name,
                             last_name: formData?.last_name,
-                            password: formData?.password,
+                            password: formData?.pwd,
                         },
                     });
                     break;
@@ -117,13 +149,32 @@ export function Verify() {
                 variant: "default",
             });
         },
-        onError: () => {
-            toast({
-                title: "Error",
-                description: "Failed to resend the email. Please try again.",
-                variant: "destructive",
-            });
-        },
+        onError: (err) => {
+            const error = err.message.split(':')[0];
+            if (error === "402") {
+                toast({
+                    title: "Error",
+                    description: "Your email is blocked. Please contact me.",
+                    variant: "destructive"
+                });
+                navigate("/");
+            }
+            else if (error === "404" && target === "repwd") {
+                toast({
+                    title: "Error",
+                    description: "Email not found. Please register.",
+                    variant: "destructive"
+                });
+                navigate("/register");
+            }
+            else {
+                toast({
+                    title: "Error",
+                    description: "Failed to resend the email. Please try again.",
+                    variant: "destructive",
+                });
+            }
+        }
     });
 
     const handleResendEmail = async () => {
@@ -161,7 +212,7 @@ export function Verify() {
                             {expired ? (
                                 <AlertCircle className="h-8 w-8 text-destructive" />
                             ) : (
-                                <Mail className="h-8 w-8 text-primary-foreground" />
+                                <Mail className="h-8 w-8 text-bright-primary" />
                             )}
                         </div>
 
@@ -171,36 +222,29 @@ export function Verify() {
                             </CardTitle>
                             <CardDescription className="text-base text-muted-foreground">
                                 {expired
-                                    ? "Your verification link has expired. Please resend the email."
+                                    ? `Your verification link has expired. Please return back to ${target === "register" ? "Register" : "Reset Password"} page.`
                                     : content?.description}
                             </CardDescription>
                         </div>
                     </CardHeader>
 
-                    <CardContent className="space-y-6">
+                    {!expired && <CardContent className="space-y-6">
                         {/* Email display */}
-                        {!expired && (
-                            <div className="text-center p-4 bg-muted rounded-lg border border-border">
-                                <p className="text-sm text-muted-foreground mb-1">
-                                    Email sent to:
-                                </p>
-                                <p className="font-medium text-foreground">{formData?.email}</p>
-                            </div>
-                        )}
+                        <div className="text-center p-4 bg-muted rounded-lg border border-border">
+                            <p className="text-sm text-muted-foreground mb-1">
+                                Email sent to:
+                            </p>
+                            <p className="font-medium text-foreground">{formData?.email}</p>
+                        </div>
 
                         {/* Instructions */}
                         <div className="text-center space-y-4">
                             <p className="text-sm text-muted-foreground leading-relaxed">
-                                {expired
-                                    ? "Click below to resend a new verification email."
-                                    : content?.instruction}
+                                {content?.instruction}
                             </p>
-
-                            {!expired && (
-                                <p className="text-xs text-muted-foreground">
-                                    Don't see the email? Check your spam folder or try resending.
-                                </p>
-                            )}
+                            <p className="text-xs text-muted-foreground">
+                                Don't see the email? Check your spam folder or try resending.
+                            </p>
                         </div>
 
                         {/* Resend button */}
@@ -226,7 +270,7 @@ export function Verify() {
                                         : "Resend email"}
                             </Button>
                         </div>
-                    </CardContent>
+                    </CardContent>}
                 </Card>
             </div>
         </div>

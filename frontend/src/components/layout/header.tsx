@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers/theme";
 import { useAuth } from "@/hooks/use-auth";
+import { useProfile } from "@/hooks/use-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -31,6 +32,7 @@ export default function Header() {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const { profile } = useProfile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -189,13 +191,13 @@ export default function Header() {
                       >
                         <Avatar className="border-2 border-primary">
                           <AvatarImage
-                            src={user?.profile?.avatar}
-                            alt={`${user?.profile?.first_name} ${user?.profile?.last_name}`}
+                            src={profile?.avatar}
+                            alt={`${user?.first_name} ${user?.last_name}`}
                             className="object-cover"
                           />
                           <AvatarFallback>
-                            {(`${user?.profile?.first_name}`)[0].toUpperCase()}
-                            {(`${user?.profile?.last_name}`)[0].toUpperCase()}
+                            {(`${user?.first_name}`)[0].toUpperCase()}
+                            {(`${user?.last_name}`)[0].toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <ChevronDown className="h-4 w-4 text-muted-foreground" />
@@ -204,7 +206,7 @@ export default function Header() {
                     <DropdownMenuContent align="end" className="w-56">
                       <div className="px-2 py-1.5 text-sm">
                         <div className="font-medium">
-                          {user?.profile?.first_name} {user?.profile?.last_name}
+                          {user?.first_name} {user?.last_name}
                         </div>
                         <div className="text-muted-foreground">{user?.email}</div>
                       </div>
@@ -233,13 +235,13 @@ export default function Header() {
                 <div className="block lg:hidden">
                   <Avatar className="border-2 border-primary">
                     <AvatarImage
-                      src={user?.profile?.avatar}
-                      alt={`${user?.profile?.first_name} ${user?.profile?.last_name}`}
+                      src={profile?.avatar}
+                      alt={`${user?.first_name} ${user?.last_name}`}
                       className="object-cover"
                     />
                     <AvatarFallback>
-                      {(`${user?.profile?.first_name}`)[0].toUpperCase()}
-                      {(`${user?.profile?.last_name}`)[0].toUpperCase()}
+                      {(`${user?.first_name}`)[0].toUpperCase()}
+                      {(`${user?.last_name}`)[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -280,7 +282,7 @@ export default function Header() {
                 <div className="px-4 pt-4 pb-2 border-b border-border">
                   <div>
                     <div className="font-medium">
-                      {user?.profile?.first_name} {user?.profile?.last_name}
+                      {user?.first_name} {user?.last_name}
                     </div>
                     <div className="text-muted-foreground text-sm">
                       {user?.email}

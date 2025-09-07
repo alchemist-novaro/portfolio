@@ -12,7 +12,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.AUTH_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
+        payload = jwt.decode(token.credentials, settings.AUTH_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
         required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
@@ -25,8 +25,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             )
         if payload["blocked"]:
             raise HTTPException(
-                status_code=403,
-                detail="User account is blocked. Please contact support.",
+                status_code=402,
+                detail="Email is blocked",
             )
             
         return UserData(
@@ -49,7 +49,7 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.VERIFY_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
+        payload = jwt.decode(token.credentials, settings.VERIFY_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
         required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
@@ -57,8 +57,8 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
 
         if payload["blocked"]:
             raise HTTPException(
-                status_code=403,
-                detail="User account is blocked. Please contact support.",
+                status_code=402,
+                detail="Email is blocked",
             )
             
         return UserData(

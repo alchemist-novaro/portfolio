@@ -13,6 +13,7 @@ export type DemoCategory = "Image Generation" | "Audio Generation" | "Video Gene
 export type MachineType = "CPU" | "GPU";
 export type TierType = "centralized" | "decentralized";
 export type SocialType = "google" | "apple";
+export type UserRole = "admin" | "user";
 
 export interface Route {
     type: RouteType[],
@@ -139,3 +140,8 @@ export interface RegisterFormValues {
   con_pwd: string,
   agree_to_terms: boolean
 };
+
+export interface LoginFormValues {
+  email: string,
+  password: string
+}

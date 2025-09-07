@@ -6,7 +6,7 @@ const AUTH_KEY = 'user';
 
 async function fetchUser() {
   try {
-    const response = await apiRequest("GET", "/users/", {
+    const response = await apiRequest("GET", "/auth/user", {
       useToken: true
     });
     if (response.status === 200) {
@@ -14,20 +14,7 @@ async function fetchUser() {
     }
   }
   catch {
-  //   return {
-  //     id: 0,
-  //     email: "monate.team@gmail.com",
-  //     profile: {
-  //       avatar: "https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg",
-  //       first_name: "John",
-  //       last_name: "Doe",
-  //       position: "CEO",
-  //       company: "MONATE",
-  //       country: "US"
-  //     },
-  //     role: "admin",
-  //     tier: "pro+"
-  //   };
+    return null;
   }
 }
 
@@ -43,7 +30,7 @@ export const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem('jwtToken');
-    queryClient.setQueryData([AUTH_KEY, 'user'], null);
+    queryClient.setQueryData([AUTH_KEY], null);
   };
 
   return {

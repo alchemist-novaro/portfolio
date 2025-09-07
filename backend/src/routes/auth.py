@@ -36,7 +36,7 @@ async def send_reset_password_email(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
-@auth_router.post("/verify", response_model=Token, status_code=201)
+@auth_router.post("/verify", response_model=Token)
 async def verify_email(
     user_service: UserService = Depends(get_user_service),
     user: UserData = Depends(get_verifying_user)
@@ -67,7 +67,7 @@ async def reset_password(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
-@auth_router.get("/")
+@auth_router.get("/user")
 async def get_user(
     user: UserData = Depends(get_current_user)
 ):
@@ -109,7 +109,14 @@ async def get_user_by_google(
 ):
     try:
         user_data = await get_user_data_from_google_token(request)
-        token = await user_service.get_token_by_email(UserBase(email=user_data["email"]))
+        token = await user_service.get_token_by_email(
+            UserCreate(
+                email=user_data["email"], 
+                password="", 
+                first_name=user_data["given_name"], 
+                last_name=user_data["family_name"]
+            )
+        )
         return token
     except HTTPException:
         raise

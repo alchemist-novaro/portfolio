@@ -19,7 +19,8 @@ import {
     // Profile,
     RePwd,
     Register,
-    Verify
+    Verify,
+    VerifyGoogle
 } from "@/pages/auth";
 import {
     Home
@@ -172,7 +173,14 @@ export const routes: Routes = {
             type: [],
             name: "Verify Email",
             path: "/verify",
-            component: Verify, // Verify,
+            component: Verify,
+            icon: ShieldCheck
+        },
+        {
+            type: [],
+            name: "Google Verify",
+            path: "/verify/google",
+            component: VerifyGoogle,
             icon: ShieldCheck
         },
         {
