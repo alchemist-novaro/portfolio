@@ -90,12 +90,19 @@ export const useDemos = () => {
         free: {
             label: "FREE",
             color: "bg-green-500",
-            buttons: user || true ? [
+            buttons: user ? [
                 {
                     icon: CloudLightning,
                     label: "Try on Cloud",
                     variant: "default",
                     type: "centralized"
+                },
+                {
+                    icon: Network,
+                    label: "Try with DeAI",
+                    variant: "secondary",
+                    type: "decentralized",
+                    disabled: true
                 }
             ] : [
                 {
@@ -118,7 +125,7 @@ export const useDemos = () => {
                 },
                 {
                     icon: Network,
-                    label: "Try on Node",
+                    label: "Try with DeAI",
                     variant: "outline",
                     type: "decentralized"
                 }
@@ -143,7 +150,7 @@ export const useDemos = () => {
                 },
                 {
                     icon: Network,
-                    label: "Try on Node",
+                    label: "Try with DeAI",
                     variant: "outline",
                     type: "decentralized"
                 }

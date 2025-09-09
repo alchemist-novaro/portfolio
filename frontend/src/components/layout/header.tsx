@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers/theme";
 import { useAuth } from "@/hooks/use-auth";
-import { useProfile } from "@/hooks/use-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -32,7 +31,6 @@ export default function Header() {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
-  const { profile } = useProfile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -191,7 +189,7 @@ export default function Header() {
                       >
                         <Avatar className="border-2 border-primary">
                           <AvatarImage
-                            src={profile?.avatar}
+                            src={user?.avatar}
                             alt={`${user?.first_name} ${user?.last_name}`}
                             className="object-cover"
                           />
@@ -235,7 +233,7 @@ export default function Header() {
                 <div className="block lg:hidden">
                   <Avatar className="border-2 border-primary">
                     <AvatarImage
-                      src={profile?.avatar}
+                      src={user?.avatar}
                       alt={`${user?.first_name} ${user?.last_name}`}
                       className="object-cover"
                     />

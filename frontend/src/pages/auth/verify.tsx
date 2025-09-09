@@ -29,7 +29,7 @@ export function Verify() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/profile");
+            navigate("/");
         }
     }, [isAuthenticated]);
 
@@ -45,7 +45,7 @@ export function Verify() {
             switch (target) {
                 case "register":
                     localStorage.setItem("jwtToken", data.token);
-                    navigate("/profile");
+                    window.location.href = "/";
                     break;
                 case "repwd":
                     navigate("/repwd");

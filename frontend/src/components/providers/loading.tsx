@@ -6,7 +6,6 @@ import { usePortfolio } from "@/hooks/use-portfolio";
 import { useDemos } from "@/hooks/use-demos";
 import { useTestimonials } from "@/hooks/use-testimonials";
 import type { LoadingProviderProps } from "@/types/props";
-import { useProfile } from "@/hooks/use-profile";
 
 const LoadingContext = createContext<null>(null);
 
@@ -15,9 +14,8 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
   const { isLoading: portfolioLoading } = usePortfolio();
   const { isLoading: demoLoading } = useDemos();
   const { isLoading: testimonialLoading } = useTestimonials();
-  const { isLoading: profileLoading } = useProfile();
 
-  const isLoading = authLoading || profileLoading ||
+  const isLoading = authLoading ||
     portfolioLoading || demoLoading || testimonialLoading;
 
   return (

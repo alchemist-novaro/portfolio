@@ -138,7 +138,8 @@ export interface RegisterFormValues {
   email: string,
   pwd: string,
   con_pwd: string,
-  agree_to_terms: boolean
+  agree_to_terms: boolean,
+  avatar?: File
 };
 
 export interface LoginFormValues {

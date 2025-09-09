@@ -34,7 +34,7 @@ export function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile");
+      navigate("/");
     }
   }, [isAuthenticated]);
 
@@ -50,7 +50,7 @@ export function Login() {
     },
     onSuccess: (data) => {
       localStorage.setItem('jwtToken', data.token);
-      navigate("/profile");
+      window.location.href = "/";
     },
     onError: (err) => {
       const error = err.message.split(':')[0];

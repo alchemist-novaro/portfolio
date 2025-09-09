@@ -31,6 +31,7 @@ export const useAuth = () => {
   const logout = () => {
     localStorage.removeItem('jwtToken');
     queryClient.setQueryData([AUTH_KEY], null);
+    window.location.href = "/";
   };
 
   return {

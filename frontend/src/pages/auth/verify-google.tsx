@@ -14,7 +14,7 @@ export function VerifyGoogle() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/profile");
+            navigate("/");
         }
     }, [isAuthenticated]);
 
@@ -25,7 +25,7 @@ export function VerifyGoogle() {
         },
         onSuccess: (data) => {
             localStorage.setItem('jwtToken', data.token);
-            navigate("/profile");
+            window.location.href="/";
         },
         onError: (_) => {
             toast({

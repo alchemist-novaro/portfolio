@@ -16,6 +16,7 @@ export const registerSchema = z.object({
   agree_to_terms: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
   }),
+  avatar: z.instanceof(File).optional()
 }).refine((data) => data.pwd === data.con_pwd, {
   message: "Passwords don't match",
   path: ["con_pwd"],

@@ -9,10 +9,25 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/query-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage,} from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { registerSchema } from "@/types/schemas";
 import { useToast } from "@/hooks/use-toast";
 import type { SocialType, RegisterFormValues } from "@/types/constants";
@@ -22,6 +37,8 @@ export function Register() {
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY as string;
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -32,41 +49,70 @@ export function Register() {
       pwd: "",
       con_pwd: "",
       agree_to_terms: false,
+      avatar: undefined,
     },
   });
 
+  const uploadToImgbb = async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      toast({
+        title: "Error",
+        description: "Failed to upload avatar. Please try again.",
+        variant: "destructive",
+      });
+      return "";
+    }
+
+    const data = await res.json();
+    return data.data.url as string;
+  };
+
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormValues) => {
+      let avatarUrl: string | undefined;
+
+      if (data.avatar) {
+        avatarUrl = await uploadToImgbb(data.avatar);
+      }
+
       await apiRequest("POST", "/auth/register", {
         data: {
-          email: (data as any).email,
-          first_name: (data as any).first_name,
-          last_name: (data as any).last_name,
-          password: (data as any).pwd
-        }
+          email: data.email,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          password: data.pwd,
+          avatar: avatarUrl,
+        },
       });
     },
     onSuccess: () => {
       navigate(`/verify?target=register`, { state: form.getValues() });
       form.reset();
+      setAvatarPreview(null);
     },
     onError: (err) => {
-      const error = err.message.split(':')[0];
+      const error = err.message.split(":")[0];
       if (error === "400") {
         toast({
           title: "Error",
           description: "User already exist. Please login.",
           variant: "destructive",
         });
-      }
-      else if (error === "402") {
-          toast({
-              title: "Error",
-              description: "Your email is blocked. Please contact me.",
-              variant: "destructive"
-          });
-      }
-      else {
+      } else if (error === "402") {
+        toast({
+          title: "Error",
+          description: "Your email is blocked. Please contact me.",
+          variant: "destructive",
+        });
+      } else {
         toast({
           title: "Error",
           description: "Failed to send verification email. Please try again.",
@@ -144,6 +190,40 @@ export function Register() {
             {/* Email Register Form */}
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4">
+                {/* Avatar Upload with Preview */}
+                <FormField
+                  control={form.control}
+                  name="avatar"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Avatar</FormLabel>
+                      <div className="flex items-center gap-4">
+                        <Avatar className="h-16 w-16">
+                          {avatarPreview ? (
+                            <AvatarImage src={avatarPreview} alt="avatar preview" />
+                          ) : (
+                            <AvatarFallback>?</AvatarFallback>
+                          )}
+                        </Avatar>
+                        <FormControl>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                field.onChange(file);
+                                setAvatarPreview(URL.createObjectURL(file));
+                              }
+                            }}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
