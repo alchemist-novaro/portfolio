@@ -14,11 +14,14 @@ class UserLogin(UserBase):
 class UserCreate(UserLogin):
     first_name: str
     last_name: str
+    avatar: str | None
 
 class UserData(UserBase):
     id: int
     first_name: str
     last_name: str
+    avatar: str | None
+    country: str
     role: UserRole
     tier: UserTier
     blocked: bool

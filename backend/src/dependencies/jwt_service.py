@@ -14,7 +14,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token.credentials, settings.AUTH_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
-        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
+        required_fields = ["id", "email", "first_name", "last_name", "avatar", "country", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
             raise credentials_exception
         
@@ -34,6 +34,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             id=payload["id"],
             first_name=payload["first_name"],
             last_name=payload["last_name"],
+            avatar=payload["avatar"],
+            country=payload["country"],
             role=UserRole(payload["role"]),
             tier=UserTier(payload["tier"]),
             verified=payload["verified"],
@@ -51,7 +53,7 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token.credentials, settings.VERIFY_JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         
-        required_fields = ["id", "email", "first_name", "last_name", "role", "tier", "verified", "blocked"]
+        required_fields = ["id", "email", "first_name", "last_name", "avatar", "country", "role", "tier", "verified", "blocked"]
         if not all(field in payload for field in required_fields):
             raise credentials_exception
 
@@ -66,6 +68,8 @@ def get_verifying_user(token: str = Depends(oauth2_scheme)):
             id=payload["id"],
             first_name=payload["first_name"],
             last_name=payload["last_name"],
+            avatar=payload["avatar"],
+            country=payload["country"],
             role=UserRole(payload["role"]),
             tier=UserTier(payload["tier"]),
             verified=payload["verified"],

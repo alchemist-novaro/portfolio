@@ -14,7 +14,7 @@ class UserService:
     def __init__(self, db: AsyncSession):
         self.repository = UserRepository(db)
 
-    async def create_user(self, user_data: UserCreate, verified: bool = False) -> UserData:
+    async def create_user(self, user_data: UserCreate, country: str, verified: bool = False) -> UserData:
         existing_user = await self.repository.get_by_email(user_data.email)
         if existing_user:
             if existing_user.verified:
@@ -24,6 +24,7 @@ class UserService:
             existing_user.verified = verified
             existing_user.first_name = user_data.first_name
             existing_user.last_name = user_data.last_name
+            existing_user.avatar = user_data.avatar
             existing_user.hashed_password = get_password_hash(user_data.password)
             return await self.repository.create_or_update_user(existing_user)
         else:
@@ -33,6 +34,8 @@ class UserService:
                 email=user_data.email,
                 first_name=user_data.first_name,
                 last_name=user_data.last_name,
+                avatar = user_data.avatar,
+                country = country,
                 hashed_password=hashed_password, 
                 stripe_customer_id=stripe_customer_id,
                 verified=verified
@@ -57,16 +60,18 @@ class UserService:
             "email": existing_user.email,
             "first_name": existing_user.first_name,
             "last_name": existing_user.last_name,
+            "avatar": existing_user.avatar,
+            "country": existing_user.country,
             "role": existing_user.role.value,
             "tier": existing_user.tier.value,
             "verified": existing_user.verified,
             "blocked": existing_user.blocked
         })
 
-    async def get_token_by_email(self, user_data: UserCreate) -> Token:
+    async def get_token_by_email(self, user_data: UserCreate, country: str) -> Token:
         existing_user = await self.repository.get_by_email(user_data.email)
         if not existing_user:
-            existing_user = await self.create_user(user_data, verified=True)
+            existing_user = await self.create_user(user_data, country=country, verified=True)
 
         if existing_user.blocked:
             raise HTTPException(status_code=402, detail="Email is blocked")
@@ -76,14 +81,16 @@ class UserService:
             "email": existing_user.email,
             "first_name": existing_user.first_name,
             "last_name": existing_user.last_name,
+            "avatar": existing_user.avatar,
+            "country": existing_user.country,
             "role": existing_user.role.value,
             "tier": existing_user.tier.value,
             "verified": existing_user.verified,
             "blocked": existing_user.blocked
         })
 
-    async def send_verification_link_for_create(self, user_data: UserCreate):
-        new_user = await self.create_user(user_data)
+    async def send_verification_link_for_create(self, user_data: UserCreate, country: str):
+        new_user = await self.create_user(user_data, country)
 
         if new_user.blocked:
             raise HTTPException(status_code=402, detail="Email is blocked")
@@ -93,6 +100,8 @@ class UserService:
             "email": new_user.email,
             "first_name": new_user.first_name,
             "last_name": new_user.last_name,
+            "avatar": new_user.avatar,
+            "country": country,
             "role": new_user.role.value,
             "tier": new_user.tier.value,
             "verified": new_user.verified,
@@ -121,6 +130,8 @@ class UserService:
             "email": existing_user.email,
             "first_name": existing_user.first_name,
             "last_name": existing_user.last_name,
+            "avatar": existing_user.avatar,
+            "country": existing_user.country,
             "role": existing_user.role.value,
             "tier": existing_user.tier.value,
             "verified": existing_user.verified,
@@ -152,6 +163,8 @@ class UserService:
             "email": updated_user.email,
             "first_name": updated_user.first_name,
             "last_name": updated_user.last_name,
+            "avatar": updated_user.avatar,
+            "country": updated_user.country,
             "role": updated_user.role.value,
             "tier": updated_user.tier.value,
             "verified": updated_user.verified,
