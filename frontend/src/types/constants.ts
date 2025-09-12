@@ -146,3 +146,8 @@ export interface LoginFormValues {
   email: string,
   password: string
 }
+
+export interface AssistantDetails {
+  token: string,
+  server_url: string,
+}

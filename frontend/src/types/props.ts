@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Room } from "livekit-client";
 import type { Theme, ShowcaseItem } from "./constants";
 
 export interface LayoutProps {
@@ -23,6 +24,8 @@ export interface ShowcaseProps {
   height?: number
 }
 
-export interface SliderShowcaseProps {
-
+export interface VoiceAssistantProps {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    room: Room
 }

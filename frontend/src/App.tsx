@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes";
 import ThemeProvider from "@/components/providers/theme";
 import LoadingProvider from "@/components/providers/loading";
+import VoiceAssistantProvider from "@/components/providers/assistant";
 import Layout from "@/components/layout";
 
 function Router() {
@@ -63,10 +64,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="theme">
         <LoadingProvider>
-          <BrowserRouter>
-            <Router />
-            <Toaster />
-          </BrowserRouter>
+          <VoiceAssistantProvider>
+            <BrowserRouter>
+              <Router />
+              <Toaster />
+            </BrowserRouter>
+          </VoiceAssistantProvider>
         </LoadingProvider>
       </ThemeProvider>
     </QueryClientProvider>

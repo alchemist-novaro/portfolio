@@ -106,10 +106,10 @@ function DemoCard({ item }: { item: DemoItem }) {
                         <div className="flex flex-col">
                             <span className="font-medium">Price:</span>
                             <span className="text-muted-foreground">
-                                Centralized: {item.price.centralized}/trial
+                                Centralized: {item.price.centralized}/gen
                             </span>
                             {item.price.decentralized && <span className="text-muted-foreground">
-                                Decentralized: {item.price.decentralized}/trial
+                                Decentralized: {item.price.decentralized}/gen
                             </span>}
                         </div>
                     </div>
