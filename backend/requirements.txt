@@ -17,3 +17,7 @@ python-jose[cryptography]
 authlib
 stripe
 itsdangerous
+livekit
+livekit-api
+livekit-agents[deepgram,openai,cartesia,silero,turn-detector]
+livekit-plugins-noise-cancellation
