@@ -39,7 +39,7 @@ async def entrypoint(ctx: JobContext):
         ),
     )
 
-    await session.generate_reply(instructions="Please say welcome message")
+    await session.generate_reply(instructions="Please say welcome message shortly.")
 
 
 if __name__ == "__main__":
