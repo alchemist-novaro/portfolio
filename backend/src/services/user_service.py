@@ -6,6 +6,7 @@ from src.schemas import UserCreate, UserData, UserBase, UserLogin, Token
 from src.db.repositories import UserRepository
 from src.db.models import User
 from src.core import get_password_hash, verify_password
+from src.config import settings
 from .jwt_service import create_auth_token, create_verify_token
 from .stripe_service import get_stripe_customer_id
 from .smtp_service import send_verification_email_for_create_account, send_verification_email_for_reset_password
@@ -113,7 +114,7 @@ class UserService:
                 new_user.email,
                 new_user.first_name,
                 new_user.last_name,
-                f"https://alchemist-novaro.portfolio-app.online/verify?token={token.token}&target=register"
+                f"https://{settings.DOMAIN}/verify?token={token.token}&target=register"
             )
         except:
             raise HTTPException(status_code=500, detail="Failed to send verification email")
@@ -143,7 +144,7 @@ class UserService:
                 existing_user.email,
                 existing_user.first_name,
                 existing_user.last_name,
-                f"https://alchemist-novaro.portfolio-app.online/verify?token={token.token}&target=repwd"
+                f"https://{settings.DOMAIN}/verify?token={token.token}&target=repwd"
             )
         except:
             raise HTTPException(status_code=500, detail="Failed to send verification email")

@@ -86,7 +86,7 @@ export default function Header() {
               className="flex items-center space-x-2 cursor-pointer"
             >
               <FlaskRound className="h-8 w-8" />
-              <span className="text-xl font-bold">Alchemist N.</span>
+              <span className="text-xl font-bold">{import.meta.env.VITE_FIRST_NAME} {import.meta.env.VITE_LAST_NAME[0]}.</span>
             </motion.div>
           </Link>
 

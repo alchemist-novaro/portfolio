@@ -59,14 +59,14 @@ def get_verify_email_for_create_account_html(url, name):
             <tr>
               <td class="px py card">
                 
-                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="Alchemist Novaro" class="avatar">
-                <h1 class="title"><string>Alchemist Novaro</string></h1>
+                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="{settings.FIRST_NAME} {settings.LAST_NAME}" class="avatar">
+                <h1 class="title"><string>{settings.FIRST_NAME} {settings.LAST_NAME}</string></h1>
                 <p class="name">Email Verification</p>
                 
                 <div class="divider"></div>
                 
                 <p class="body" style="margin:0 0 20px 0;">Hello, {name}.</p>
-                <p class="body" style="margin:0 0 20px 0;">Thank you for joining <strong>Alchemist Novaro's Portfolio</strong>. To activate your account and confirm your email address, please click the button below:</p>
+                <p class="body" style="margin:0 0 20px 0;">Thank you for joining <strong>{settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio</strong>. To activate your account and confirm your email address, please click the button below:</p>
                 
                 <a class="btn" href="{url}" target="_blank">Verify Email</a>
                 
@@ -76,18 +76,18 @@ def get_verify_email_for_create_account_html(url, name):
                 
                 <div class="divider"></div>
                 
-                <p class="body muted" style="font-size:12px; margin:0 0 8px 0;"><strong>Alchemist Novaro</strong> • Centralized & Decentralized AI Specialist</p>
-                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because your email address was used to register at <strong>Alchemist Novaro's Portfolio</strong>.</p>
+                <p class="body muted" style="font-size:12px; margin:0 0 8px 0;"><strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong> • Centralized & Decentralized AI Specialist</p>
+                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because your email address was used to register at <strong>{settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio</strong>.</p>
                 <p style="margin:12px 0 0 0; font-size:12px;" class="body muted">
-                  <a href="https://alchemist-novaro.portfolio-app.online/privacy-policy" target="_blank">Privacy Policy</a> • 
-                  <a href="https://alchemist-novaro.portfolio-app.online/terms-of-service" target="_blank">Terms of Service</a>
+                  <a href="https://{settings.DOMAIN}/privacy-policy" target="_blank">Privacy Policy</a> • 
+                  <a href="https://{settings.DOMAIN}/terms-of-service" target="_blank">Terms of Service</a>
                 </p>
               </td>
             </tr>
           </table>
 
           <!-- Footer Outside Card -->
-          <p class="footer">© 2025 <strong>Alchemist Novaro</strong>. All rights reserved.</p>
+          <p class="footer">© 2025 <strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong>. All rights reserved.</p>
         </td>
       </tr>
     </table>
@@ -146,14 +146,14 @@ def get_verify_email_for_reset_password_html(url, name):
             <tr>
               <td class="px py card">
                 
-                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="Alchemist Novaro" class="avatar">
-                <h1 class="title"><strong>Alchemist Novaro</strong></h1>
+                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="{settings.FIRST_NAME} {settings.LAST_NAME}" class="avatar">
+                <h1 class="title"><strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong></h1>
                 <p class="name">Password Reset Verification</p>
                 
                 <div class="divider"></div>
                 
                 <p class="body" style="margin:0 0 20px 0;">Hello, {name}.</p>
-                <p class="body" style="margin:0 0 20px 0;">I received a request to reset the password for your account at <strong>Alchemist Novaro's Portfolio</strong>. If this was you, please confirm the request by clicking the button below:</p>
+                <p class="body" style="margin:0 0 20px 0;">I received a request to reset the password for your account at <strong>{settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio</strong>. If this was you, please confirm the request by clicking the button below:</p>
                 
                 <a class="btn" href="{url}" target="_blank">Reset Password</a>
                 
@@ -163,18 +163,18 @@ def get_verify_email_for_reset_password_html(url, name):
                 
                 <div class="divider"></div>
                 
-                <p class="body muted" style="font-size:12px; margin:0 0 8px 0;"><strong>Alchemist Novaro</strong> • Centralized & Decentralized AI Specialist</p>
-                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because your email address was used to request a password reset on <strong>Alchemist Novaro's Portfolio</strong>.</p>
+                <p class="body muted" style="font-size:12px; margin:0 0 8px 0;"><strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong> • Centralized & Decentralized AI Specialist</p>
+                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because your email address was used to request a password reset on <strong>{settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio</strong>.</p>
                 <p style="margin:12px 0 0 0; font-size:12px;" class="body muted">
-                  <a href="https://alchemist-novaro.portfolio-app.online/privacy-policy" target="_blank">Privacy Policy</a> • 
-                  <a href="https://alchemist-novaro.portfolio-app.online/terms-of-service" target="_blank">Terms of Service</a>
+                  <a href="https://{settings.DOMAIN}/privacy-policy" target="_blank">Privacy Policy</a> • 
+                  <a href="https://{settings.DOMAIN}/terms-of-service" target="_blank">Terms of Service</a>
                 </p>
               </td>
             </tr>
           </table>
 
           <!-- Footer Outside Card -->
-          <p class="footer">© 2025 <strong>Alchemist Novaro</strong>. All rights reserved.</p>
+          <p class="footer">© 2025 <strong>{settings.FIRST_NAME} {settings.FIRST_NAME}</strong>. All rights reserved.</p>
         </td>
       </tr>
     </table>
@@ -220,8 +220,8 @@ def get_reply_contact_html(name: str):
           <table role="presentation" class="container">
             <tr>
               <td class="px py card">
-                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="Alchemist Novaro" class="avatar">
-                <h1 class="title">Alchemist Novaro</h1>
+                <img src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg" alt="{settings.FIRST_NAME} {settings.LAST_NAME}" class="avatar">
+                <h1 class="title">{settings.FIRST_NAME} {settings.LAST_NAME}</h1>
                 <p class="body" style="margin:0 0 20px 0;">Hello, {name}.</p>
                 
                 <div class="divider"></div>
@@ -230,14 +230,14 @@ def get_reply_contact_html(name: str):
                 <p class="body">I typically respond to messages within <strong>24 hours</strong>. For urgent inquiries, please reply to this email directly.</p>
 
                 <div class="divider"></div>
-                <p class="body muted" style="font-size:12px; margin:0;"><strong>Alchemist Novaro</strong> • Centralized & Decentralized AI Specialist</p>
-                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because you contacted me via <strong>Alchemist Novaro's Portfolio</strong>.</p>
+                <p class="body muted" style="font-size:12px; margin:0;"><strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong> • Centralized & Decentralized AI Specialist</p>
+                <p class="body muted" style="font-size:12px; margin:0;">You're receiving this message because you contacted me via <strong>{settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio</strong>.</p>
               </td>
             </tr>
           </table>
 
           <!-- Footer -->
-          <p class="footer">© 2025 <strong>Alchemist Novaro</strong>. All rights reserved.</p>
+          <p class="footer">© 2025 <strong>{settings.FIRST_NAME} {settings.LAST_NAME}</strong>. All rights reserved.</p>
         </td>
       </tr>
     </table>
@@ -274,12 +274,12 @@ def send_email_with_attachment(recipient_email, subject, body, html_body=None, a
         server.send_message(message)
 
 def send_verification_email_for_create_account(recipient_email: str, first_name: str, last_name: str, verification_url: str):
-    subject = "Verify your email for Alchemist Novaro's Portfolio"
+    subject = f"Verify your email for {settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio"
     
     html_content = get_verify_email_for_create_account_html(verification_url, f"{first_name} {last_name}")
     
     text_content = f"""
-    Welcome to Alchemist Novaro's Portfolio
+    Welcome to {settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio
 
     Hello, {first_name} {last_name}.
     
@@ -299,7 +299,7 @@ def send_verification_email_for_create_account(recipient_email: str, first_name:
     )
 
 def send_verification_email_for_reset_password(recipient_email: str, first_name: str, last_name: str, verification_url: str):
-    subject = "Password Reset Verification for Alchemist Novaro's Portfolio"
+    subject = f"Password Reset Verification for {settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio"
     
     html_content = get_verify_email_for_reset_password_html(verification_url, f"{first_name} {last_name}")
     
@@ -328,7 +328,7 @@ def send_verification_email_for_reset_password(recipient_email: str, first_name:
     )
 
 def send_contact_confirmation_email(recipient_email: str, first_name: str, last_name: str):
-    subject = "Thanks for contacting Alchemist Novaro's Portfolio"
+    subject = f"Thanks for contacting {settings.FIRST_NAME} {settings.LAST_NAME}'s Portfolio"
 
     html_content = get_reply_contact_html(f"{first_name} {last_name}")
 
@@ -341,7 +341,7 @@ def send_contact_confirmation_email(recipient_email: str, first_name: str, last_
     For urgent inquiries, please reply to this email.
 
     Best regards,
-    Alchemist Novaro
+    {settings.FIRST_NAME} {settings.LAST_NAME}
     """
 
     send_email_with_attachment(

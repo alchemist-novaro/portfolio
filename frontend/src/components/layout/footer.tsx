@@ -33,12 +33,12 @@ export default function Footer() {
     {
       name: "GitHub",
       icon: Github,
-      href: "https://github.com/alchemist-novaro",
+      href: import.meta.env.VITE_GITHUB,
     },
     {
       name: "LinkedIn",
       icon: Linkedin,
-      href: "",
+      href: import.meta.env.VITE_LINKEDIN,
     },
   ].filter((link): link is SocialLink => Boolean(link));
 
@@ -76,7 +76,7 @@ export default function Footer() {
           <motion.div variants={itemVariants} className="space-y-4">
             <div className="flex items-center space-x-2">
               <Code className="h-6 w-6" />
-              <span className="text-xl font-bold">Alchemist Novaro</span>
+              <span className="text-xl font-bold">{import.meta.env.VITE_FIRST_NAME} {import.meta.env.VITE_LAST_NAME}</span>
             </div>
             <p className="text-secondary-foreground/80 text-sm leading-relaxed">
               AI Solutions Architect specializing in traditional ML, computer
@@ -185,7 +185,7 @@ export default function Footer() {
           className="border-t border-secondary-foreground/20 mt-12 pt-8 text-center"
         >
           <p className="text-secondary-foreground/60 text-sm">
-            &copy; 2025 Alchemist Novaro. All rights reserved.
+            &copy; 2025 {import.meta.env.VITE_FIRST_NAME} {import.meta.env.VITE_LAST_NAME}. All rights reserved.
           </p>
         </motion.div>
       </div>

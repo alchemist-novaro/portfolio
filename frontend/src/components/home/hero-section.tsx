@@ -79,10 +79,10 @@ export default function HeroSection() {
               <Avatar className="w-full h-full border-4 border-primary">
                 <AvatarImage 
                   src="https://i.ibb.co/zHTsJZyF/photo-2025-08-05-07-52-15.jpg"
-                  alt="Alchemist Novaro"
+                  alt={`${import.meta.env.VITE_FIRST_NAME} ${import.meta.env.VITE_LAST_NAME}`}
                   className="object-cover"
                 />
-                <AvatarFallback className="text-4xl">AN</AvatarFallback>
+                <AvatarFallback className="text-4xl">{import.meta.env.VITE_FIRST_NAME[0]}{import.meta.env.VITE_LAST_NAME[0]}</AvatarFallback>
               </Avatar>
             </motion.div>
             
@@ -107,7 +107,7 @@ export default function HeroSection() {
           variants={itemVariants}
           className="text-5xl md:text-7xl font-bold mb-4"
         >
-          Alchemist Novaro
+          {import.meta.env.VITE_FIRST_NAME} {import.meta.env.VITE_LAST_NAME}
         </motion.h1>
 
         {/* Subtitle */}

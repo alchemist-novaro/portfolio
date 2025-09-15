@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "<project-name>"
     SERVER_PORT: int = 5001
     SECRET_KEY: str = "<secret-key>"
+    DOMAIN: str = "<domain>"
     STATIC_ALLOWED_ORIGINS: list[str] = []
 
     # Database

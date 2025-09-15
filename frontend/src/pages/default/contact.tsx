@@ -270,13 +270,13 @@ export function Contact() {
         {
             icon: Mail,
             title: "Email",
-            details: "alchemist@portfolio-app.online",
+            details: import.meta.env.VITE_EMAIL_ADDRESS,
             description: "Send me an email anytime",
         },
         {
             icon: MapPin,
             title: "Location",
-            details: "California, US",
+            details: import.meta.env.VITE_LOCATION,
             description: "Available for remote work worldwide",
         },
         {
@@ -291,12 +291,12 @@ export function Contact() {
         {
             name: "GitHub",
             icon: Github,
-            href: "https://github.com/alchemist-novaro"
+            href: import.meta.env.VITE_GITHUB
         },
         {
             name: "LinkedIn",
             icon: Linkedin,
-            href: ""
+            href: import.meta.env.VITE_LINKEDIN
         }
     ].filter((link): link is SocialLink => Boolean(link));
 
