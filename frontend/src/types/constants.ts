@@ -86,7 +86,7 @@ export interface TierConfigButton {
     label: string,
     variant: ButtonVariant,
     disabled?: boolean,
-    type?: TierType
+    // type?: TierType
 }
 
 export interface TierConfig {
@@ -95,10 +95,10 @@ export interface TierConfig {
     buttons: TierConfigButton[]
 }
 
-export interface Price {
-    centralized: string,
-    decentralized?: string
-}
+// export interface Price {
+//     centralized: string,
+//     decentralized?: string
+// }
 
 export interface DemoItem {
     id: number | string,
@@ -113,7 +113,7 @@ export interface DemoItem {
     outputs: DemoOutput[],
     machine_type: MachineType,
     vram_usage?: string,
-    price: Price,
+    price: string, // Price,
     created_at: Date,
     updated_at: Date
 }

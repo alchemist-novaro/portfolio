@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Mail, Clock, MessageCircle, Linkedin, Github, Send, CheckCircle, Loader2 } from "lucide-react";
+import { MapPin, Mail, Clock, MessageCircle, Linkedin, Github, Twitter, Facebook, Send, CheckCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -297,6 +297,16 @@ export function Contact() {
             name: "LinkedIn",
             icon: Linkedin,
             href: import.meta.env.VITE_LINKEDIN
+        },
+        {
+            name: "Twitter",
+            icon: Twitter,
+            href: import.meta.env.VITE_TWITTER
+        },
+        {
+            name: "Facebook",
+            icon: Facebook,
+            href: import.meta.env.VITE_FACEBOOK
         }
     ].filter((link): link is SocialLink => Boolean(link));
 

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Code, Linkedin, Github } from "lucide-react";
+import { Code, Linkedin, Github, Twitter, Facebook } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { routes } from "@/routes";
 import type { SocialLink, FooterLinks } from "@/types/constants";
@@ -40,6 +40,16 @@ export default function Footer() {
       icon: Linkedin,
       href: import.meta.env.VITE_LINKEDIN,
     },
+    {
+      name: "Twitter",
+      icon: Twitter,
+      href: import.meta.env.VITE_TWITTER
+    },
+    {
+      name: "Facebook",
+      icon: Facebook,
+      href: import.meta.env.VITE_FACEBOOK
+    }
   ].filter((link): link is SocialLink => Boolean(link));
 
   const footerLinks: FooterLinks = {

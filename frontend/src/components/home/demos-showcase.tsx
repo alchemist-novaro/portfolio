@@ -65,12 +65,7 @@ function DemoCard({ item }: { item: DemoItem }) {
 
           <div className="flex flex-col">
             <span className="font-medium">Price:</span>
-            <span className="text-muted-foreground">
-              Centralized: {item.price.centralized}/gen
-            </span>
-            {item.price.decentralized && <span className="text-muted-foreground">
-              Decentralized: {item.price.decentralized}/gen
-            </span>}
+            <span>{item.price}</span>
           </div>
         </div>
       </CardContent>
@@ -86,7 +81,7 @@ export default function DemosShowcase() {
     card: <DemoCard key={item.id} item={item} />,
     description: item.description,
     buttons: item.config.buttons.map((button) => ({
-      url: `${item.url}&type=${button.type}`,
+      url: item.url,
       ...button
     }))
   })) || [];

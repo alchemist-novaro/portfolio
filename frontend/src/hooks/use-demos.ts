@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Lock, Network, CloudLightning } from "lucide-react";
+import { Lock, /* Network, CloudLightning, */ Zap } from "lucide-react";
 import type { DemoPacket } from "@/types/packets";
 import type { DemoItem, TierConfig } from "@/types/constants";
 import { apiRequest } from "@/lib/query-client";
@@ -18,9 +18,7 @@ const mockDemos: DemoPacket[] = [
         inputs: [],
         outputs: [],
         machine_type: "CPU",
-        price: {
-            centralized: "$0.00"
-        },
+        price: "$0.0",
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -35,10 +33,7 @@ const mockDemos: DemoPacket[] = [
         outputs: [],
         machine_type: "GPU",
         vram_usage: "10G",
-        price: {
-            centralized: "$0.04",
-            decentralized: "$0.02"
-        },
+        price: "$0.02",
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -53,10 +48,7 @@ const mockDemos: DemoPacket[] = [
         outputs: [],
         machine_type: "GPU",
         vram_usage: "15G",
-        price: {
-            centralized: "$0.06",
-            decentralized: "$0.03"
-        },
+        price: "$0.04",
         created_at: new Date(),
         updated_at: new Date(),
     },
@@ -92,18 +84,18 @@ export const useDemos = () => {
             color: "bg-green-500",
             buttons: user ? [
                 {
-                    icon: CloudLightning,
-                    label: "Try on Cloud",
+                    icon: Zap,
+                    label: "Try Now",
                     variant: "default",
-                    type: "centralized"
+                    // type: "centralized"
                 },
-                {
-                    icon: Network,
-                    label: "Try with DeAI",
-                    variant: "secondary",
-                    type: "decentralized",
-                    disabled: true
-                }
+                // {
+                //     icon: Network,
+                //     label: "Try with DeAI",
+                //     variant: "secondary",
+                //     type: "decentralized",
+                //     disabled: true
+                // }
             ] : [
                 {
                     icon: Lock,
@@ -118,17 +110,17 @@ export const useDemos = () => {
             color: "bg-yellow-500",
             buttons: user?.tier === "pro" || user?.tier === "pro+" ? [
                 {
-                    icon: CloudLightning,
-                    label: "Try on Cloud",
+                    icon: Zap,
+                    label: "Try Now",
                     variant: "default",
-                    type: "centralized"
+                    // type: "centralized"
                 },
-                {
-                    icon: Network,
-                    label: "Try with DeAI",
-                    variant: "outline",
-                    type: "decentralized"
-                }
+                // {
+                //     icon: Network,
+                //     label: "Try with DeAI",
+                //     variant: "outline",
+                //     type: "decentralized"
+                // }
             ] : [
                 {
                     icon: Lock,
@@ -143,17 +135,17 @@ export const useDemos = () => {
             color: "bg-purple-500",
             buttons: user?.tier === "pro+" ? [
                 {
-                    icon: CloudLightning,
-                    label: "Try on Cloud",
+                    icon: Zap,
+                    label: "Try Now",
                     variant: "default",
-                    type: "centralized"
+                    // type: "centralized"
                 },
-                {
-                    icon: Network,
-                    label: "Try with DeAI",
-                    variant: "outline",
-                    type: "decentralized"
-                }
+                // {
+                //     icon: Network,
+                //     label: "Try with DeAI",
+                //     variant: "outline",
+                //     type: "decentralized"
+                // }
             ] : [
                 {
                     icon: Lock,

@@ -1,4 +1,4 @@
-import type { Tier, ProjectType, DemoCategory, DemoInput, DemoOutput, UserRole, MachineType, Price } from "./constants";
+import type { Tier, ProjectType, DemoCategory, DemoInput, DemoOutput, UserRole, MachineType /* , Price */ } from "./constants";
 
 export interface UserProfile {
   avatar?: string,
@@ -59,7 +59,7 @@ export interface DemoPacket {
   outputs: DemoOutput[],
   machine_type: MachineType,
   vram_usage?: string,
-  price: Price,
+  price: string, // Price,
   created_at: Date,
   updated_at: Date
 }

@@ -105,16 +105,11 @@ function DemoCard({ item }: { item: DemoItem }) {
 
                         <div className="flex flex-col">
                             <span className="font-medium">Price:</span>
-                            <span className="text-muted-foreground">
-                                Centralized: {item.price.centralized}/gen
-                            </span>
-                            {item.price.decentralized && <span className="text-muted-foreground">
-                                Decentralized: {item.price.decentralized}/gen
-                            </span>}
+                            <span>{item.price}</span>
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4 mt-6">
+                    <div className="flex gap-4 mt-6">
                         {tierInfo.buttons.map((btn, idx) => {
                             const Icon = btn.icon;
                             return (
@@ -122,6 +117,7 @@ function DemoCard({ item }: { item: DemoItem }) {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     key={idx}
+                                    className="w-full"
                                 >
                                     <Button
                                         asChild
@@ -136,7 +132,7 @@ function DemoCard({ item }: { item: DemoItem }) {
                                             </span>
                                         ) : (
                                             <Link
-                                                to={`${item.url}&type=${btn.type}`}
+                                                to={item.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center"
