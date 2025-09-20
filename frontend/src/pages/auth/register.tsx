@@ -77,7 +77,7 @@ export function Register() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormValues) => {
-      let avatarUrl: string | undefined;
+      let avatarUrl: string | null = null;
 
       if (data.avatar) {
         avatarUrl = await uploadToImgbb(data.avatar);
